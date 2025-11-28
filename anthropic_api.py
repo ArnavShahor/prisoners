@@ -18,7 +18,7 @@ except ImportError:
 def query_llm_with_usage(
     prompt: str,
     system_prompt: str = "You're a helpful assistant, an experienced engineer, and you follow instructions if given.",
-    model: str = "claude-3-5-sonnet-20241022",  # Anthropic's latest model
+    model: str = "claude-sonnet-4-20250514",  # Anthropic's latest model
     max_tokens: int = 1024,
     max_retries: int = 3,
 ) -> dict[str, Any]:
@@ -130,7 +130,7 @@ def query_llm_with_usage(
 def query_with_retry(
     prompt: str,
     system_prompt: str = "You're a helpful assistant.",
-    model: str = "claude-3-5-sonnet-20241022",
+    model: str = "claude-sonnet-4-20250514",
     max_tokens: int = 1024,
     max_retries: int = 3,
 ) -> str:
@@ -202,7 +202,7 @@ def query_with_retry(
 def query_llm(
     prompt: str,
     system_prompt: str = "You're a helpful assistant, an experienced engineer, and you follow instructions if given.",
-    model: str = "claude-3-5-sonnet-20241022",
+    model: str = "claude-sonnet-4-20250514",
     max_tokens: int = 1024,
 ) -> str:
     """
@@ -259,13 +259,14 @@ def query_llm(
 
 # Available Anthropic models (as of Nov 2024)
 AVAILABLE_MODELS = [
-    "claude-3-5-sonnet-20241022",  # Latest and most capable
+    "claude-sonnet-4-20250514",     # Latest Sonnet 4
+    "claude-3-5-sonnet-20241022",   # Claude 3.5 Sonnet
     "claude-3-opus-20240229",       # Most powerful (but more expensive)
     "claude-3-sonnet-20240229",     # Balanced
     "claude-3-haiku-20240307",      # Fast and cheap
 ]
 
-DEFAULT_MODEL = "claude-3-5-sonnet-20241022"
+DEFAULT_MODEL = "claude-sonnet-4-20250514"
 
 
 if __name__ == "__main__":

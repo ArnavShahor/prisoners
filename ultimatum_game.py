@@ -18,9 +18,9 @@ TOTAL_AMOUNT = 100  # Points to split
 
 # Test mode configuration
 TEST_MODE = True
-# 6 players from Australia + Ireland: Maya Thompson, Zoe Allen, Martin O'Neill, Sinead Kelly, Owen Murphy, Aileen Murphy
-TEST_AGENT_INDICES = [24, 65, 40, 59, 70, 98]
-TEST_GAMES_PER_DIRECTION = 3  # Number of games each agent plays as proposer
+# 2 players for minimal testing: Maya Thompson, Zoe Allen
+TEST_AGENT_INDICES = [24, 65]
+TEST_GAMES_PER_DIRECTION = 1  # Number of games each agent plays as proposer
 
 # Game mode configuration
 PROPOSER_ONLY_MODE = True  # True = only proposer offers (fast), False = full game with responder decision
@@ -44,7 +44,7 @@ class UltimatumAgent:
     def __init__(
         self,
         persona: dict[str, Any],
-        model: str = "openai/aws:anthropic.claude-sonnet-4-5-20250929-v1:0",
+        model: str = None,  # Use provider's default model
     ):
         """
         Initialize agent with a personality.
@@ -83,12 +83,17 @@ class UltimatumAgent:
 
         # Query LLM with usage tracking and timing
         start_time = time.time()
-        result = query_llm_with_usage(
-            prompt=prompt,
-            system_prompt=self._get_proposal_system_prompt(),
-            model=self.model,
-            max_tokens=512,
-        )
+        # Build kwargs for the API call
+        api_kwargs = {
+            "prompt": prompt,
+            "system_prompt": self._get_proposal_system_prompt(),
+            "max_tokens": 512,
+        }
+        # Only add model if it's not None
+        if self.model is not None:
+            api_kwargs["model"] = self.model
+
+        result = query_llm_with_usage(**api_kwargs)
         elapsed_time = time.time() - start_time
 
         # Update token tracking
@@ -128,12 +133,17 @@ class UltimatumAgent:
 
         # Query LLM with usage tracking and timing
         start_time = time.time()
-        result = query_llm_with_usage(
-            prompt=prompt,
-            system_prompt=self._get_response_system_prompt(),
-            model=self.model,
-            max_tokens=512,
-        )
+        # Build kwargs for the API call
+        api_kwargs = {
+            "prompt": prompt,
+            "system_prompt": self._get_response_system_prompt(),
+            "max_tokens": 512,
+        }
+        # Only add model if it's not None
+        if self.model is not None:
+            api_kwargs["model"] = self.model
+
+        result = query_llm_with_usage(**api_kwargs)
         elapsed_time = time.time() - start_time
 
         # Update token tracking

@@ -1,0 +1,1602 @@
+[
+  {
+    "player_number": 1,
+    "name": "Daniel Cohen",
+    "gender": "Male",
+    "age": 28,
+    "location": "Israel",
+    "job": "Software Engineer",
+    "description": "Daniel is a 28-year-old software engineer living in Israel who enjoys solving problems quickly, collaborating with teammates and improving code quality through systematic approaches.",
+    "traits": {
+      "FS": 0.26,
+      "GR": -0.18,
+      "RA": 0.06,
+      "SS": -0.26,
+      "ST": 0.44
+    }
+  },
+  {
+    "player_number": 2,
+    "name": "Maria Santos",
+    "gender": "Female",
+    "age": 34,
+    "location": "Spain",
+    "job": "Architect",
+    "description": "Maria is a 34-year-old architect based in Spain who seeks balance and aesthetics in projects, values user experience, sustainability and clear communication with clients and teams.",
+    "traits": {
+      "FS": 0.48,
+      "GR": -0.42,
+      "RA": -0.12,
+      "SS": 0.02,
+      "ST": 0.22
+    }
+  },
+  {
+    "player_number": 3,
+    "name": "Liam Johnson",
+    "gender": "Male",
+    "age": 22,
+    "location": "USA",
+    "job": "Student",
+    "description": "Liam is a 22-year-old student living in the USA who tends to push boundaries, explore new ideas and take chances while learning through trial and error.",
+    "traits": {
+      "FS": -0.16,
+      "GR": 0.34,
+      "RA": -0.38,
+      "SS": -0.64,
+      "ST": -0.08
+    }
+  },
+  {
+    "player_number": 4,
+    "name": "Aya Nakamura",
+    "gender": "Female",
+    "age": 30,
+    "location": "Japan",
+    "job": "UX Designer",
+    "description": "Aya is a 30-year-old UX designer in Japan who focuses on human connections, empathic research practices and designing experiences that feel intuitive and socially sensitive.",
+    "traits": {
+      "FS": 0.42,
+      "GR": -0.62,
+      "RA": 0.12,
+      "SS": 0.48,
+      "ST": 0.16
+    }
+  },
+  {
+    "player_number": 5,
+    "name": "Victor Petrov",
+    "gender": "Male",
+    "age": 45,
+    "location": "Russia",
+    "job": "Economist",
+    "description": "Victor is a 45-year-old economist from Russia who focuses on metrics and profitability, models trade-offs carefully and prefers decisions that improve measurable outcomes over time.",
+    "traits": {
+      "FS": -0.42,
+      "GR": 0.62,
+      "RA": -0.04,
+      "SS": -0.56,
+      "ST": 0.54
+    }
+  },
+  {
+    "player_number": 6,
+    "name": "Nour Al-Hassan",
+    "gender": "Female",
+    "age": 27,
+    "location": "Jordan",
+    "job": "Journalist",
+    "description": "Nour is a 27-year-old journalist in Jordan who is curious, socially aware and committed to investigating stories that highlight community issues and bring context to complex topics.",
+    "traits": {
+      "FS": 0.36,
+      "GR": -0.34,
+      "RA": 0.04,
+      "SS": 0.38,
+      "ST": -0.12
+    }
+  },
+  {
+    "player_number": 7,
+    "name": "Ethan Brown",
+    "gender": "Male",
+    "age": 39,
+    "location": "Canada",
+    "job": "Project Manager",
+    "description": "Ethan is a 39-year-old project manager in Canada who dislikes surprises, emphasizes planning and risk mitigation, and coordinates teams to deliver predictable and well-documented results.",
+    "traits": {
+      "FS": 0.08,
+      "GR": -0.36,
+      "RA": 0.68,
+      "SS": -0.18,
+      "ST": 0.26
+    }
+  },
+  {
+    "player_number": 8,
+    "name": "Sofia Marin",
+    "gender": "Female",
+    "age": 25,
+    "location": "Argentina",
+    "job": "Dancer",
+    "description": "Sofia is a 25-year-old dancer from Argentina who acts from instinct, values expressive creativity, enjoys collaborative performances and often follows intuition in artistic choices and partnerships.",
+    "traits": {
+      "FS": 0.52,
+      "GR": -0.52,
+      "RA": -0.58,
+      "SS": 0.14,
+      "ST": -0.22
+    }
+  },
+  {
+    "player_number": 9,
+    "name": "Helena Müller",
+    "gender": "Male",
+    "age": 32,
+    "location": "Germany",
+    "job": "Lawyer",
+    "description": "Helena is a 32-year-old lawyer in Germany who is highly analytical, carefully considers precedents and legal arguments and prefers structured, well-reasoned solutions to disputes and negotiations.",
+    "traits": {
+      "FS": 0.02,
+      "GR": -0.04,
+      "RA": 0.28,
+      "SS": -0.48,
+      "ST": 0.64
+    }
+  },
+  {
+    "player_number": 10,
+    "name": "Tarek Osman",
+    "gender": "Female",
+    "age": 50,
+    "location": "Egypt",
+    "job": "Shop Owner",
+    "description": "Tarek is a 50-year-old shop owner in Egypt who is practical and calculated, makes decisions based on cash flow and customer needs, and values steady daily routines.",
+    "traits": {
+      "FS": -0.06,
+      "GR": 0.14,
+      "RA": 0.42,
+      "SS": -0.34,
+      "ST": 0.04
+    }
+  },
+  {
+    "player_number": 11,
+    "name": "Julia Rossi",
+    "gender": "Male",
+    "age": 29,
+    "location": "Italy",
+    "job": "Chef",
+    "description": "Julia is a 29-year-old chef from Italy who is creative but impulsive, experiments with flavors, cares about diners' experiences and sometimes makes instinctive decisions in the kitchen.",
+    "traits": {
+      "FS": 0.64,
+      "GR": -0.24,
+      "RA": -0.46,
+      "SS": 0.22,
+      "ST": -0.28
+    }
+  },
+  {
+    "player_number": 12,
+    "name": "Noah Williams",
+    "gender": "Female",
+    "age": 41,
+    "location": "USA",
+    "job": "Data Analyst",
+    "description": "Noah is a 41-year-old data analyst in the USA who loves models, forecasting and quantitative approaches, and relies on evidence to inform strategic decisions and recommendations.",
+    "traits": {
+      "FS": -0.02,
+      "GR": -0.36,
+      "RA": 0.44,
+      "SS": -0.4,
+      "ST": 0.76
+    }
+  },
+  {
+    "player_number": 13,
+    "name": "Chen Wei",
+    "gender": "Male",
+    "age": 23,
+    "location": "China",
+    "job": "Engineering Student",
+    "description": "Chen is a 23-year-old engineering student in China, quiet and technical by nature, who enjoys problem solving and building robust solutions through careful study.",
+    "traits": {
+      "FS": 0.16,
+      "GR": -0.46,
+      "RA": -0.12,
+      "SS": -0.22,
+      "ST": 0.48
+    }
+  },
+  {
+    "player_number": 14,
+    "name": "Sarah Levy",
+    "gender": "Female",
+    "age": 31,
+    "location": "Israel",
+    "job": "Product Manager",
+    "description": "Sarah is a 31-year-old product manager in Israel who leads with human understanding, balances user needs and business goals and values collaborative roadmap decisions and communication.",
+    "traits": {
+      "FS": 0.5,
+      "GR": -0.34,
+      "RA": -0.08,
+      "SS": 0.62,
+      "ST": 0.34
+    }
+  },
+  {
+    "player_number": 15,
+    "name": "Alex Carter",
+    "gender": "Male",
+    "age": 26,
+    "location": "UK",
+    "job": "Music Producer",
+    "description": "Alex is a 26-year-old music producer in the UK who seeks freedom and inspiration, experiments with new sounds frequently and values creative collaborations and artistic independence.",
+    "traits": {
+      "FS": 0.28,
+      "GR": -0.18,
+      "RA": -0.3,
+      "SS": -0.1,
+      "ST": 0.1
+    }
+  },
+  {
+    "player_number": 16,
+    "name": "Mei Ling",
+    "gender": "Female",
+    "age": 38,
+    "location": "Singapore",
+    "job": "Accountant",
+    "description": "Mei is a 38-year-old accountant in Singapore who is precise, disciplined and process-oriented, valuing accuracy in financial records and predictable accounting practices in teams.",
+    "traits": {
+      "FS": -0.1,
+      "GR": -0.32,
+      "RA": 0.56,
+      "SS": -0.36,
+      "ST": 0.4
+    }
+  },
+  {
+    "player_number": 17,
+    "name": "Jonas Berg",
+    "gender": "Male",
+    "age": 44,
+    "location": "Sweden",
+    "job": "Researcher",
+    "description": "Jonas is a 44-year-old researcher in Sweden who is very curious, seeks empirical truth, values rigorous methods and enjoys collaborating across disciplines for deeper understanding.",
+    "traits": {
+      "FS": 0.46,
+      "GR": -0.56,
+      "RA": 0.36,
+      "SS": 0.1,
+      "ST": 0.58
+    }
+  },
+  {
+    "player_number": 18,
+    "name": "Camila Duarte",
+    "gender": "Female",
+    "age": 24,
+    "location": "Brazil",
+    "job": "Photographer",
+    "description": "Camila is a 24-year-old photographer from Brazil who is impulsive and sociable, seeks striking visual narratives and enjoys working with subjects to capture authentic moments and emotion.",
+    "traits": {
+      "FS": 0.34,
+      "GR": -0.28,
+      "RA": -0.42,
+      "SS": 0.44,
+      "ST": -0.2
+    }
+  },
+  {
+    "player_number": 19,
+    "name": "Omar Rahman",
+    "gender": "Male",
+    "age": 36,
+    "location": "UAE",
+    "job": "Real Estate Agent",
+    "description": "Omar is a 36-year-old real estate agent in the UAE who is result-oriented, focuses on closing deals, building client trust and maximizing transactional outcomes efficiently.",
+    "traits": {
+      "FS": -0.24,
+      "GR": 0.54,
+      "RA": 0.04,
+      "SS": -0.32,
+      "ST": 0.32
+    }
+  },
+  {
+    "player_number": 20,
+    "name": "Pierre Laurent",
+    "gender": "Female",
+    "age": 47,
+    "location": "France",
+    "job": "Historian",
+    "description": "Pierre is a 47-year-old historian from France who is deep and deliberate, enjoys archival research and careful interpretation of sources to construct broader historical narratives and context.",
+    "traits": {
+      "FS": 0.24,
+      "GR": -0.44,
+      "RA": 0.5,
+      "SS": -0.04,
+      "ST": 0.46
+    }
+  },
+  {
+    "player_number": 21,
+    "name": "Aisha Yusuf",
+    "gender": "Male",
+    "age": 28,
+    "location": "Kenya",
+    "job": "Nurse",
+    "description": "Aisha is a 28-year-old nurse in Kenya who is empathetic and people-oriented, spends long hours caring for patients and advocates for community health and patient dignity.",
+    "traits": {
+      "FS": 0.7,
+      "GR": -0.64,
+      "RA": -0.02,
+      "SS": 0.52,
+      "ST": 0.16
+    }
+  },
+  {
+    "player_number": 22,
+    "name": "Ben Stein",
+    "gender": "Female",
+    "age": 52,
+    "location": "USA",
+    "job": "Sales Director",
+    "description": "Ben is a 52-year-old sales director in the USA who is assertive and self-interested, regularly pushes targets and develops teams focused on revenue growth and negotiations.",
+    "traits": {
+      "FS": -0.38,
+      "GR": 0.66,
+      "RA": 0.14,
+      "SS": -0.56,
+      "ST": 0.42
+    }
+  },
+  {
+    "player_number": 23,
+    "name": "Karen Müller",
+    "gender": "Male",
+    "age": 35,
+    "location": "Austria",
+    "job": "Teacher",
+    "description": "Karen is a 35-year-old teacher in Austria who is patient and steady, focuses on student development, clear lesson structures and building long-term academic skills through support and feedback.",
+    "traits": {
+      "FS": 0.44,
+      "GR": -0.58,
+      "RA": 0.32,
+      "SS": 0.18,
+      "ST": 0.2
+    }
+  },
+  {
+    "player_number": 24,
+    "name": "Idan Aloni",
+    "gender": "Female",
+    "age": 27,
+    "location": "Israel",
+    "job": "Mechanical Engineer",
+    "description": "Idan is a 27-year-old mechanical engineer in Israel who is logical and cool-headed, enjoys designing robust systems and solving engineering problems through careful analysis and testing.",
+    "traits": {
+      "FS": -0.04,
+      "GR": -0.16,
+      "RA": 0.26,
+      "SS": -0.38,
+      "ST": 0.58
+    }
+  },
+  {
+    "player_number": 25,
+    "name": "Maya Thompson",
+    "gender": "Male",
+    "age": 30,
+    "location": "Australia",
+    "job": "Digital Marketer",
+    "description": "Maya is a 30-year-old digital marketer in Australia who is bold and optimistic, experiments with campaigns, measures results and iterates quickly to find audience-fit strategies.",
+    "traits": {
+      "FS": 0.14,
+      "GR": 0.04,
+      "RA": -0.34,
+      "SS": -0.08,
+      "ST": 0.24
+    }
+  },
+  {
+    "player_number": 26,
+    "name": "Santiago Vega",
+    "gender": "Female",
+    "age": 40,
+    "location": "Mexico",
+    "job": "Business Owner",
+    "description": "Santiago is a 40-year-old business owner in Mexico who is fair but competitive, balances employee wellbeing with profitability and seeks growth while maintaining solid operations and standards.",
+    "traits": {
+      "FS": 0.38,
+      "GR": 0.12,
+      "RA": -0.06,
+      "SS": -0.12,
+      "ST": 0.36
+    }
+  },
+  {
+    "player_number": 27,
+    "name": "Nikolai Morozov",
+    "gender": "Male",
+    "age": 26,
+    "location": "Russia",
+    "job": "Physicist",
+    "description": "Nikolai is a 26-year-old physicist in Russia who is extremely calculated, favors rigorous derivations, carefully tests hypotheses and values theoretical clarity alongside experimental validation.",
+    "traits": {
+      "FS": -0.18,
+      "GR": -0.4,
+      "RA": 0.66,
+      "SS": -0.46,
+      "ST": 0.82
+    }
+  },
+  {
+    "player_number": 28,
+    "name": "Emily Harris",
+    "gender": "Female",
+    "age": 23,
+    "location": "USA",
+    "job": "Art Student",
+    "description": "Emily is a 23-year-old art student in the USA who is highly emotional, channels feelings into creative projects and connects strongly with collaborative expressive processes in studio practice.",
+    "traits": {
+      "FS": 0.62,
+      "GR": -0.54,
+      "RA": -0.5,
+      "SS": 0.42,
+      "ST": -0.16
+    }
+  },
+  {
+    "player_number": 29,
+    "name": "Jin Park",
+    "gender": "Male",
+    "age": 37,
+    "location": "South Korea",
+    "job": "Software Architect",
+    "description": "Jin is a 37-year-old software architect in South Korea who is well planned and systematic, designs large systems thoughtfully and mentors engineers on best practices and scalability.",
+    "traits": {
+      "FS": 0.12,
+      "GR": -0.22,
+      "RA": 0.44,
+      "SS": -0.3,
+      "ST": 0.86
+    }
+  },
+  {
+    "player_number": 30,
+    "name": "Fatima Noor",
+    "gender": "Female",
+    "age": 33,
+    "location": "Morocco",
+    "job": "Nurse",
+    "description": "Fatima is a 33-year-old nurse in Morocco who is sensitive to others, prioritizes patient comfort and safety and supports community health initiatives while delivering compassionate care every day.",
+    "traits": {
+      "FS": 0.68,
+      "GR": -0.62,
+      "RA": 0.02,
+      "SS": 0.56,
+      "ST": 0.1
+    }
+  },
+  {
+    "player_number": 31,
+    "name": "George Adams",
+    "gender": "Male",
+    "age": 49,
+    "location": "USA",
+    "job": "Contractor",
+    "description": "George is a 49-year-old contractor in the USA who is highly practical, focuses on delivering quality workmanship on schedule and manages teams to meet client specifications reliably.",
+    "traits": {
+      "FS": -0.14,
+      "GR": 0.04,
+      "RA": 0.58,
+      "SS": -0.44,
+      "ST": 0.34
+    }
+  },
+  {
+    "player_number": 32,
+    "name": "Talia Ben-Shahar",
+    "gender": "Female",
+    "age": 21,
+    "location": "Israel",
+    "job": "Economics Student",
+    "description": "Talia is a 21-year-old economics student in Israel who thinks quickly, enjoys modeling choices and experiments with strategic reasoning while studying incentives and decision-making frameworks.",
+    "traits": {
+      "FS": 0.16,
+      "GR": -0.06,
+      "RA": -0.26,
+      "SS": 0.26,
+      "ST": 0.42
+    }
+  },
+  {
+    "player_number": 33,
+    "name": "Ahmed Karim",
+    "gender": "Male",
+    "age": 31,
+    "location": "Qatar",
+    "job": "System Admin",
+    "description": "Ahmed is a 31-year-old system admin in Qatar who is methodical and quiet, keeps infrastructure stable and carefully applies preventive maintenance to avoid critical outages and incidents.",
+    "traits": {
+      "FS": -0.02,
+      "GR": -0.18,
+      "RA": 0.32,
+      "SS": -0.42,
+      "ST": 0.28
+    }
+  },
+  {
+    "player_number": 34,
+    "name": "Isabel Romero",
+    "gender": "Female",
+    "age": 29,
+    "location": "Colombia",
+    "job": "Social Worker",
+    "description": "Isabel is a 29-year-old social worker in Colombia who is committed to helping communities, organizes resources for vulnerable people and advocates for structural improvements in social services delivery.",
+    "traits": {
+      "FS": 0.72,
+      "GR": -0.66,
+      "RA": 0.08,
+      "SS": 0.6,
+      "ST": 0.0
+    }
+  },
+  {
+    "player_number": 35,
+    "name": "Marco Santini",
+    "gender": "Male",
+    "age": 36,
+    "location": "Italy",
+    "job": "Mechanical Technician",
+    "description": "Marco is a 36-year-old mechanical technician in Italy who is a hands-on problem solver, prefers practical fixes and ensures equipment runs reliably through careful troubleshooting and repair.",
+    "traits": {
+      "FS": 0.04,
+      "GR": -0.1,
+      "RA": 0.38,
+      "SS": -0.32,
+      "ST": 0.16
+    }
+  },
+  {
+    "player_number": 36,
+    "name": "Olivia Chen",
+    "gender": "Female",
+    "age": 27,
+    "location": "Canada",
+    "job": "Pharmacist",
+    "description": "Olivia is a 27-year-old pharmacist in Canada who is detail-oriented and caring, double-checks prescriptions and counsels patients while prioritizing safe and effective medication use.",
+    "traits": {
+      "FS": 0.54,
+      "GR": -0.4,
+      "RA": 0.2,
+      "SS": 0.0,
+      "ST": 0.3
+    }
+  },
+  {
+    "player_number": 37,
+    "name": "David Kim",
+    "gender": "Male",
+    "age": 34,
+    "location": "South Korea",
+    "job": "Entrepreneur",
+    "description": "David is a 34-year-old entrepreneur in South Korea who is ambitious and risk-taking, launches ventures proactively and pursues rapid growth opportunities while tolerating uncertainty and setbacks.",
+    "traits": {
+      "FS": -0.22,
+      "GR": 0.48,
+      "RA": -0.44,
+      "SS": -0.28,
+      "ST": 0.6
+    }
+  },
+  {
+    "player_number": 38,
+    "name": "Hana Saito",
+    "gender": "Female",
+    "age": 42,
+    "location": "Japan",
+    "job": "Counselor",
+    "description": "Hana is a 42-year-old counselor in Japan who is calm and empathetic, listens carefully to clients, helps them process emotions and supports long-term psychological wellbeing through gentle interventions.",
+    "traits": {
+      "FS": 0.66,
+      "GR": -0.6,
+      "RA": 0.18,
+      "SS": 0.46,
+      "ST": 0.14
+    }
+  },
+  {
+    "player_number": 39,
+    "name": "Luis Alvarez",
+    "gender": "Male",
+    "age": 31,
+    "location": "Spain",
+    "job": "Logistics Manager",
+    "description": "Luis is a 31-year-old logistics manager in Spain who is organized and efficient, coordinates supply chains reliably and aims to optimize routes, inventory and delivery timing for cost savings.",
+    "traits": {
+      "FS": 0.1,
+      "GR": -0.04,
+      "RA": 0.4,
+      "SS": -0.2,
+      "ST": 0.38
+    }
+  },
+  {
+    "player_number": 40,
+    "name": "Zara Khan",
+    "gender": "Female",
+    "age": 26,
+    "location": "Pakistan",
+    "job": "Graphic Designer",
+    "description": "Zara is a 26-year-old graphic designer in Pakistan who is creative and socially tuned, crafts visuals that communicate brand values and engages audiences across digital and print media channels.",
+    "traits": {
+      "FS": 0.36,
+      "GR": -0.3,
+      "RA": -0.24,
+      "SS": 0.32,
+      "ST": -0.04
+    }
+  },
+  {
+    "player_number": 41,
+    "name": "Martin O'Neill",
+    "gender": "Male",
+    "age": 45,
+    "location": "Ireland",
+    "job": "Barrister",
+    "description": "Martin is a 45-year-old barrister in Ireland who is sharp and principled, constructs persuasive legal arguments and defends clients vigorously while adhering to professional standards and ethics.",
+    "traits": {
+      "FS": 0.14,
+      "GR": -0.2,
+      "RA": 0.48,
+      "SS": -0.38,
+      "ST": 0.72
+    }
+  },
+  {
+    "player_number": 42,
+    "name": "Leila Haddad",
+    "gender": "Female",
+    "age": 38,
+    "location": "Lebanon",
+    "job": "NGO Coordinator",
+    "description": "Leila is a 38-year-old NGO coordinator in Lebanon who values fairness and community, organizes programs that support vulnerable groups and coordinates volunteers and funding with care.",
+    "traits": {
+      "FS": 0.76,
+      "GR": -0.68,
+      "RA": 0.1,
+      "SS": 0.64,
+      "ST": 0.06
+    }
+  },
+  {
+    "player_number": 43,
+    "name": "Ravi Patel",
+    "gender": "Male",
+    "age": 28,
+    "location": "India",
+    "job": "Civil Engineer",
+    "description": "Ravi is a 28-year-old civil engineer in India who is practical with attention to rules, designs safe structures and ensures compliance with codes while coordinating multidisciplinary teams on projects.",
+    "traits": {
+      "FS": -0.08,
+      "GR": -0.14,
+      "RA": 0.36,
+      "SS": -0.4,
+      "ST": 0.5
+    }
+  },
+  {
+    "player_number": 44,
+    "name": "Natalie Brooks",
+    "gender": "Female",
+    "age": 33,
+    "location": "USA",
+    "job": "HR Specialist",
+    "description": "Natalie is a 33-year-old HR specialist in the USA who balances people and policy, handles recruitment thoughtfully and promotes fair workplace practices and transparent performance management.",
+    "traits": {
+      "FS": 0.4,
+      "GR": -0.36,
+      "RA": 0.22,
+      "SS": 0.3,
+      "ST": 0.18
+    }
+  },
+  {
+    "player_number": 45,
+    "name": "Oksana Kovalenko",
+    "gender": "Male",
+    "age": 30,
+    "location": "Ukraine",
+    "job": "Biologist",
+    "description": "Oksana is a 30-year-old biologist in Ukraine who is a methodical researcher, runs controlled experiments carefully and documents findings precisely to contribute to reproducible scientific knowledge.",
+    "traits": {
+      "FS": 0.2,
+      "GR": -0.42,
+      "RA": 0.52,
+      "SS": -0.24,
+      "ST": 0.56
+    }
+  },
+  {
+    "player_number": 46,
+    "name": "Samuel Green",
+    "gender": "Female",
+    "age": 24,
+    "location": "UK",
+    "job": "Barista",
+    "description": "Samuel is a 24-year-old barista in the UK who is friendly and adaptable, connects with customers daily and learns quickly to serve diverse orders while keeping a positive atmosphere.",
+    "traits": {
+      "FS": 0.38,
+      "GR": -0.34,
+      "RA": -0.3,
+      "SS": 0.4,
+      "ST": -0.14
+    }
+  },
+  {
+    "player_number": 47,
+    "name": "Yara Haddad",
+    "gender": "Male",
+    "age": 35,
+    "location": "UAE",
+    "job": "Event Planner",
+    "description": "Yara is a 35-year-old event planner in the UAE who is social and detail-focused, coordinates logistics and vendors and ensures memorable experiences for attendees through careful orchestration.",
+    "traits": {
+      "FS": 0.32,
+      "GR": -0.22,
+      "RA": 0.12,
+      "SS": 0.54,
+      "ST": 0.08
+    }
+  },
+  {
+    "player_number": 48,
+    "name": "Peter Novak",
+    "gender": "Female",
+    "age": 48,
+    "location": "Czech Republic",
+    "job": "Automotive Engineer",
+    "description": "Peter is a 48-year-old automotive engineer in the Czech Republic who is precise and experienced, improves vehicle systems and mentors junior engineers in efficient design and testing protocols.",
+    "traits": {
+      "FS": 0.0,
+      "GR": -0.08,
+      "RA": 0.6,
+      "SS": -0.42,
+      "ST": 0.42
+    }
+  },
+  {
+    "player_number": 49,
+    "name": "Miriam Gold",
+    "gender": "Male",
+    "age": 29,
+    "location": "Israel",
+    "job": "Translator",
+    "description": "Miriam is a 29-year-old translator in Israel who is attuned to nuance and fairness, bridges language gaps carefully and preserves tone and intent across cultural contexts in translations.",
+    "traits": {
+      "FS": 0.56,
+      "GR": -0.48,
+      "RA": -0.06,
+      "SS": 0.36,
+      "ST": 0.2
+    }
+  },
+  {
+    "player_number": 50,
+    "name": "Ibrahim Saeed",
+    "gender": "Female",
+    "age": 40,
+    "location": "Saudi Arabia",
+    "job": "Teacher",
+    "description": "Ibrahim is a 40-year-old teacher in Saudi Arabia who is authoritative but caring, structures lessons effectively and supports students' development with clear expectations and personal encouragement.",
+    "traits": {
+      "FS": 0.3,
+      "GR": -0.26,
+      "RA": 0.38,
+      "SS": -0.16,
+      "ST": 0.22
+    }
+  },
+  {
+    "player_number": 51,
+    "name": "Katya Ivanova",
+    "gender": "Male",
+    "age": 27,
+    "location": "Bulgaria",
+    "job": "Frontend Developer",
+    "description": "Katya is a 27-year-old frontend developer in Bulgaria who is logical with a creative streak, builds responsive interfaces and focuses on user experience and performant code.",
+    "traits": {
+      "FS": 0.18,
+      "GR": -0.32,
+      "RA": 0.16,
+      "SS": -0.12,
+      "ST": 0.46
+    }
+  },
+  {
+    "player_number": 52,
+    "name": "Hassan Ali",
+    "gender": "Female",
+    "age": 32,
+    "location": "Somalia",
+    "job": "Fisherman",
+    "description": "Hassan is a 32-year-old fisherman in Somalia who is practical and community-oriented, navigates coastal conditions, shares resources with neighbors and sustains local livelihoods through careful stewardship.",
+    "traits": {
+      "FS": 0.42,
+      "GR": -0.44,
+      "RA": 0.3,
+      "SS": 0.22,
+      "ST": -0.2
+    }
+  },
+  {
+    "player_number": 53,
+    "name": "Rachel Park",
+    "gender": "Male",
+    "age": 22,
+    "location": "USA",
+    "job": "Intern",
+    "description": "Rachel is a 22-year-old intern in the USA who is eager to learn and cooperative, takes on tasks energetically and seeks mentorship to develop professional competence and soft skills.",
+    "traits": {
+      "FS": 0.44,
+      "GR": -0.4,
+      "RA": -0.2,
+      "SS": 0.38,
+      "ST": -0.12
+    }
+  },
+  {
+    "player_number": 54,
+    "name": "Samir Chaudhry",
+    "gender": "Female",
+    "age": 37,
+    "location": "India",
+    "job": "Financial Analyst",
+    "description": "Samir is a 37-year-old financial analyst in India who is data-driven and competitive, models scenarios and advises stakeholders on investment and cost decisions with analytical rigor.",
+    "traits": {
+      "FS": -0.12,
+      "GR": 0.4,
+      "RA": 0.24,
+      "SS": -0.42,
+      "ST": 0.7
+    }
+  },
+  {
+    "player_number": 55,
+    "name": "Ana Costa",
+    "gender": "Male",
+    "age": 26,
+    "location": "Portugal",
+    "job": "Tour Guide",
+    "description": "Ana is a 26-year-old tour guide in Portugal who is warm and sociable, tells engaging stories about local culture and ensures visitors enjoy immersive, informative experiences when exploring places.",
+    "traits": {
+      "FS": 0.48,
+      "GR": -0.38,
+      "RA": -0.28,
+      "SS": 0.5,
+      "ST": -0.02
+    }
+  },
+  {
+    "player_number": 56,
+    "name": "Pavel Dimitrov",
+    "gender": "Female",
+    "age": 43,
+    "location": "Bulgaria",
+    "job": "IT Consultant",
+    "description": "Pavel is a 43-year-old IT consultant in Bulgaria who is strategic and calm, assesses systems thoroughly and recommends pragmatic solutions to improve performance and resilience across operations.",
+    "traits": {
+      "FS": 0.06,
+      "GR": -0.12,
+      "RA": 0.42,
+      "SS": -0.34,
+      "ST": 0.52
+    }
+  },
+  {
+    "player_number": 57,
+    "name": "Lena Fischer",
+    "gender": "Male",
+    "age": 34,
+    "location": "Germany",
+    "job": "Psychologist",
+    "description": "Lena is a 34-year-old psychologist in Germany who is caring and analytical, helps clients reflect on behavior patterns and applies evidence-based interventions to support mental wellbeing.",
+    "traits": {
+      "FS": 0.72,
+      "GR": -0.58,
+      "RA": 0.26,
+      "SS": 0.58,
+      "ST": 0.24
+    }
+  },
+  {
+    "player_number": 58,
+    "name": "Mateo Rojas",
+    "gender": "Female",
+    "age": 28,
+    "location": "Chile",
+    "job": "Chef",
+    "description": "Mateo is a 28-year-old chef in Chile who is passionate and impulsive, experiments with local ingredients and flavors and focuses on delivering memorable meals that evoke strong reactions.",
+    "traits": {
+      "FS": 0.26,
+      "GR": -0.02,
+      "RA": -0.4,
+      "SS": 0.04,
+      "ST": -0.18
+    }
+  },
+  {
+    "player_number": 59,
+    "name": "Yusuf Cem",
+    "gender": "Male",
+    "age": 31,
+    "location": "Turkey",
+    "job": "Architect",
+    "description": "Yusuf is a 31-year-old architect in Turkey who is practical with an eye for harmony, combines functionality with aesthetics and collaborates closely with clients to realize built visions.",
+    "traits": {
+      "FS": 0.36,
+      "GR": -0.28,
+      "RA": 0.14,
+      "SS": 0.08,
+      "ST": 0.2
+    }
+  },
+  {
+    "player_number": 60,
+    "name": "Sinead Kelly",
+    "gender": "Female",
+    "age": 39,
+    "location": "Ireland",
+    "job": "Nurse",
+    "description": "Sinead is a 39-year-old nurse in Ireland who is reliable and empathetic, responds calmly during medical emergencies and supports patients through attentive care and clear communication.",
+    "traits": {
+      "FS": 0.64,
+      "GR": -0.62,
+      "RA": 0.32,
+      "SS": 0.42,
+      "ST": 0.12
+    }
+  },
+  {
+    "player_number": 61,
+    "name": "Mohammed Khan",
+    "gender": "Male",
+    "age": 46,
+    "location": "UK",
+    "job": "Taxi Driver",
+    "description": "Mohammed is a 46-year-old taxi driver in the UK who is street-smart and pragmatic, navigates urban environments efficiently and provides practical advice while transporting passengers reliably.",
+    "traits": {
+      "FS": -0.16,
+      "GR": 0.1,
+      "RA": 0.54,
+      "SS": -0.44,
+      "ST": 0.0
+    }
+  },
+  {
+    "player_number": 62,
+    "name": "Priya Sharma",
+    "gender": "Female",
+    "age": 25,
+    "location": "India",
+    "job": "Startup PM",
+    "description": "Priya is a 25-year-old startup product manager in India who is ambitious and strategic, prioritizes product-market fit and leads rapid experiments to validate assumptions and outcomes.",
+    "traits": {
+      "FS": 0.08,
+      "GR": 0.0,
+      "RA": -0.22,
+      "SS": -0.06,
+      "ST": 0.68
+    }
+  },
+  {
+    "player_number": 63,
+    "name": "Andrei Popescu",
+    "gender": "Male",
+    "age": 33,
+    "location": "Romania",
+    "job": "Mechanical Designer",
+    "description": "Andrei is a 33-year-old mechanical designer in Romania who is detail-focused and steady, creates technical drawings precisely and ensures designs meet functional specifications and manufacturability constraints.",
+    "traits": {
+      "FS": -0.02,
+      "GR": -0.2,
+      "RA": 0.46,
+      "SS": -0.36,
+      "ST": 0.32
+    }
+  },
+  {
+    "player_number": 64,
+    "name": "Beatrice Moreau",
+    "gender": "Female",
+    "age": 42,
+    "location": "France",
+    "job": "Librarian",
+    "description": "Beatrice is a 42-year-old librarian in France who is calm, values fairness and promotes equitable access to knowledge while organizing collections and supporting patrons with research needs.",
+    "traits": {
+      "FS": 0.6,
+      "GR": -0.52,
+      "RA": 0.22,
+      "SS": 0.16,
+      "ST": 0.04
+    }
+  },
+  {
+    "player_number": 65,
+    "name": "Diego Fernandez",
+    "gender": "Male",
+    "age": 29,
+    "location": "Peru",
+    "job": "Delivery Rider",
+    "description": "Diego is a 29-year-old delivery rider in Peru who is adaptive and quick, navigates city streets efficiently and prioritizes timely deliveries while maintaining friendly customer interactions.",
+    "traits": {
+      "FS": 0.12,
+      "GR": -0.08,
+      "RA": -0.32,
+      "SS": -0.02,
+      "ST": -0.1
+    }
+  },
+  {
+    "player_number": 66,
+    "name": "Zoe Allen",
+    "gender": "Female",
+    "age": 27,
+    "location": "Australia",
+    "job": "Software Tester",
+    "description": "Zoe is a 27-year-old software tester in Australia who is careful and skeptical, writes thorough test plans and advocates for product quality through systematic validation and edge-case exploration.",
+    "traits": {
+      "FS": 0.22,
+      "GR": -0.3,
+      "RA": 0.4,
+      "SS": -0.24,
+      "ST": 0.44
+    }
+  },
+  {
+    "player_number": 67,
+    "name": "Ibrahim Musa",
+    "gender": "Male",
+    "age": 30,
+    "location": "Nigeria",
+    "job": "Agro-entrepreneur",
+    "description": "Ibrahim is a 30-year-old agro-entrepreneur in Nigeria who is practical with community ties, develops small-scale agricultural businesses and supports local food supply resilience through innovation.",
+    "traits": {
+      "FS": 0.32,
+      "GR": -0.2,
+      "RA": 0.36,
+      "SS": 0.2,
+      "ST": 0.1
+    }
+  },
+  {
+    "player_number": 68,
+    "name": "Helena Costa",
+    "gender": "Female",
+    "age": 24,
+    "location": "Brazil",
+    "job": "Student",
+    "description": "Helena is a 24-year-old student in Brazil who is idealistic and social, participates in student groups, volunteers locally and pursues studies that prioritize social impact and collaboration.",
+    "traits": {
+      "FS": 0.58,
+      "GR": -0.46,
+      "RA": -0.34,
+      "SS": 0.48,
+      "ST": -0.08
+    }
+  },
+  {
+    "player_number": 69,
+    "name": "Thomas Berg",
+    "gender": "Male",
+    "age": 50,
+    "location": "Norway",
+    "job": "Ship Captain",
+    "description": "Thomas is a 50-year-old ship captain in Norway who is cautious and responsible, oversees vessel safety, plans navigation carefully and manages crew wellbeing during long voyages at sea.",
+    "traits": {
+      "FS": -0.04,
+      "GR": -0.22,
+      "RA": 0.72,
+      "SS": -0.5,
+      "ST": 0.36
+    }
+  },
+  {
+    "player_number": 70,
+    "name": "Marta Silva",
+    "gender": "Female",
+    "age": 35,
+    "location": "Portugal",
+    "job": "PhD Student",
+    "description": "Marta is a 35-year-old PhD student in Portugal who is curious and methodical, conducts rigorous research and engages with peers to refine hypotheses and expand scholarly contributions.",
+    "traits": {
+      "FS": 0.42,
+      "GR": -0.44,
+      "RA": 0.38,
+      "SS": -0.14,
+      "ST": 0.6
+    }
+  },
+  {
+    "player_number": 71,
+    "name": "Owen Murphy",
+    "gender": "Male",
+    "age": 26,
+    "location": "Ireland",
+    "job": "Bartender",
+    "description": "Owen is a 26-year-old bartender in Ireland who is social and opportunistic, builds rapport with patrons and identifies chances to upsell or support a vibrant bar atmosphere responsibly.",
+    "traits": {
+      "FS": 0.2,
+      "GR": 0.06,
+      "RA": -0.24,
+      "SS": 0.34,
+      "ST": -0.06
+    }
+  },
+  {
+    "player_number": 72,
+    "name": "Farah Aziz",
+    "gender": "Female",
+    "age": 32,
+    "location": "Malaysia",
+    "job": "HR Manager",
+    "description": "Farah is a 32-year-old HR manager in Malaysia who balances fairness and results, mediates conflicts, supports employee development and aligns people strategy with organizational objectives and values.",
+    "traits": {
+      "FS": 0.52,
+      "GR": -0.42,
+      "RA": 0.16,
+      "SS": 0.4,
+      "ST": 0.22
+    }
+  },
+  {
+    "player_number": 73,
+    "name": "Kenji Ito",
+    "gender": "Male",
+    "age": 41,
+    "location": "Japan",
+    "job": "Systems Engineer",
+    "description": "Kenji is a 41-year-old systems engineer in Japan who is disciplined and analytical, maintains reliable infrastructure and focuses on robustness, monitoring and clear incident response procedures.",
+    "traits": {
+      "FS": 0.04,
+      "GR": -0.28,
+      "RA": 0.58,
+      "SS": -0.32,
+      "ST": 0.76
+    }
+  },
+  {
+    "player_number": 74,
+    "name": "Luca Bianchi",
+    "gender": "Female",
+    "age": 37,
+    "location": "Italy",
+    "job": "Photographer",
+    "description": "Luca is a 37-year-old photographer in Italy who is artful and values connection, seeks meaningful visual stories and collaborates closely with subjects to capture memorable and emotionally resonant images.",
+    "traits": {
+      "FS": 0.38,
+      "GR": -0.36,
+      "RA": -0.18,
+      "SS": 0.42,
+      "ST": 0.0
+    }
+  },
+  {
+    "player_number": 75,
+    "name": "Nina Petrova",
+    "gender": "Male",
+    "age": 28,
+    "location": "Russia",
+    "job": "Chef",
+    "description": "Nina is a 28-year-old chef in Russia who is passionate and blunt, drives kitchen teams to high standards, prioritizes flavor and often communicates directly to maintain quality and speed.",
+    "traits": {
+      "FS": 0.24,
+      "GR": 0.0,
+      "RA": -0.4,
+      "SS": -0.12,
+      "ST": -0.22
+    }
+  },
+  {
+    "player_number": 76,
+    "name": "Omar Aziz",
+    "gender": "Female",
+    "age": 34,
+    "location": "Morocco",
+    "job": "Entrepreneur",
+    "description": "Omar is a 34-year-old entrepreneur in Morocco who is driven with practical sense, launches ventures, manages operations and iterates business models in response to market feedback and constraints.",
+    "traits": {
+      "FS": -0.14,
+      "GR": 0.44,
+      "RA": 0.1,
+      "SS": -0.38,
+      "ST": 0.54
+    }
+  },
+  {
+    "player_number": 77,
+    "name": "Evelyn White",
+    "gender": "Male",
+    "age": 29,
+    "location": "USA",
+    "job": "Nurse Practitioner",
+    "description": "Evelyn is a 29-year-old nurse practitioner in the USA who is empathetic and competent, coordinates clinical care, mentors staff and ensures patients receive comprehensive, evidence-informed treatment plans.",
+    "traits": {
+      "FS": 0.68,
+      "GR": -0.56,
+      "RA": 0.24,
+      "SS": 0.5,
+      "ST": 0.18
+    }
+  },
+  {
+    "player_number": 78,
+    "name": "Victor Hugo",
+    "gender": "Female",
+    "age": 45,
+    "location": "France",
+    "job": "Professor",
+    "description": "Victor is a 45-year-old professor in France who is thoughtful and principled, teaches critically, mentors students and contributes to scholarship while encouraging open intellectual debate and rigor.",
+    "traits": {
+      "FS": 0.4,
+      "GR": -0.42,
+      "RA": 0.48,
+      "SS": -0.08,
+      "ST": 0.62
+    }
+  },
+  {
+    "player_number": 79,
+    "name": "Arman Rahimi",
+    "gender": "Male",
+    "age": 31,
+    "location": "Iran",
+    "job": "Civil Servant",
+    "description": "Arman is a 31-year-old civil servant in Iran who is rule-oriented and steady, implements policies carefully and seeks to improve administrative processes while respecting regulatory frameworks.",
+    "traits": {
+      "FS": -0.06,
+      "GR": -0.24,
+      "RA": 0.46,
+      "SS": -0.46,
+      "ST": 0.26
+    }
+  },
+  {
+    "player_number": 80,
+    "name": "Yvonne Zhang",
+    "gender": "Female",
+    "age": 24,
+    "location": "China",
+    "job": "Social Media Manager",
+    "description": "Yvonne is a 24-year-old social media manager in China who is trend-aware and social, crafts engaging content, monitors audience response and iterates campaigns to maximize reach and resonance.",
+    "traits": {
+      "FS": 0.3,
+      "GR": -0.12,
+      "RA": -0.3,
+      "SS": 0.4,
+      "ST": 0.04
+    }
+  },
+  {
+    "player_number": 81,
+    "name": "Carlos Mendes",
+    "gender": "Male",
+    "age": 38,
+    "location": "Brazil",
+    "job": "Salesperson",
+    "description": "Carlos is a 38-year-old salesperson in Brazil who is competitive and charming, builds relationships to close deals and leverages persuasive communication to meet targets and retain clients.",
+    "traits": {
+      "FS": -0.2,
+      "GR": 0.38,
+      "RA": 0.0,
+      "SS": -0.3,
+      "ST": 0.36
+    }
+  },
+  {
+    "player_number": 82,
+    "name": "Lina Andersson",
+    "gender": "Female",
+    "age": 33,
+    "location": "Sweden",
+    "job": "Midwife",
+    "description": "Lina is a 33-year-old midwife in Sweden who is caring and calm under pressure, supports birthing families compassionately and coordinates clinical needs with sensitivity and professionalism.",
+    "traits": {
+      "FS": 0.74,
+      "GR": -0.64,
+      "RA": 0.28,
+      "SS": 0.56,
+      "ST": 0.08
+    }
+  },
+  {
+    "player_number": 83,
+    "name": "Remi Dubois",
+    "gender": "Male",
+    "age": 27,
+    "location": "France",
+    "job": "Graphic Designer",
+    "description": "Remi is a 27-year-old graphic designer in France who is creative and cooperative, collaborates with clients to shape visual identities and iterates quickly based on feedback and briefs.",
+    "traits": {
+      "FS": 0.36,
+      "GR": -0.34,
+      "RA": -0.22,
+      "SS": 0.26,
+      "ST": -0.06
+    }
+  },
+  {
+    "player_number": 84,
+    "name": "Hector Ramirez",
+    "gender": "Female",
+    "age": 44,
+    "location": "Mexico",
+    "job": "Factory Supervisor",
+    "description": "Hector is a 44-year-old factory supervisor in Mexico who is practical and results-focused, manages production lines efficiently and enforces safety and quality while mentoring shop floor staff.",
+    "traits": {
+      "FS": -0.1,
+      "GR": 0.16,
+      "RA": 0.5,
+      "SS": -0.42,
+      "ST": 0.3
+    }
+  },
+  {
+    "player_number": 85,
+    "name": "Zainab Yusuf",
+    "gender": "Male",
+    "age": 36,
+    "location": "Egypt",
+    "job": "Pharmacist",
+    "description": "Zainab is a 36-year-old pharmacist in Egypt who is careful and service-oriented, ensures medication safety, advises patients and collaborates with healthcare teams for optimal therapeutic outcomes.",
+    "traits": {
+      "FS": 0.46,
+      "GR": -0.48,
+      "RA": 0.42,
+      "SS": 0.2,
+      "ST": 0.14
+    }
+  },
+  {
+    "player_number": 86,
+    "name": "Connor Lee",
+    "gender": "Female",
+    "age": 22,
+    "location": "Canada",
+    "job": "Student",
+    "description": "Connor is a 22-year-old student in Canada who is idealistic and curious, participates in campus activities and pursues studies that emphasize social responsibility and collaborative learning.",
+    "traits": {
+      "FS": 0.42,
+      "GR": -0.38,
+      "RA": -0.34,
+      "SS": 0.36,
+      "ST": -0.04
+    }
+  },
+  {
+    "player_number": 87,
+    "name": "Miriam Svensson",
+    "gender": "Male",
+    "age": 39,
+    "location": "Sweden",
+    "job": "Chef",
+    "description": "Miriam is a 39-year-old chef in Sweden who is creative and values fairness, mentors kitchen staff with respect and crafts menus that balance tradition, seasonality and equity in sourcing.",
+    "traits": {
+      "FS": 0.5,
+      "GR": -0.3,
+      "RA": -0.16,
+      "SS": 0.1,
+      "ST": -0.02
+    }
+  },
+  {
+    "player_number": 88,
+    "name": "Rafael Costa",
+    "gender": "Female",
+    "age": 30,
+    "location": "Portugal",
+    "job": "Police Officer",
+    "description": "Rafael is a 30-year-old police officer in Portugal who is duty-bound and practical, enforces laws professionally and prioritizes public safety while engaging community members respectfully and transparently.",
+    "traits": {
+      "FS": 0.02,
+      "GR": -0.06,
+      "RA": 0.56,
+      "SS": -0.4,
+      "ST": 0.4
+    }
+  },
+  {
+    "player_number": 89,
+    "name": "Ava Thompson",
+    "gender": "Male",
+    "age": 26,
+    "location": "USA",
+    "job": "Journalist",
+    "description": "Ava is a 26-year-old journalist in the USA who is curious and socially minded, investigates public interest stories thoroughly and communicates findings clearly to inform and empower readers.",
+    "traits": {
+      "FS": 0.6,
+      "GR": -0.44,
+      "RA": -0.08,
+      "SS": 0.44,
+      "ST": 0.16
+    }
+  },
+  {
+    "player_number": 90,
+    "name": "Ken Okada",
+    "gender": "Female",
+    "age": 48,
+    "location": "Japan",
+    "job": "Carpenter",
+    "description": "Ken is a 48-year-old carpenter in Japan who is skilled and methodical, crafts durable structures with care and takes pride in workmanship, tradition and precise joinery techniques.",
+    "traits": {
+      "FS": 0.08,
+      "GR": -0.18,
+      "RA": 0.64,
+      "SS": -0.48,
+      "ST": 0.32
+    }
+  },
+  {
+    "player_number": 91,
+    "name": "Fatou Bâ",
+    "gender": "Male",
+    "age": 34,
+    "location": "Senegal",
+    "job": "Community Organizer",
+    "description": "Fatou is a 34-year-old community organizer in Senegal who values fairness and solidarity, mobilizes neighbors around shared goals and builds resilient local networks that support mutual aid efforts.",
+    "traits": {
+      "FS": 0.78,
+      "GR": -0.68,
+      "RA": 0.14,
+      "SS": 0.7,
+      "ST": 0.02
+    }
+  },
+  {
+    "player_number": 92,
+    "name": "Marcus Brown",
+    "gender": "Female",
+    "age": 29,
+    "location": "UK",
+    "job": "Analyst",
+    "description": "Marcus is a 29-year-old analyst in the UK who is numbers-driven and strategic, extracts insights from data, builds forecasts and helps decision-makers prioritize actions based on evidence.",
+    "traits": {
+      "FS": 0.0,
+      "GR": -0.1,
+      "RA": 0.38,
+      "SS": -0.34,
+      "ST": 0.64
+    }
+  },
+  {
+    "player_number": 93,
+    "name": "Elena Popov",
+    "gender": "Male",
+    "age": 31,
+    "location": "Russia",
+    "job": "Journalist",
+    "description": "Elena is a 31-year-old journalist in Russia who is investigative and direct, digs into complex stories, interviews sources carefully and publishes concise reporting that uncovers important truths.",
+    "traits": {
+      "FS": 0.24,
+      "GR": -0.26,
+      "RA": 0.22,
+      "SS": -0.18,
+      "ST": 0.2
+    }
+  },
+  {
+    "player_number": 94,
+    "name": "Samuel Ortiz",
+    "gender": "Female",
+    "age": 27,
+    "location": "Colombia",
+    "job": "Teacher",
+    "description": "Samuel is a 27-year-old teacher in Colombia who is patient and community-minded, builds supportive classrooms and designs lessons that encourage critical thinking, collaboration and civic engagement among students.",
+    "traits": {
+      "FS": 0.54,
+      "GR": -0.42,
+      "RA": 0.2,
+      "SS": 0.38,
+      "ST": 0.1
+    }
+  },
+  {
+    "player_number": 95,
+    "name": "Bianca Rossi",
+    "gender": "Male",
+    "age": 23,
+    "location": "Italy",
+    "job": "Barista",
+    "description": "Bianca is a 23-year-old barista in Italy who is friendly and upbeat, greets customers warmly and supports community interactions while learning coffee craft and hospitality skills with enthusiasm.",
+    "traits": {
+      "FS": 0.4,
+      "GR": -0.32,
+      "RA": -0.28,
+      "SS": 0.32,
+      "ST": -0.16
+    }
+  },
+  {
+    "player_number": 96,
+    "name": "Igor Lebedev",
+    "gender": "Female",
+    "age": 40,
+    "location": "Russia",
+    "job": "Logistics Coordinator",
+    "description": "Igor is a 40-year-old logistics coordinator in Russia who is efficient and no-nonsense, optimizes supply chains, tracks inventory closely and enforces procedures to maintain timely deliveries and low waste.",
+    "traits": {
+      "FS": -0.08,
+      "GR": 0.08,
+      "RA": 0.52,
+      "SS": -0.44,
+      "ST": 0.26
+    }
+  },
+  {
+    "player_number": 97,
+    "name": "Sofia Petrova",
+    "gender": "Male",
+    "age": 35,
+    "location": "Bulgaria",
+    "job": "Dentist",
+    "description": "Sofia is a 35-year-old dentist in Bulgaria who is careful and empathetic, provides attentive clinical care, explains treatment options clearly and prioritizes patient comfort and long-term oral health outcomes.",
+    "traits": {
+      "FS": 0.58,
+      "GR": -0.5,
+      "RA": 0.36,
+      "SS": 0.24,
+      "ST": 0.16
+    }
+  },
+  {
+    "player_number": 98,
+    "name": "Jorge Mendes",
+    "gender": "Female",
+    "age": 42,
+    "location": "Brazil",
+    "job": "Farmer",
+    "description": "Jorge is a 42-year-old farmer in Brazil who is practical and community-focused, cultivates land sustainably, shares harvests locally and adapts farming practices to environmental and market conditions.",
+    "traits": {
+      "FS": 0.34,
+      "GR": -0.22,
+      "RA": 0.48,
+      "SS": 0.28,
+      "ST": -0.06
+    }
+  },
+  {
+    "player_number": 99,
+    "name": "Aileen Murphy",
+    "gender": "Male",
+    "age": 28,
+    "location": "Ireland",
+    "job": "UX Researcher",
+    "description": "Aileen is a 28-year-old UX researcher in Ireland who is curious about human behavior, runs studies rigorously and translates observations into product insights that improve usability and accessibility.",
+    "traits": {
+      "FS": 0.48,
+      "GR": -0.4,
+      "RA": 0.0,
+      "SS": 0.42,
+      "ST": 0.36
+    }
+  },
+  {
+    "player_number": 100,
+    "name": "Hamid Rahman",
+    "gender": "Female",
+    "age": 36,
+    "location": "Bangladesh",
+    "job": "Textile Worker",
+    "description": "Hamid is a 36-year-old textile worker in Bangladesh who is hardworking and pragmatic, contributes to production quality, supports coworkers and adapts to demanding schedules with resilience and care.",
+    "traits": {
+      "FS": 0.1,
+      "GR": -0.04,
+      "RA": 0.46,
+      "SS": -0.36,
+      "ST": -0.12
+    }
+  }
+]

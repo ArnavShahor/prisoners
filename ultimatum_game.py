@@ -4,6 +4,7 @@ Ultimatum Game with LLM Agents
 One-shot ultimatum games between AI agents with different personalities.
 """
 
+import argparse
 import json
 import time
 from typing import Any
@@ -14,20 +15,20 @@ from llm_api import query_llm_with_usage
 # GAME CONFIGURATION
 # ============================================================================
 
-TOTAL_AMOUNT = 100  # Points to split
+# Default configuration values (can be overridden via command-line arguments)
+DEFAULT_TOTAL_AMOUNT = 100  # Points to split
+DEFAULT_PLAYER_INDICES = [0, 1, 2, 3, 4, 5]  # Players 1-6
+DEFAULT_GAMES_PER_DIRECTION = 5  # Number of games each agent plays as proposer
+DEFAULT_PROPOSER_ONLY_MODE = True  # True = only proposer offers (fast), False = full game
+DEFAULT_SELF_DESCRIPTION = "minimal"  # "full", "limited", or "minimal"
+DEFAULT_OPPONENT_DESCRIPTION = "minimal"  # "full", "limited", or "minimal"
+DEFAULT_PERSONAS_FILE = "Personas_Jobs.json"
 
-# Test mode configuration
-TEST_MODE = True
-# Players 1-6 (indices 0-5)
-TEST_AGENT_INDICES = [0, 1, 2, 3, 4, 5]
-TEST_GAMES_PER_DIRECTION = 5  # Number of games each agent plays as proposer
-
-# Game mode configuration
-PROPOSER_ONLY_MODE = True  # True = only proposer offers (fast), False = full game with responder decision
-
-# Description settings
-SELF_DESCRIPTION = "minimal"  # "full" = full description, "limited" = basic info (name, age, job, location), "minimal" = first name + job only
-OPPONENT_DESCRIPTION = "minimal"  # "full" = full description, "limited" = basic info (name, gender, age, job, location), "minimal" = first name + job only
+# Runtime configuration (set by command-line args or defaults)
+TOTAL_AMOUNT = DEFAULT_TOTAL_AMOUNT
+PROPOSER_ONLY_MODE = DEFAULT_PROPOSER_ONLY_MODE
+SELF_DESCRIPTION = DEFAULT_SELF_DESCRIPTION
+OPPONENT_DESCRIPTION = DEFAULT_OPPONENT_DESCRIPTION
 
 
 # ============================================================================
@@ -602,34 +603,45 @@ def load_personas(filepath: str = "Personas_Jobs.json") -> list[dict[str, Any]]:
     return personas
 
 
-def run_simulation(verbose: bool = True) -> dict[str, Any]:
+def run_simulation(
+    player_indices: list[int] = None,
+    games_per_direction: int = None,
+    personas_file: str = None,
+    verbose: bool = True
+) -> dict[str, Any]:
     """
     Run the ultimatum game simulation.
 
     Args:
+        player_indices: List of player indices to use (default: [0,1,2,3,4,5])
+        games_per_direction: Number of games each agent plays as proposer (default: 5)
+        personas_file: Path to personas JSON file (default: Personas_Jobs.json)
         verbose: Print progress
 
     Returns:
         Simulation results dictionary
     """
+    # Use defaults if not provided
+    if player_indices is None:
+        player_indices = DEFAULT_PLAYER_INDICES
+    if games_per_direction is None:
+        games_per_direction = DEFAULT_GAMES_PER_DIRECTION
+    if personas_file is None:
+        personas_file = DEFAULT_PERSONAS_FILE
+
     print("=" * 70)
     print("ULTIMATUM GAME SIMULATION")
-    if TEST_MODE:
-        print(" - TEST MODE -")
     print("=" * 70)
 
     # Load personas
-    personas = load_personas()
-    print(f"Loaded {len(personas)} personas from Personas_Jobs.json")
+    personas = load_personas(personas_file)
+    print(f"Loaded {len(personas)} personas from {personas_file}")
 
     # Select agents
-    if TEST_MODE:
-        agent_indices = TEST_AGENT_INDICES
-        print(f"Running TEST MODE: 2 agents → {TEST_GAMES_PER_DIRECTION * 2} games ({TEST_GAMES_PER_DIRECTION} games per direction)")
-    else:
-        # Future: implement full run logic
-        agent_indices = list(range(len(personas)))
-        print(f"Running FULL MODE: {len(personas)} agents")
+    agent_indices = player_indices
+    num_agents = len(agent_indices)
+    total_games = num_agents * (num_agents - 1) * games_per_direction
+    print(f"Running with {num_agents} agents → {total_games} total games ({games_per_direction} games per direction)")
 
     # Get selected personas
     selected_personas = [personas[i] for i in agent_indices]
@@ -648,14 +660,13 @@ def run_simulation(verbose: bool = True) -> dict[str, Any]:
     # Run games - each agent proposes multiple times
     results = []
     game_count = 0
-    total_expected_games = len(agents) * (len(agents) - 1) * (TEST_GAMES_PER_DIRECTION if TEST_MODE else 1)
+    total_expected_games = len(agents) * (len(agents) - 1) * games_per_direction
 
     for i in range(len(agents)):
         for j in range(len(agents)):
             if i != j:  # Don't play against self
                 # Play multiple games in this direction
-                num_games = TEST_GAMES_PER_DIRECTION if TEST_MODE else 1
-                for _ in range(num_games):
+                for _ in range(games_per_direction):
                     game_count += 1
 
                     # Show progress bar if not verbose
@@ -849,10 +860,131 @@ def save_results_to_csv(
 # ============================================================================
 
 
+def parse_arguments():
+    """Parse command-line arguments for the Ultimatum Game simulation."""
+    parser = argparse.ArgumentParser(
+        description="Run Ultimatum Game simulation with AI agents",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="""
+Examples:
+  # Run with players 1-6, 5 games per direction
+  python ultimatum_game.py --players 0-5 --games 5
+
+  # Run with specific players, 10 games, verbose
+  python ultimatum_game.py -p 0,1,2 -g 10 -v
+
+  # Run full game mode with custom personas file
+  python ultimatum_game.py --full-game --personas-file custom_personas.json
+
+  # Run with full descriptions
+  python ultimatum_game.py --self-description full --opponent-description full
+        """
+    )
+
+    # Player configuration
+    parser.add_argument(
+        "-p", "--players",
+        type=str,
+        default="0,1,2,3,4,5",
+        help="Player indices, comma-separated (e.g., '0,1,2') or range (e.g., '0-5'). Default: 0,1,2,3,4,5"
+    )
+
+    parser.add_argument(
+        "-g", "--games",
+        type=int,
+        default=5,
+        help="Number of games each agent plays as proposer. Default: 5"
+    )
+
+    # Game configuration
+    parser.add_argument(
+        "--total-amount",
+        type=int,
+        default=100,
+        help="Total points to split in each game. Default: 100"
+    )
+
+    parser.add_argument(
+        "--proposer-only",
+        action="store_true",
+        default=True,
+        help="Only collect proposer offers (fast mode). Default: True"
+    )
+
+    parser.add_argument(
+        "--full-game",
+        action="store_true",
+        default=False,
+        help="Run full game with responder accept/reject decisions (slower)"
+    )
+
+    # Description settings
+    parser.add_argument(
+        "--self-description",
+        type=str,
+        choices=["full", "limited", "minimal"],
+        default="minimal",
+        help="Self description level. Default: minimal"
+    )
+
+    parser.add_argument(
+        "--opponent-description",
+        type=str,
+        choices=["full", "limited", "minimal"],
+        default="minimal",
+        help="Opponent description level. Default: minimal"
+    )
+
+    # File configuration
+    parser.add_argument(
+        "--personas-file",
+        type=str,
+        default="Personas_Jobs.json",
+        help="Path to personas JSON file. Default: Personas_Jobs.json"
+    )
+
+    # Output configuration
+    parser.add_argument(
+        "-v", "--verbose",
+        action="store_true",
+        default=False,
+        help="Print detailed progress during simulation"
+    )
+
+    args = parser.parse_args()
+
+    # Parse player indices
+    if "-" in args.players:
+        # Handle range format (e.g., "0-5")
+        start, end = map(int, args.players.split("-"))
+        args.player_indices = list(range(start, end + 1))
+    else:
+        # Handle comma-separated format (e.g., "0,1,2")
+        args.player_indices = [int(x.strip()) for x in args.players.split(",")]
+
+    # Handle full-game flag (overrides proposer-only)
+    if args.full_game:
+        args.proposer_only = False
+    else:
+        args.proposer_only = True
+
+    return args
+
+
 def main():
     """Run the Ultimatum Game simulation."""
     import os
     from datetime import datetime
+
+    # Parse command-line arguments
+    args = parse_arguments()
+
+    # Update global configuration based on arguments
+    global TOTAL_AMOUNT, PROPOSER_ONLY_MODE, SELF_DESCRIPTION, OPPONENT_DESCRIPTION
+    TOTAL_AMOUNT = args.total_amount
+    PROPOSER_ONLY_MODE = args.proposer_only
+    SELF_DESCRIPTION = args.self_description
+    OPPONENT_DESCRIPTION = args.opponent_description
 
     # Create test_results directory if it doesn't exist
     results_dir = "test_results"
@@ -863,7 +995,13 @@ def main():
     csv_filename = f"{results_dir}/ultimatum_results_{timestamp}.csv"
     json_filename = f"{results_dir}/ultimatum_results_{timestamp}.json"
 
-    simulation_results = run_simulation(verbose=False)  # Set to False to suppress verbose output
+    # Run simulation with parsed arguments
+    simulation_results = run_simulation(
+        player_indices=args.player_indices,
+        games_per_direction=args.games,
+        personas_file=args.personas_file,
+        verbose=args.verbose
+    )
 
     # Save results to CSV
     save_results_to_csv(

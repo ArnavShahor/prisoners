@@ -1,0 +1,482 @@
+[
+  {
+    "player_number": 1,
+    "name": "Marcus Johnson",
+    "gender": "Male",
+    "age": 28,
+    "location": "USA",
+    "job": "Software Engineer",
+    "description": "Marcus is a 28-year-old software engineer living in the USA who enjoys solving problems quickly, collaborating with teammates and improving code quality through systematic approaches.",
+    "traits": {
+      "FS": 0.26,
+      "GR": -0.18,
+      "RA": 0.06,
+      "SS": -0.26,
+      "ST": 0.44
+    }
+  },
+  {
+    "player_number": 2,
+    "name": "Jennifer Davis",
+    "gender": "Female",
+    "age": 34,
+    "location": "USA",
+    "job": "Senior Software Developer",
+    "description": "Jennifer is a 34-year-old senior software developer based in the USA who mentors junior developers, architects complex systems and values clean code and best practices.",
+    "traits": {
+      "FS": 0.18,
+      "GR": -0.22,
+      "RA": 0.32,
+      "SS": -0.3,
+      "ST": 0.68
+    }
+  },
+  {
+    "player_number": 3,
+    "name": "Robert Chen",
+    "gender": "Male",
+    "age": 31,
+    "location": "USA",
+    "job": "Product Manager",
+    "description": "Robert is a 31-year-old product manager in the USA who leads with strategic thinking, balances user needs and business goals and values data-driven roadmap decisions.",
+    "traits": {
+      "FS": 0.12,
+      "GR": 0.04,
+      "RA": -0.14,
+      "SS": -0.08,
+      "ST": 0.42
+    }
+  },
+  {
+    "player_number": 4,
+    "name": "Sarah Martinez",
+    "gender": "Female",
+    "age": 29,
+    "location": "USA",
+    "job": "Data Scientist",
+    "description": "Sarah is a 29-year-old data scientist in the USA who focuses on statistical modeling, machine learning pipelines and translating complex data into actionable business insights.",
+    "traits": {
+      "FS": 0.14,
+      "GR": -0.28,
+      "RA": 0.24,
+      "SS": -0.32,
+      "ST": 0.72
+    }
+  },
+  {
+    "player_number": 5,
+    "name": "David Thompson",
+    "gender": "Male",
+    "age": 45,
+    "location": "USA",
+    "job": "Economist",
+    "description": "David is a 45-year-old economist from the USA who focuses on metrics and forecasting, models trade-offs carefully and prefers decisions that improve measurable outcomes over time.",
+    "traits": {
+      "FS": -0.42,
+      "GR": 0.62,
+      "RA": -0.04,
+      "SS": -0.56,
+      "ST": 0.54
+    }
+  },
+  {
+    "player_number": 6,
+    "name": "Emily Rodriguez",
+    "gender": "Female",
+    "age": 37,
+    "location": "USA",
+    "job": "Financial Analyst",
+    "description": "Emily is a 37-year-old financial analyst in the USA who is data-driven and competitive, models scenarios and advises stakeholders on investment decisions with analytical rigor.",
+    "traits": {
+      "FS": -0.12,
+      "GR": 0.4,
+      "RA": 0.24,
+      "SS": -0.42,
+      "ST": 0.7
+    }
+  },
+  {
+    "player_number": 7,
+    "name": "Michael Anderson",
+    "gender": "Male",
+    "age": 33,
+    "location": "USA",
+    "job": "Marketing Manager",
+    "description": "Michael is a 33-year-old marketing manager in the USA who is bold and creative, experiments with campaigns, measures results and iterates quickly to find audience-fit strategies.",
+    "traits": {
+      "FS": 0.28,
+      "GR": -0.16,
+      "RA": -0.22,
+      "SS": 0.18,
+      "ST": 0.12
+    }
+  },
+  {
+    "player_number": 8,
+    "name": "Jessica Williams",
+    "gender": "Female",
+    "age": 39,
+    "location": "USA",
+    "job": "Operations Manager",
+    "description": "Jessica is a 39-year-old operations manager in the USA who is organized and efficient, coordinates teams reliably and aims to optimize processes for cost savings and quality.",
+    "traits": {
+      "FS": 0.1,
+      "GR": -0.04,
+      "RA": 0.4,
+      "SS": -0.2,
+      "ST": 0.38
+    }
+  },
+  {
+    "player_number": 9,
+    "name": "Christopher Lee",
+    "gender": "Male",
+    "age": 27,
+    "location": "USA",
+    "job": "Mechanical Engineer",
+    "description": "Christopher is a 27-year-old mechanical engineer in the USA who is logical and cool-headed, enjoys designing robust systems and solving engineering problems through careful analysis.",
+    "traits": {
+      "FS": -0.04,
+      "GR": -0.16,
+      "RA": 0.26,
+      "SS": -0.38,
+      "ST": 0.58
+    }
+  },
+  {
+    "player_number": 10,
+    "name": "Amanda Wilson",
+    "gender": "Female",
+    "age": 28,
+    "location": "USA",
+    "job": "Registered Nurse",
+    "description": "Amanda is a 28-year-old nurse in the USA who is empathetic and people-oriented, spends long hours caring for patients and advocates for patient dignity and safety.",
+    "traits": {
+      "FS": 0.7,
+      "GR": -0.64,
+      "RA": -0.02,
+      "SS": 0.52,
+      "ST": 0.16
+    }
+  },
+  {
+    "player_number": 11,
+    "name": "Daniel Brown",
+    "gender": "Male",
+    "age": 35,
+    "location": "USA",
+    "job": "Elementary School Teacher",
+    "description": "Daniel is a 35-year-old teacher in the USA who is patient and steady, focuses on student development, clear lesson structures and building long-term academic skills through support.",
+    "traits": {
+      "FS": 0.44,
+      "GR": -0.58,
+      "RA": 0.32,
+      "SS": 0.18,
+      "ST": 0.2
+    }
+  },
+  {
+    "player_number": 12,
+    "name": "Lisa Nguyen",
+    "gender": "Female",
+    "age": 26,
+    "location": "USA",
+    "job": "Graphic Designer",
+    "description": "Lisa is a 26-year-old graphic designer in the USA who is creative and socially tuned, crafts visuals that communicate brand values and engages audiences across digital platforms.",
+    "traits": {
+      "FS": 0.36,
+      "GR": -0.3,
+      "RA": -0.24,
+      "SS": 0.32,
+      "ST": -0.04
+    }
+  },
+  {
+    "player_number": 13,
+    "name": "Kevin Taylor",
+    "gender": "Male",
+    "age": 38,
+    "location": "USA",
+    "job": "Sales Representative",
+    "description": "Kevin is a 38-year-old salesperson in the USA who is competitive and charming, builds relationships to close deals and leverages persuasive communication to meet targets.",
+    "traits": {
+      "FS": -0.2,
+      "GR": 0.38,
+      "RA": 0.0,
+      "SS": -0.3,
+      "ST": 0.36
+    }
+  },
+  {
+    "player_number": 14,
+    "name": "Michelle Harris",
+    "gender": "Female",
+    "age": 38,
+    "location": "USA",
+    "job": "Accountant",
+    "description": "Michelle is a 38-year-old accountant in the USA who is precise, disciplined and process-oriented, valuing accuracy in financial records and predictable accounting practices.",
+    "traits": {
+      "FS": -0.1,
+      "GR": -0.32,
+      "RA": 0.56,
+      "SS": -0.36,
+      "ST": 0.4
+    }
+  },
+  {
+    "player_number": 15,
+    "name": "Brian Clark",
+    "gender": "Male",
+    "age": 32,
+    "location": "USA",
+    "job": "Human Resources Manager",
+    "description": "Brian is a 32-year-old HR manager in the USA who balances fairness and results, mediates conflicts, supports employee development and aligns people strategy with business objectives.",
+    "traits": {
+      "FS": 0.52,
+      "GR": -0.42,
+      "RA": 0.16,
+      "SS": 0.4,
+      "ST": 0.22
+    }
+  },
+  {
+    "player_number": 16,
+    "name": "Ashley Moore",
+    "gender": "Female",
+    "age": 39,
+    "location": "USA",
+    "job": "Project Manager",
+    "description": "Ashley is a 39-year-old project manager in the USA who emphasizes planning and risk mitigation, coordinates teams to deliver predictable and well-documented results.",
+    "traits": {
+      "FS": 0.08,
+      "GR": -0.36,
+      "RA": 0.68,
+      "SS": -0.18,
+      "ST": 0.26
+    }
+  },
+  {
+    "player_number": 17,
+    "name": "Steven Garcia",
+    "gender": "Male",
+    "age": 42,
+    "location": "USA",
+    "job": "Business Consultant",
+    "description": "Steven is a 42-year-old business consultant in the USA who is strategic and analytical, helps organizations optimize processes and provides data-informed recommendations for growth.",
+    "traits": {
+      "FS": 0.06,
+      "GR": 0.12,
+      "RA": 0.18,
+      "SS": -0.24,
+      "ST": 0.48
+    }
+  },
+  {
+    "player_number": 18,
+    "name": "Rachel Martin",
+    "gender": "Female",
+    "age": 27,
+    "location": "USA",
+    "job": "Pharmacist",
+    "description": "Rachel is a 27-year-old pharmacist in the USA who is detail-oriented and caring, double-checks prescriptions and counsels patients while prioritizing safe medication use.",
+    "traits": {
+      "FS": 0.54,
+      "GR": -0.4,
+      "RA": 0.2,
+      "SS": 0.0,
+      "ST": 0.3
+    }
+  },
+  {
+    "player_number": 19,
+    "name": "Jason White",
+    "gender": "Male",
+    "age": 28,
+    "location": "USA",
+    "job": "Civil Engineer",
+    "description": "Jason is a 28-year-old civil engineer in the USA who is practical with attention to rules, designs safe structures and ensures compliance with codes while coordinating teams.",
+    "traits": {
+      "FS": -0.08,
+      "GR": -0.14,
+      "RA": 0.36,
+      "SS": -0.4,
+      "ST": 0.5
+    }
+  },
+  {
+    "player_number": 20,
+    "name": "Lauren Jackson",
+    "gender": "Female",
+    "age": 30,
+    "location": "USA",
+    "job": "Research Scientist",
+    "description": "Lauren is a 30-year-old research scientist in the USA who is very curious, seeks empirical truth, values rigorous methods and enjoys collaborating across disciplines.",
+    "traits": {
+      "FS": 0.46,
+      "GR": -0.56,
+      "RA": 0.36,
+      "SS": 0.1,
+      "ST": 0.58
+    }
+  },
+  {
+    "player_number": 21,
+    "name": "Brandon Thomas",
+    "gender": "Male",
+    "age": 29,
+    "location": "USA",
+    "job": "Chef",
+    "description": "Brandon is a 29-year-old chef from the USA who is creative but impulsive, experiments with flavors, cares about diners' experiences and makes instinctive kitchen decisions.",
+    "traits": {
+      "FS": 0.64,
+      "GR": -0.24,
+      "RA": -0.46,
+      "SS": 0.22,
+      "ST": -0.28
+    }
+  },
+  {
+    "player_number": 22,
+    "name": "Nicole Robinson",
+    "gender": "Female",
+    "age": 36,
+    "location": "USA",
+    "job": "Real Estate Agent",
+    "description": "Nicole is a 36-year-old real estate agent in the USA who is result-oriented, focuses on closing deals, building client trust and maximizing transactional outcomes efficiently.",
+    "traits": {
+      "FS": -0.24,
+      "GR": 0.54,
+      "RA": 0.04,
+      "SS": -0.32,
+      "ST": 0.32
+    }
+  },
+  {
+    "player_number": 23,
+    "name": "Gregory Walker",
+    "gender": "Male",
+    "age": 32,
+    "location": "USA",
+    "job": "Lawyer",
+    "description": "Gregory is a 32-year-old lawyer in the USA who is highly analytical, carefully considers precedents and legal arguments and prefers structured, well-reasoned solutions.",
+    "traits": {
+      "FS": 0.02,
+      "GR": -0.04,
+      "RA": 0.28,
+      "SS": -0.48,
+      "ST": 0.64
+    }
+  },
+  {
+    "player_number": 24,
+    "name": "Samantha Lewis",
+    "gender": "Female",
+    "age": 34,
+    "location": "USA",
+    "job": "Architect",
+    "description": "Samantha is a 34-year-old architect based in the USA who seeks balance and aesthetics in projects, values sustainability and clear communication with clients and teams.",
+    "traits": {
+      "FS": 0.48,
+      "GR": -0.42,
+      "RA": -0.12,
+      "SS": 0.02,
+      "ST": 0.22
+    }
+  },
+  {
+    "player_number": 25,
+    "name": "Eric Hall",
+    "gender": "Male",
+    "age": 29,
+    "location": "USA",
+    "job": "Social Worker",
+    "description": "Eric is a 29-year-old social worker in the USA who is committed to helping communities, organizes resources for vulnerable people and advocates for structural improvements.",
+    "traits": {
+      "FS": 0.72,
+      "GR": -0.66,
+      "RA": 0.08,
+      "SS": 0.6,
+      "ST": 0.0
+    }
+  },
+  {
+    "player_number": 26,
+    "name": "Katherine Allen",
+    "gender": "Female",
+    "age": 31,
+    "location": "USA",
+    "job": "Electrician",
+    "description": "Katherine is a 31-year-old electrician in the USA who is hands-on and practical, troubleshoots electrical systems efficiently and ensures code compliance and safety.",
+    "traits": {
+      "FS": 0.04,
+      "GR": -0.1,
+      "RA": 0.38,
+      "SS": -0.32,
+      "ST": 0.16
+    }
+  },
+  {
+    "player_number": 27,
+    "name": "Andrew Young",
+    "gender": "Male",
+    "age": 35,
+    "location": "USA",
+    "job": "Physical Therapist",
+    "description": "Andrew is a 35-year-old physical therapist in the USA who is empathetic and patient-focused, designs rehabilitation programs and supports recovery with evidence-based interventions.",
+    "traits": {
+      "FS": 0.58,
+      "GR": -0.5,
+      "RA": 0.14,
+      "SS": 0.36,
+      "ST": 0.12
+    }
+  },
+  {
+    "player_number": 28,
+    "name": "Rebecca King",
+    "gender": "Female",
+    "age": 27,
+    "location": "USA",
+    "job": "Content Writer",
+    "description": "Rebecca is a 27-year-old content writer in the USA who is creative and detail-oriented, crafts engaging narratives and adapts tone to diverse audiences across platforms.",
+    "traits": {
+      "FS": 0.32,
+      "GR": -0.24,
+      "RA": -0.18,
+      "SS": 0.26,
+      "ST": 0.08
+    }
+  },
+  {
+    "player_number": 29,
+    "name": "Matthew Scott",
+    "gender": "Male",
+    "age": 31,
+    "location": "USA",
+    "job": "Supply Chain Manager",
+    "description": "Matthew is a 31-year-old supply chain manager in the USA who is organized and efficient, coordinates logistics reliably and optimizes routes, inventory and delivery timing.",
+    "traits": {
+      "FS": 0.1,
+      "GR": -0.04,
+      "RA": 0.4,
+      "SS": -0.2,
+      "ST": 0.38
+    }
+  },
+  {
+    "player_number": 30,
+    "name": "Christina Green",
+    "gender": "Female",
+    "age": 33,
+    "location": "USA",
+    "job": "Environmental Scientist",
+    "description": "Christina is a 33-year-old environmental scientist in the USA who is passionate about sustainability, conducts field research and advocates for evidence-based environmental policies.",
+    "traits": {
+      "FS": 0.38,
+      "GR": -0.34,
+      "RA": 0.22,
+      "SS": 0.12,
+      "ST": 0.42
+    }
+  }
+]

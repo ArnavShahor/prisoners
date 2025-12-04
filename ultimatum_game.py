@@ -18,9 +18,9 @@ TOTAL_AMOUNT = 100  # Points to split
 
 # Test mode configuration
 TEST_MODE = True
-# 2 players for minimal testing: Maya Thompson, Zoe Allen
-TEST_AGENT_INDICES = [24, 65]
-TEST_GAMES_PER_DIRECTION = 1  # Number of games each agent plays as proposer
+# Players 1-6 (indices 0-5)
+TEST_AGENT_INDICES = [0, 1, 2, 3, 4, 5]
+TEST_GAMES_PER_DIRECTION = 5  # Number of games each agent plays as proposer
 
 # Game mode configuration
 PROPOSER_ONLY_MODE = True  # True = only proposer offers (fast), False = full game with responder decision

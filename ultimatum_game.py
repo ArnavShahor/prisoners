@@ -50,7 +50,7 @@ class UltimatumAgent:
         Initialize agent with a personality.
 
         Args:
-            persona: Dictionary with personality data from Personas.json
+            persona: Dictionary with personality data from Personas_Jobs.json
             model: LLM model to use
         """
         self.persona = persona
@@ -595,7 +595,7 @@ class UltimatumGame:
 # ============================================================================
 
 
-def load_personas(filepath: str = "Personas.json") -> list[dict[str, Any]]:
+def load_personas(filepath: str = "Personas_Jobs.json") -> list[dict[str, Any]]:
     """Load persona data from JSON file."""
     with open(filepath, "r", encoding="utf-8") as f:
         personas = json.load(f)
@@ -620,7 +620,7 @@ def run_simulation(verbose: bool = True) -> dict[str, Any]:
 
     # Load personas
     personas = load_personas()
-    print(f"Loaded {len(personas)} personas from Personas.json")
+    print(f"Loaded {len(personas)} personas from Personas_Jobs.json")
 
     # Select agents
     if TEST_MODE:

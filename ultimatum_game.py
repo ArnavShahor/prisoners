@@ -184,7 +184,9 @@ class UltimatumAgent:
                 gain_pct = (TRANSFER_RATE - 1.0) * 100
                 transfer_info = f"\n\nIMPORTANT: There is a transfer amplification of {gain_pct:.0f}%. The other person receives {TRANSFER_RATE:.0%} of what you give up (more than you lose)."
 
-        return f"""You are dividing $100 with another person.
+        return f"""You are dividing $100 with a stranger you have never met and will never meet again.
+
+This is a one-time, anonymous interaction.
 
 RULES:
 - You decide how much to KEEP for yourself ($0-$100)
@@ -205,7 +207,9 @@ where keep is the dollar amount you want to keep for yourself."""
 
     def _get_response_system_prompt(self) -> str:
         """Build system prompt for responder role."""
-        return """Another person has proposed how to split $100 with you.
+        return """A stranger you have never met and will never meet again has proposed how to split $100 with you.
+
+This is a one-time, anonymous interaction.
 
 RULES:
 - You can either ACCEPT or REJECT their proposal

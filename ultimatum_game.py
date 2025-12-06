@@ -23,12 +23,14 @@ DEFAULT_PROPOSER_ONLY_MODE = True  # True = only proposer offers (fast), False =
 DEFAULT_SELF_DESCRIPTION = "minimal"  # "full", "limited", or "minimal"
 DEFAULT_OPPONENT_DESCRIPTION = "minimal"  # "full", "limited", or "minimal"
 DEFAULT_PERSONAS_FILE = "Personas_Jobs.json"
+DEFAULT_TRANSFER_RATE = 1.0  # Transfer efficiency (1.0 = no loss, 0.5 = 50% loss)
 
 # Runtime configuration (set by command-line args or defaults)
 TOTAL_AMOUNT = DEFAULT_TOTAL_AMOUNT
 PROPOSER_ONLY_MODE = DEFAULT_PROPOSER_ONLY_MODE
 SELF_DESCRIPTION = DEFAULT_SELF_DESCRIPTION
 OPPONENT_DESCRIPTION = DEFAULT_OPPONENT_DESCRIPTION
+TRANSFER_RATE = DEFAULT_TRANSFER_RATE
 
 
 # ============================================================================
@@ -68,7 +70,7 @@ class UltimatumAgent:
 
     def make_proposal(
         self, responder_persona: dict[str, Any]
-    ) -> tuple[int, dict[str, Any]]:
+    ) -> tuple[int, int, dict[str, Any]]:
         """
         Make a proposal as the proposer.
 
@@ -76,8 +78,10 @@ class UltimatumAgent:
             responder_persona: Full personality dict of the responder
 
         Returns:
-            Tuple of (offer_to_responder, usage_info)
-            offer_to_responder: int between 0-100 (responder gets this, proposer gets 100-this)
+            Tuple of (keep_amount, actual_offer, usage_info)
+            - keep_amount: Amount proposer wants to keep
+            - actual_offer: Amount responder receives (after transfer rate)
+            - usage_info: Dictionary with token usage, reasoning, etc.
         """
         # Build prompt
         prompt = self._build_proposal_prompt(responder_persona)
@@ -108,29 +112,32 @@ class UltimatumAgent:
         if result.get("failed", False):
             self.failed_queries += 1
 
-        # Extract offer
-        offer, reasoning = self._extract_offer(result["response"])
+        # Extract keep amount and calculate actual offer
+        keep_amount, actual_offer, reasoning = self._extract_offer(result["response"])
 
-        # Add reasoning to result
+        # Add reasoning, keep_amount, and actual_offer to result
         result["reasoning"] = reasoning
+        result["keep_amount"] = keep_amount
+        result["actual_offer"] = actual_offer
 
-        return offer, result
+        return keep_amount, actual_offer, result
 
     def respond_to_offer(
-        self, proposer_persona: dict[str, Any], offer: int
+        self, proposer_persona: dict[str, Any], keep_amount: int, offer: int
     ) -> tuple[str, dict[str, Any]]:
         """
         Respond to an offer as the responder.
 
         Args:
             proposer_persona: Full personality dict of the proposer
-            offer: Amount offered to this agent (0-100)
+            keep_amount: Amount proposer is keeping
+            offer: Amount offered to this agent (after transfer rate)
 
         Returns:
             Tuple of ("accept" or "reject", usage_info)
         """
         # Build prompt
-        prompt = self._build_response_prompt(proposer_persona, offer)
+        prompt = self._build_response_prompt(proposer_persona, keep_amount, offer)
 
         # Query LLM with usage tracking and timing
         start_time = time.time()
@@ -168,25 +175,33 @@ class UltimatumAgent:
 
     def _get_proposal_system_prompt(self) -> str:
         """Build system prompt for proposer role."""
-        return """You are dividing $100 with another person.
+        transfer_info = ""
+        if TRANSFER_RATE != 1.0:
+            if TRANSFER_RATE < 1.0:
+                loss_pct = (1.0 - TRANSFER_RATE) * 100
+                transfer_info = f"\n\nIMPORTANT: There is a transfer inefficiency of {loss_pct:.0f}%. The other person receives only {TRANSFER_RATE:.0%} of what you give up."
+            else:
+                gain_pct = (TRANSFER_RATE - 1.0) * 100
+                transfer_info = f"\n\nIMPORTANT: There is a transfer amplification of {gain_pct:.0f}%. The other person receives {TRANSFER_RATE:.0%} of what you give up (more than you lose)."
+
+        return f"""You are dividing $100 with another person.
 
 RULES:
-- You decide how to split $100 between yourself and the other person
-- You propose how much they receive ($0-$100)
-- You will receive the remaining amount ($100 - offer)
+- You decide how much to KEEP for yourself ($0-$100)
+- The other person receives: ($100 - keep) × {TRANSFER_RATE}
 - They can accept or reject your proposal
-- If accepted: both receive the proposed amounts
-- If rejected: both receive $0
+- If accepted: you get your 'keep' amount, they get ($100 - keep) × {TRANSFER_RATE}
+- If rejected: both receive $0{transfer_info}
 
 Your goal is to maximize your money.
 
 You must respond with ONLY a JSON object in this format:
-{
+{{
   "reasoning": "brief explanation of your strategic thinking",
-  "offer": <number between 0 and 100>
-}
+  "keep": <number between 0 and 100>
+}}
 
-where offer is the dollar amount you're giving to the other person."""
+where keep is the dollar amount you want to keep for yourself."""
 
     def _get_response_system_prompt(self) -> str:
         """Build system prompt for responder role."""
@@ -256,9 +271,15 @@ Respond with JSON only."""
         return prompt
 
     def _build_response_prompt(
-        self, proposer_persona: dict[str, Any], offer: int
+        self, proposer_persona: dict[str, Any], keep_amount: int, offer: int
     ) -> str:
-        """Build the response prompt."""
+        """Build the response prompt.
+
+        Args:
+            proposer_persona: Proposer's personality data
+            keep_amount: Amount proposer is keeping
+            offer: Amount responder will receive (after transfer rate)
+        """
         # Build self description based on setting
         if SELF_DESCRIPTION == "full":
             self_info = f"""You are {self.persona['name']}, age {self.persona['age']}, works as {self.persona['job']}.
@@ -293,17 +314,27 @@ Your description: {self.persona['description']}"""
         else:
             opponent_first_name = proposer_persona['name']
 
+        # Build transfer rate explanation
+        transfer_explanation = ""
+        if TRANSFER_RATE != 1.0:
+            gave_up = TOTAL_AMOUNT - keep_amount
+            if TRANSFER_RATE < 1.0:
+                loss = gave_up - offer
+                transfer_explanation = f"\nNote: {opponent_first_name} gave up ${gave_up}, but due to {TRANSFER_RATE:.0%} transfer efficiency, you receive ${offer} (${loss:.0f} was lost in transfer)."
+            else:
+                gain = offer - gave_up
+                transfer_explanation = f"\nNote: {opponent_first_name} gave up ${gave_up}, but due to {TRANSFER_RATE:.0%} transfer rate, you receive ${offer} (${gain:.0f} gain from amplification)."
+
         prompt = f"""{self_info}
 
 {opponent_first_name} is dividing money with you.
 {opponent_info}
 
 SITUATION:
-{opponent_first_name} has proposed to split $100:
-- You get: ${offer}
-- {opponent_first_name} gets: ${100 - offer}
+{opponent_first_name} decided to keep ${keep_amount} for themselves.
+You receive: ${offer} (transfer rate: {TRANSFER_RATE}){transfer_explanation}
 
-If you ACCEPT: you get ${offer}, {opponent_first_name} gets ${100 - offer}
+If you ACCEPT: you get ${offer}, {opponent_first_name} gets ${keep_amount}
 If you REJECT: both of you get $0
 
 Decide whether to accept or reject.
@@ -312,8 +343,15 @@ Respond with JSON only."""
 
         return prompt
 
-    def _extract_offer(self, response: str) -> tuple[int, str]:
-        """Extract offer from LLM response."""
+    def _extract_offer(self, response: str) -> tuple[int, int, str]:
+        """Extract keep amount from LLM response and calculate actual offer.
+
+        Returns:
+            Tuple of (keep_amount, actual_offer, reasoning)
+            - keep_amount: Amount proposer wants to keep
+            - actual_offer: Amount responder receives = (100 - keep) * TRANSFER_RATE
+            - reasoning: Proposer's reasoning
+        """
         try:
             # Clean response
             response = response.strip()
@@ -333,15 +371,29 @@ Respond with JSON only."""
                     response = response[:last_brace + 1]
 
             data = json.loads(response.strip())
-            offer = int(data.get("offer", 50))
+
+            # Try to get "keep" first, fallback to "offer" for backward compatibility
+            if "keep" in data:
+                keep_amount = int(data["keep"])
+            elif "offer" in data:
+                # If old format with "offer", convert: they offered X, so they keep 100-X
+                offer_amount = int(data["offer"])
+                keep_amount = TOTAL_AMOUNT - offer_amount
+            else:
+                keep_amount = 50  # Default
+
             reasoning = data.get("reasoning", "")
 
-            # Validate offer is in range
-            if 0 <= offer <= 100:
-                return offer, reasoning
+            # Validate keep is in range
+            if 0 <= keep_amount <= TOTAL_AMOUNT:
+                # Calculate actual offer with transfer rate
+                actual_offer = (TOTAL_AMOUNT - keep_amount) * TRANSFER_RATE
+                return keep_amount, int(actual_offer), reasoning
             else:
-                print(f"⚠️  Offer {offer} out of range, clamping to 0-100")
-                return max(0, min(100, offer)), reasoning
+                print(f"⚠️  Keep amount {keep_amount} out of range, clamping to 0-{TOTAL_AMOUNT}")
+                keep_amount = max(0, min(TOTAL_AMOUNT, keep_amount))
+                actual_offer = (TOTAL_AMOUNT - keep_amount) * TRANSFER_RATE
+                return keep_amount, int(actual_offer), reasoning
 
         except json.JSONDecodeError as e:
             print(f"⚠️  JSON parsing error: {str(e)[:100]}")
@@ -350,13 +402,18 @@ Respond with JSON only."""
             numbers = re.findall(r'\b\d+\b', response)
             for num_str in numbers:
                 num = int(num_str)
-                if 0 <= num <= 100:
-                    return num, f"Recovered from malformed JSON - extracted {num}"
+                if 0 <= num <= TOTAL_AMOUNT:
+                    actual_offer = (TOTAL_AMOUNT - num) * TRANSFER_RATE
+                    return num, int(actual_offer), f"Recovered from malformed JSON - extracted {num}"
             # Default to fair split if we can't extract anything
-            return 50, "Recovered from malformed JSON - defaulted to 50"
+            keep_amount = 50
+            actual_offer = (TOTAL_AMOUNT - keep_amount) * TRANSFER_RATE
+            return keep_amount, int(actual_offer), "Recovered from malformed JSON - defaulted to 50"
         except Exception as e:
             print(f"⚠️  Unexpected error parsing offer: {str(e)[:100]}")
-            return 50, f"Error: {str(e)[:100]} - defaulted to 50"
+            keep_amount = 50
+            actual_offer = (TOTAL_AMOUNT - keep_amount) * TRANSFER_RATE
+            return keep_amount, int(actual_offer), f"Error: {str(e)[:100]} - defaulted to 50"
 
     def _extract_decision(self, response: str) -> tuple[str, str]:
         """Extract decision from LLM response."""
@@ -477,11 +534,15 @@ class UltimatumGame:
             )
 
         # Proposer makes offer
-        offer, proposal_usage = self.proposer.make_proposal(self.responder.persona)
+        keep_amount, actual_offer, proposal_usage = self.proposer.make_proposal(self.responder.persona)
 
         if verbose:
             print(f"  {self.proposer.name}'s reasoning: {proposal_usage['reasoning'][:80]}...")
-            print(f"  Offer: {offer}")
+            print(f"  Keep: ${keep_amount}, Offer: ${actual_offer} (rate: {TRANSFER_RATE})")
+
+        # Calculate money lost/gained in transfer
+        gave_up = TOTAL_AMOUNT - keep_amount
+        money_lost = gave_up - actual_offer  # Negative if transfer rate > 1.0
 
         # Build result dictionary (proposer-only mode)
         self.result = {
@@ -490,7 +551,10 @@ class UltimatumGame:
             "responder_name": self.responder.name,
             "proposer_idx": self.proposer.persona["player_number"],
             "responder_idx": self.responder.persona["player_number"],
-            "offer": offer,
+            "keep_amount": keep_amount,
+            "offer": actual_offer,  # Amount responder would receive
+            "transfer_rate": TRANSFER_RATE,
+            "money_lost": money_lost,  # Money lost/gained in transfer
             "decision": "no_response",
             "proposer_payoff": 0,  # No payoffs in proposer-only mode
             "responder_payoff": 0,
@@ -530,15 +594,15 @@ class UltimatumGame:
             )
 
         # Proposer makes offer
-        offer, proposal_usage = self.proposer.make_proposal(self.responder.persona)
+        keep_amount, actual_offer, proposal_usage = self.proposer.make_proposal(self.responder.persona)
 
         if verbose:
             print(f"  {self.proposer.name}'s reasoning: {proposal_usage['reasoning'][:80]}...")
-            print(f"  Offer: {offer}")
+            print(f"  Keep: ${keep_amount}, Offer to responder: ${actual_offer} (rate: {TRANSFER_RATE})")
 
         # Responder decides
         decision, response_usage = self.responder.respond_to_offer(
-            self.proposer.persona, offer
+            self.proposer.persona, keep_amount, actual_offer
         )
 
         if verbose:
@@ -547,15 +611,19 @@ class UltimatumGame:
 
         # Calculate payoffs
         if decision == "accept":
-            proposer_payoff = TOTAL_AMOUNT - offer
-            responder_payoff = offer
+            proposer_payoff = keep_amount
+            responder_payoff = actual_offer
         else:
             proposer_payoff = 0
             responder_payoff = 0
 
+        # Calculate money lost/gained in transfer
+        gave_up = TOTAL_AMOUNT - keep_amount
+        money_lost = gave_up - actual_offer  # Negative if transfer rate > 1.0
+
         if verbose:
             print(
-                f"  Payoffs: {self.proposer.name}={proposer_payoff}, {self.responder.name}={responder_payoff}"
+                f"  Payoffs: {self.proposer.name}=${proposer_payoff}, {self.responder.name}=${responder_payoff}"
             )
 
         # Build result dictionary
@@ -565,7 +633,10 @@ class UltimatumGame:
             "responder_name": self.responder.name,
             "proposer_idx": self.proposer.persona["player_number"],
             "responder_idx": self.responder.persona["player_number"],
-            "offer": offer,
+            "keep_amount": keep_amount,
+            "offer": actual_offer,  # Amount responder receives
+            "transfer_rate": TRANSFER_RATE,
+            "money_lost": money_lost,  # Money lost/gained in transfer
             "decision": decision,
             "proposer_payoff": proposer_payoff,
             "responder_payoff": responder_payoff,
@@ -642,6 +713,7 @@ def run_simulation(
     num_agents = len(agent_indices)
     total_games = num_agents * (num_agents - 1) * games_per_direction
     print(f"Running with {num_agents} agents → {total_games} total games ({games_per_direction} games per direction)")
+    print(f"Transfer rate: {TRANSFER_RATE}")
 
     # Get selected personas
     selected_personas = [personas[i] for i in agent_indices]
@@ -918,6 +990,13 @@ Examples:
         help="Run full game with responder accept/reject decisions (slower)"
     )
 
+    parser.add_argument(
+        "--transfer-rate",
+        type=float,
+        default=1.0,
+        help="Transfer rate (must be > 0, no upper limit). Responder receives (100-keep) × rate. 1.0=no loss, 0.5=50%% loss, 2.0=2x gain. Default: 1.0"
+    )
+
     # Description settings
     parser.add_argument(
         "--self-description",
@@ -968,6 +1047,10 @@ Examples:
     else:
         args.proposer_only = True
 
+    # Validate transfer rate (must be > 0, no upper bound)
+    if args.transfer_rate <= 0:
+        parser.error(f"transfer-rate must be greater than 0, got {args.transfer_rate}")
+
     return args
 
 
@@ -980,11 +1063,12 @@ def main():
     args = parse_arguments()
 
     # Update global configuration based on arguments
-    global TOTAL_AMOUNT, PROPOSER_ONLY_MODE, SELF_DESCRIPTION, OPPONENT_DESCRIPTION
+    global TOTAL_AMOUNT, PROPOSER_ONLY_MODE, SELF_DESCRIPTION, OPPONENT_DESCRIPTION, TRANSFER_RATE
     TOTAL_AMOUNT = args.total_amount
     PROPOSER_ONLY_MODE = args.proposer_only
     SELF_DESCRIPTION = args.self_description
     OPPONENT_DESCRIPTION = args.opponent_description
+    TRANSFER_RATE = args.transfer_rate
 
     # Create test_results directory if it doesn't exist
     results_dir = "test_results"

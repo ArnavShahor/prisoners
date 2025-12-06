@@ -1102,13 +1102,11 @@ def main():
     while True:
         if counter == 0:
             csv_filename = f"{results_dir}/{base_name}.csv"
-            json_filename = f"{results_dir}/{base_name}.json"
         else:
             csv_filename = f"{results_dir}/{base_name}_{counter}.csv"
-            json_filename = f"{results_dir}/{base_name}_{counter}.json"
 
-        # Check if either file exists
-        if not os.path.exists(csv_filename) and not os.path.exists(json_filename):
+        # Check if file exists
+        if not os.path.exists(csv_filename):
             break
         counter += 1
 
@@ -1125,12 +1123,7 @@ def main():
         simulation_results["results"], filename=csv_filename
     )
 
-    # Optionally save full results to JSON
-    with open(json_filename, "w", encoding="utf-8") as f:
-        json.dump(simulation_results, f, indent=2)
-
     print(f"Results saved to {csv_filename}")
-    print(f"Full results saved to {json_filename}")
 
 
 if __name__ == "__main__":

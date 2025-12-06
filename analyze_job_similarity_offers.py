@@ -82,6 +82,44 @@ def load_and_prepare_data(csv_path: str, similarities: dict) -> pd.DataFrame:
             print(f"   Missing jobs in similarity matrix: {sorted(missing_jobs)}")
         print(f"   Analyzing {games_with_similarity} games with similarity data\n")
     
+    # Average offers for games between the same two people
+    # Determine grouping columns (prefer names, fall back to indices)
+    if 'proposer_name' in df_clean.columns and 'responder_name' in df_clean.columns:
+        group_cols = ['proposer_name', 'responder_name']
+    elif 'proposer_idx' in df_clean.columns and 'responder_idx' in df_clean.columns:
+        group_cols = ['proposer_idx', 'responder_idx']
+    else:
+        # If neither exists, skip averaging
+        print("⚠️  Warning: Could not find proposer/responder identifiers for averaging")
+        return df_clean
+    
+    # Count games per pair before averaging
+    games_per_pair = df_clean.groupby(group_cols).size()
+    duplicate_pairs = games_per_pair[games_per_pair > 1]
+    
+    if len(duplicate_pairs) > 0:
+        print(f"📊 Averaging offers for {len(duplicate_pairs)} pairs with multiple games")
+        print(f"   Total games before averaging: {len(df_clean)}")
+        
+        # Define aggregation: average numeric columns, first value for others
+        agg_dict = {}
+        numeric_cols = df_clean.select_dtypes(include=[np.number]).columns.tolist()
+        non_numeric_cols = df_clean.select_dtypes(exclude=[np.number]).columns.tolist()
+        
+        for col in numeric_cols:
+            if col not in group_cols:
+                agg_dict[col] = 'mean'
+        
+        for col in non_numeric_cols:
+            if col not in group_cols:
+                agg_dict[col] = 'first'  # Take first value for non-numeric columns
+        
+        # Group and aggregate
+        df_clean = df_clean.groupby(group_cols, as_index=False).agg(agg_dict)
+        
+        print(f"   Total games after averaging: {len(df_clean)}")
+        print(f"   Reduced by {games_with_similarity - len(df_clean)} duplicate games\n")
+    
     return df_clean
 
 

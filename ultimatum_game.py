@@ -1061,7 +1061,6 @@ Examples:
 def main():
     """Run the Ultimatum Game simulation."""
     import os
-    from datetime import datetime
 
     # Parse command-line arguments
     args = parse_arguments()
@@ -1078,10 +1077,40 @@ def main():
     results_dir = "test_results"
     os.makedirs(results_dir, exist_ok=True)
 
-    # Generate timestamp for unique filenames
-    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    csv_filename = f"{results_dir}/ultimatum_results_{timestamp}.csv"
-    json_filename = f"{results_dir}/ultimatum_results_{timestamp}.json"
+    # Generate parameter-based filename
+    # Format player indices
+    player_indices = args.player_indices
+    if len(player_indices) > 2 and player_indices == list(range(player_indices[0], player_indices[-1] + 1)):
+        # It's a continuous range
+        players_str = f"p{player_indices[0]}-{player_indices[-1]}"
+    elif len(player_indices) <= 3:
+        # Short list, show all
+        players_str = f"p{'_'.join(map(str, player_indices))}"
+    else:
+        # Long list, show count
+        players_str = f"p{len(player_indices)}players"
+
+    # Format games and transfer rate
+    games_str = f"g{args.games}"
+    rate_str = f"r{args.transfer_rate}"
+
+    # Build base filename
+    base_name = f"ultimatum_{players_str}_{games_str}_{rate_str}"
+
+    # Find available filename (add number if exists)
+    counter = 0
+    while True:
+        if counter == 0:
+            csv_filename = f"{results_dir}/{base_name}.csv"
+            json_filename = f"{results_dir}/{base_name}.json"
+        else:
+            csv_filename = f"{results_dir}/{base_name}_{counter}.csv"
+            json_filename = f"{results_dir}/{base_name}_{counter}.json"
+
+        # Check if either file exists
+        if not os.path.exists(csv_filename) and not os.path.exists(json_filename):
+            break
+        counter += 1
 
     # Run simulation with parsed arguments
     simulation_results = run_simulation(

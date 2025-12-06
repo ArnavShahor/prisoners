@@ -928,8 +928,6 @@ def save_results_to_csv(
             }
             writer.writerow(row)
 
-    print(f"\nResults saved to {filename}")
-
 
 # ============================================================================
 # MAIN

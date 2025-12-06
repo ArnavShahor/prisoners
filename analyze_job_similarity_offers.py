@@ -121,6 +121,16 @@ def calculate_statistics(df: pd.DataFrame):
     r, p_value = stats.pearsonr(df['job_similarity'], df['offer'])
     print(f"P-value: {p_value:.6f}")
     
+    # Calculate confidence interval for correlation coefficient
+    n = len(df)
+    z = np.arctanh(r)  # Fisher's z-transformation
+    se = 1 / np.sqrt(n - 3)  # Standard error
+    z_crit = 1.96  # 95% confidence interval
+    z_lower = z - z_crit * se
+    z_upper = z + z_crit * se
+    r_lower = np.tanh(z_lower)
+    r_upper = np.tanh(z_upper)
+    
     if p_value < 0.001:
         significance = "*** (highly significant)"
     elif p_value < 0.01:
@@ -131,6 +141,12 @@ def calculate_statistics(df: pd.DataFrame):
         significance = "(not significant)"
     
     print(f"Significance: {significance}")
+    print(f"95% Confidence Interval for r: [{r_lower:.4f}, {r_upper:.4f}]")
+    
+    if p_value >= 0.05:
+        print(f"\n⚠️  WARNING: The correlation is NOT statistically significant (p ≥ 0.05)")
+        print(f"   This means we cannot reject the null hypothesis that r = 0")
+        print(f"   The observed correlation could be due to random chance")
     
     # Interpretation
     print(f"\nInterpretation:")
@@ -164,9 +180,54 @@ def calculate_statistics(df: pd.DataFrame):
     intercept = model.intercept_
     r_squared = model.score(X, y)
     
+    # Calculate standard errors and confidence intervals for regression coefficients
+    y_pred = model.predict(X)
+    residuals = y - y_pred
+    mse = np.sum(residuals**2) / (len(y) - 2)  # Mean squared error
+    var_x = np.var(X, ddof=1)
+    se_slope = np.sqrt(mse / (var_x * (len(X) - 1)))
+    se_intercept = np.sqrt(mse * (1/len(X) + np.mean(X)**2 / (var_x * (len(X) - 1))))
+    
+    # t-statistic and p-value for slope
+    t_slope = slope / se_slope
+    p_slope = 2 * (1 - stats.t.cdf(abs(t_slope), len(X) - 2))
+    
+    # 95% confidence intervals
+    t_crit = stats.t.ppf(0.975, len(X) - 2)
+    slope_ci_lower = slope - t_crit * se_slope
+    slope_ci_upper = slope + t_crit * se_slope
+    intercept_ci_lower = intercept - t_crit * se_intercept
+    intercept_ci_upper = intercept + t_crit * se_intercept
+    
     print(f"Regression Equation: Offer = {slope:.2f} × Similarity + {intercept:.2f}")
-    print(f"R² (Coefficient of Determination): {r_squared:.4f}")
+    print(f"\nRegression Coefficient (Slope) Statistics:")
+    print(f"  Coefficient (β): {slope:.4f}")
+    print(f"  Standard Error: {se_slope:.4f}")
+    print(f"  t-statistic: {t_slope:.4f}")
+    print(f"  P-value: {p_slope:.6f}")
+    print(f"  95% Confidence Interval: [{slope_ci_lower:.4f}, {slope_ci_upper:.4f}]")
+    
+    if p_slope < 0.001:
+        slope_sig = "*** (highly significant)"
+    elif p_slope < 0.01:
+        slope_sig = "** (very significant)"
+    elif p_slope < 0.05:
+        slope_sig = "* (significant)"
+    else:
+        slope_sig = "(not significant)"
+    print(f"  Significance: {slope_sig}")
+    
+    print(f"\nIntercept Statistics:")
+    print(f"  Intercept (α): {intercept:.4f}")
+    print(f"  Standard Error: {se_intercept:.4f}")
+    print(f"  95% Confidence Interval: [{intercept_ci_lower:.4f}, {intercept_ci_upper:.4f}]")
+    
+    print(f"\nR² (Coefficient of Determination): {r_squared:.4f}")
     print(f"  → This means job similarity explains {r_squared*100:.2f}% of the variance in offer amounts")
+    
+    if p_slope >= 0.05:
+        print(f"\n⚠️  WARNING: The regression coefficient is NOT statistically significant (p ≥ 0.05)")
+        print(f"   We cannot conclude that job similarity has a meaningful effect on offer amounts")
     
     # Predictions at different similarity levels
     print(f"\nPredicted Offers at Different Similarity Levels:")
@@ -178,10 +239,16 @@ def calculate_statistics(df: pd.DataFrame):
     print("="*70 + "\n")
 
 
-def create_visualizations(df: pd.DataFrame, output_dir: str = "visualizations"):
+def create_visualizations(df: pd.DataFrame, output_dir: str = "visualizations", csv_name: str = ""):
     """Create focused, intuitive visualizations of job similarity vs offer amount."""
     output_path = Path(output_dir)
     output_path.mkdir(exist_ok=True)
+    
+    # Create filename suffix from CSV name
+    if csv_name:
+        file_suffix = f"_{csv_name}"
+    else:
+        file_suffix = ""
     
     # Calculate statistics for annotations
     correlation = df['job_similarity'].corr(df['offer'])
@@ -387,7 +454,7 @@ def create_visualizations(df: pd.DataFrame, output_dir: str = "visualizations"):
                  fontsize=17, fontweight='bold', y=0.98, x=0.5, ha='center')
     
     # Save the figure
-    output_file = output_path / 'job_similarity_vs_offer.png'
+    output_file = output_path / f'job_similarity_vs_offer{file_suffix}.png'
     plt.savefig(output_file, dpi=300, bbox_inches='tight', facecolor='white')
     print(f"✅ Saved visualization: {output_file}")
     plt.close()
@@ -439,6 +506,228 @@ def main():
     create_visualizations(df, args.output_dir)
     
     print(f"\n✅ Analysis complete! Visualization saved to: {args.output_dir}/")
+
+
+def create_gender_visualizations(df: pd.DataFrame, output_dir: str = "visualizations", csv_name: str = ""):
+    """Create 4 visualizations comparing gender combinations: M-M, F-F, M-F, F-M."""
+    output_path = Path(output_dir)
+    output_path.mkdir(exist_ok=True)
+    
+    # Create filename suffix from CSV name
+    if csv_name:
+        file_suffix = f"_{csv_name}"
+    else:
+        file_suffix = ""
+    
+    # Define gender combinations
+    gender_combinations = [
+        ('Male', 'Male', 'Men vs Men', 'M-M'),
+        ('Female', 'Female', 'Women vs Women', 'F-F'),
+        ('Male', 'Female', 'Men vs Women', 'M-F'),
+        ('Female', 'Male', 'Women vs Men', 'F-M')
+    ]
+    
+    # Create figure with 2x2 grid
+    fig, axes = plt.subplots(2, 2, figsize=(18, 14))
+    fig.suptitle('Job Similarity vs Offer Amount by Gender Combination', 
+                 fontsize=18, fontweight='bold', y=0.98)
+    
+    for idx, (prop_gender, resp_gender, title, label) in enumerate(gender_combinations):
+        row = idx // 2
+        col = idx % 2
+        ax = axes[row, col]
+        
+        # Filter data for this gender combination
+        df_gender = df[
+            (df['proposer_gender'] == prop_gender) & 
+            (df['responder_gender'] == resp_gender)
+        ].copy()
+        
+        if len(df_gender) == 0:
+            ax.text(0.5, 0.5, f'No data available\nfor {title}', 
+                   ha='center', va='center', transform=ax.transAxes,
+                   fontsize=14, fontweight='bold', color='gray')
+            ax.set_title(title, fontsize=14, fontweight='bold', pad=10)
+            ax.set_xlabel('Job Similarity Score', fontsize=11)
+            ax.set_ylabel('Offer Amount ($)', fontsize=11)
+            continue
+        
+        # Create scatter plot
+        scatter = ax.scatter(
+            df_gender['job_similarity'], 
+            df_gender['offer'],
+            alpha=0.6,
+            s=60,
+            edgecolors='darkblue',
+            linewidth=1,
+            c=df_gender['job_similarity'],
+            cmap='plasma',
+            zorder=3
+        )
+        
+        # Calculate statistics
+        correlation = df_gender['job_similarity'].corr(df_gender['offer'])
+        r, p_value = stats.pearsonr(df_gender['job_similarity'], df_gender['offer'])
+        
+        # Linear regression
+        X = df_gender[['job_similarity']].values
+        y = df_gender['offer'].values
+        model = LinearRegression()
+        model.fit(X, y)
+        slope = model.coef_[0]
+        intercept = model.intercept_
+        r_squared = model.score(X, y)
+        
+        # Add regression line
+        x_line = np.linspace(df_gender['job_similarity'].min(), df_gender['job_similarity'].max(), 100)
+        y_line = slope * x_line + intercept
+        ax.plot(x_line, y_line, "r-", linewidth=2.5, alpha=0.9, 
+               label=f'y = {slope:.1f}x + {intercept:.1f}', zorder=4)
+        
+        # Add shaded confidence region
+        y_std = df_gender['offer'].std()
+        ax.fill_between(x_line, y_line - y_std, y_line + y_std, 
+                        alpha=0.15, color='red', zorder=2)
+        
+        # Add statistics text box
+        sig_text = "***" if p_value < 0.001 else "**" if p_value < 0.01 else "*" if p_value < 0.05 else "ns"
+        info_text = f'n = {len(df_gender)}\n'
+        info_text += f'r = {correlation:.3f} {sig_text}\n'
+        info_text += f'R² = {r_squared:.3f}\n'
+        info_text += f'p = {p_value:.4f}'
+        
+        ax.text(0.02, 0.98, info_text,
+               transform=ax.transAxes,
+               fontsize=10,
+               verticalalignment='top',
+               horizontalalignment='left',
+               bbox=dict(boxstyle='round', facecolor='white', edgecolor='black', 
+                        linewidth=1.5, alpha=0.95, pad=6),
+               family='monospace',
+               zorder=5)
+        
+        # Add mean offer annotation
+        mean_offer = df_gender['offer'].mean()
+        ax.axhline(mean_offer, color='green', linestyle='--', linewidth=1.5, 
+                  alpha=0.7, label=f'Mean: ${mean_offer:.1f}', zorder=1)
+        
+        # Styling
+        ax.set_xlabel('Job Similarity Score', fontsize=12, fontweight='bold', labelpad=8)
+        ax.set_ylabel('Offer Amount ($)', fontsize=12, fontweight='bold', labelpad=8)
+        ax.set_title(f'{title} ({label})', fontsize=14, fontweight='bold', pad=12)
+        ax.legend(fontsize=9, loc='best', framealpha=0.9, edgecolor='black', frameon=True)
+        ax.grid(True, alpha=0.3, linestyle='--', zorder=0)
+        ax.set_ylim([df_gender['offer'].min() - 2, df_gender['offer'].max() + 3])
+        
+        # Add colorbar
+        cbar = plt.colorbar(scatter, ax=ax, pad=0.01, aspect=25)
+        cbar.set_label('Similarity', fontsize=9, labelpad=5)
+    
+    plt.tight_layout(rect=[0, 0, 1, 0.97])
+    
+    # Save the figure
+    output_file = output_path / f'gender_analysis{file_suffix}.png'
+    plt.savefig(output_file, dpi=300, bbox_inches='tight', facecolor='white')
+    print(f"✅ Saved gender visualization: {output_file}")
+    plt.close()
+    
+    # Print gender-specific statistics
+    print("\n" + "="*70)
+    print("GENDER-SPECIFIC STATISTICS")
+    print("="*70)
+    
+    for prop_gender, resp_gender, title, label in gender_combinations:
+        df_gender = df[
+            (df['proposer_gender'] == prop_gender) & 
+            (df['responder_gender'] == resp_gender)
+        ].copy()
+        
+        if len(df_gender) > 0:
+            correlation = df_gender['job_similarity'].corr(df_gender['offer'])
+            r, p_value = stats.pearsonr(df_gender['job_similarity'], df_gender['offer'])
+            mean_offer = df_gender['offer'].mean()
+            std_offer = df_gender['offer'].std()
+            
+            # Calculate confidence interval for correlation
+            n_gender = len(df_gender)
+            z_gender = np.arctanh(correlation)
+            se_gender = 1 / np.sqrt(n_gender - 3)
+            z_lower_gender = z_gender - 1.96 * se_gender
+            z_upper_gender = z_gender + 1.96 * se_gender
+            r_lower_gender = np.tanh(z_lower_gender)
+            r_upper_gender = np.tanh(z_upper_gender)
+            
+            print(f"\n{title} ({label}):")
+            print(f"  Games: {len(df_gender)}")
+            print(f"  Mean Offer: ${mean_offer:.2f} (std: ${std_offer:.2f})")
+            print(f"  Correlation: r = {correlation:.4f}, p = {p_value:.4f}")
+            print(f"  95% CI for r: [{r_lower_gender:.4f}, {r_upper_gender:.4f}]")
+            
+            sig_text = "***" if p_value < 0.001 else "**" if p_value < 0.01 else "*" if p_value < 0.05 else "(not significant)"
+            print(f"  Significance: {sig_text}")
+            
+            if p_value >= 0.05:
+                print(f"  ⚠️  NOT statistically significant - cannot reject H₀: r = 0")
+        else:
+            print(f"\n{title} ({label}): No data available")
+    
+    print("="*70 + "\n")
+
+
+def main():
+    parser = argparse.ArgumentParser(
+        description='Analyze the relationship between job similarity and offer amounts in ultimatum game'
+    )
+    parser.add_argument(
+        'csv_file',
+        type=str,
+        help='Path to CSV file with ultimatum game results'
+    )
+    parser.add_argument(
+        '--similarities',
+        type=str,
+        default='job_similarities.json',
+        help='Path to job similarities JSON file (default: job_similarities.json)'
+    )
+    parser.add_argument(
+        '--output-dir',
+        type=str,
+        default='visualizations',
+        help='Output directory for visualizations (default: visualizations)'
+    )
+    
+    args = parser.parse_args()
+    
+    print(f"Loading data from: {args.csv_file}")
+    print(f"Loading similarities from: {args.similarities}")
+    print(f"Output directory: {args.output_dir}")
+    print()
+    
+    # Load data
+    similarities = load_job_similarities(args.similarities)
+    df = load_and_prepare_data(args.csv_file, similarities)
+    
+    if len(df) == 0:
+        print("❌ Error: No data with valid job similarity scores found!")
+        print("   Check that job names in CSV match those in similarity matrix.")
+        return
+    
+    # Extract CSV filename (without extension) for output naming
+    csv_path = Path(args.csv_file)
+    csv_name = csv_path.stem  # Gets filename without extension
+    
+    # Calculate and print statistics
+    calculate_statistics(df)
+    
+    # Create visualizations
+    print("Generating visualizations...")
+    create_visualizations(df, args.output_dir, csv_name)
+    
+    # Create gender-based visualizations
+    print("Generating gender-based visualizations...")
+    create_gender_visualizations(df, args.output_dir, csv_name)
+    
+    print(f"\n✅ Analysis complete! Visualizations saved to: {args.output_dir}/")
 
 
 if __name__ == "__main__":

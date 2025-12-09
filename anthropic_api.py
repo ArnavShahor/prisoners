@@ -10,8 +10,11 @@ from typing import Any
 
 try:
     import anthropic
+    from anthropic import RateLimitError, APIError
 except ImportError:
     anthropic = None
+    RateLimitError = None
+    APIError = None
     print("⚠️  Warning: anthropic package not installed. Install with: pip install anthropic")
 
 
@@ -80,8 +83,14 @@ def query_llm_with_usage(
                 timeout=60.0,  # 60 second timeout
             )
 
-            # Extract response text
+            # Validate response structure before accessing
+            if not message.content or len(message.content) == 0:
+                raise RuntimeError("API returned empty content array")
+
+            # Extract response text safely
             response_text = message.content[0].text
+            if response_text is None:
+                raise RuntimeError("API returned None for response text")
 
             # Build usage info
             usage_info: dict[str, Any] = {
@@ -103,13 +112,26 @@ def query_llm_with_usage(
 
             return usage_info
 
+        except RateLimitError as e:
+            # Handle rate limit errors with longer backoff
+            last_error = e
+            error_str = str(e)[:100]
+            print(f"⚠️  Rate limit hit (attempt {attempt + 1}/{max_retries}): {error_str}")
+
+            if attempt < max_retries - 1:
+                # Longer backoff for rate limits: 5s, 10s, 20s
+                wait_time = (2 ** attempt) * 5
+                print(f"    Waiting {wait_time}s before retry (rate limit backoff)...")
+                time.sleep(wait_time)
+
         except Exception as e:
+            # Handle other errors with standard backoff
             last_error = e
             error_str = str(e)[:100]
             print(f"⚠️  Attempt {attempt + 1}/{max_retries} failed: {error_str}")
 
             if attempt < max_retries - 1:
-                wait_time = 2 ** attempt  # Exponential backoff
+                wait_time = 2 ** attempt  # Standard exponential backoff: 1s, 2s, 4s
                 print(f"    Waiting {wait_time}s before retry...")
                 time.sleep(wait_time)
 
@@ -185,16 +207,28 @@ def query_with_retry(
                 timeout=60.0,
             )
 
+            # Validate response structure before accessing
+            if not message.content or len(message.content) == 0:
+                raise RuntimeError("API returned empty content array")
+
             result = message.content[0].text
             if result is None:
                 raise RuntimeError("API returned None")
 
             return result
 
+        except RateLimitError as e:
+            # Handle rate limit errors with longer backoff
+            last_error = e
+            if attempt < max_retries - 1:
+                wait_time = (2 ** attempt) * 5  # 5s, 10s, 20s for rate limits
+                print(f"⚠️  Rate limit hit. Waiting {wait_time}s before retry...")
+                time.sleep(wait_time)
+
         except Exception as e:
             last_error = e
             if attempt < max_retries - 1:
-                time.sleep(2 ** attempt)  # Exponential backoff
+                time.sleep(2 ** attempt)  # Standard exponential backoff
 
     raise RuntimeError(f"All {max_retries} attempts failed. Last error: {last_error}")
 
@@ -249,6 +283,10 @@ def query_llm(
         ],
         timeout=60.0,
     )
+
+    # Validate response structure before accessing
+    if not message.content or len(message.content) == 0:
+        raise RuntimeError("API returned empty content array")
 
     result = message.content[0].text
     if result is None:

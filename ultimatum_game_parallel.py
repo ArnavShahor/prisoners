@@ -12,7 +12,7 @@ import time
 import os
 from typing import Any, Optional
 from concurrent.futures import ThreadPoolExecutor, as_completed
-from threading import Lock
+from threading import Lock, Semaphore
 import sys
 
 # Import components from the original ultimatum_game module
@@ -40,6 +40,10 @@ TRANSFER_RATE = DEFAULT_TRANSFER_RATE
 
 # Parallel execution configuration
 DEFAULT_MAX_WORKERS = 10  # Default number of concurrent games
+DEFAULT_API_RATE_LIMIT = 10  # Default max concurrent API calls
+
+# Global semaphore for API rate limiting (initialized in run_parallel_simulation)
+api_semaphore = None
 
 
 # ============================================================================
@@ -102,18 +106,36 @@ def run_single_game(args: tuple) -> Optional[dict[str, Any]]:
     """
     proposer, responder, game_id, verbose = args
 
-    try:
-        # Override the global variables for this thread
-        import ultimatum_game
-        ultimatum_game.TOTAL_AMOUNT = TOTAL_AMOUNT
-        ultimatum_game.PROPOSER_ONLY_MODE = PROPOSER_ONLY_MODE
-        ultimatum_game.SELF_DESCRIPTION = SELF_DESCRIPTION
-        ultimatum_game.OPPONENT_DESCRIPTION = OPPONENT_DESCRIPTION
-        ultimatum_game.TRANSFER_RATE = TRANSFER_RATE
+    # Use the global API semaphore to limit concurrent API calls
+    global api_semaphore
 
-        game = UltimatumGame(proposer=proposer, responder=responder, game_id=game_id)
-        result = game.play(verbose=verbose)
-        return result
+    try:
+        # Acquire semaphore before making API calls (if available)
+        if api_semaphore:
+            with api_semaphore:
+                # Override the global variables for this thread
+                import ultimatum_game
+                ultimatum_game.TOTAL_AMOUNT = TOTAL_AMOUNT
+                ultimatum_game.PROPOSER_ONLY_MODE = PROPOSER_ONLY_MODE
+                ultimatum_game.SELF_DESCRIPTION = SELF_DESCRIPTION
+                ultimatum_game.OPPONENT_DESCRIPTION = OPPONENT_DESCRIPTION
+                ultimatum_game.TRANSFER_RATE = TRANSFER_RATE
+
+                game = UltimatumGame(proposer=proposer, responder=responder, game_id=game_id)
+                result = game.play(verbose=verbose)
+                return result
+        else:
+            # No semaphore, run without rate limiting
+            import ultimatum_game
+            ultimatum_game.TOTAL_AMOUNT = TOTAL_AMOUNT
+            ultimatum_game.PROPOSER_ONLY_MODE = PROPOSER_ONLY_MODE
+            ultimatum_game.SELF_DESCRIPTION = SELF_DESCRIPTION
+            ultimatum_game.OPPONENT_DESCRIPTION = OPPONENT_DESCRIPTION
+            ultimatum_game.TRANSFER_RATE = TRANSFER_RATE
+
+            game = UltimatumGame(proposer=proposer, responder=responder, game_id=game_id)
+            result = game.play(verbose=verbose)
+            return result
     except Exception as e:
         print(f"\n⚠️  Error in game {game_id}: {str(e)[:100]}")
         return None
@@ -124,7 +146,8 @@ def run_parallel_simulation(
     games_per_direction: int = None,
     personas_file: str = None,
     verbose: bool = True,
-    max_workers: int = DEFAULT_MAX_WORKERS
+    max_workers: int = DEFAULT_MAX_WORKERS,
+    api_rate_limit: int = DEFAULT_API_RATE_LIMIT
 ) -> dict[str, Any]:
     """
     Run the ultimatum game simulation with parallel execution.
@@ -135,10 +158,19 @@ def run_parallel_simulation(
         personas_file: Path to personas JSON file
         verbose: Print progress
         max_workers: Maximum number of concurrent games
+        api_rate_limit: Maximum number of concurrent API calls (0 = no limit)
 
     Returns:
         Simulation results dictionary
     """
+    # Initialize the global API semaphore
+    global api_semaphore
+    if api_rate_limit > 0:
+        api_semaphore = Semaphore(api_rate_limit)
+        print(f"API rate limiting enabled: max {api_rate_limit} concurrent API calls")
+    else:
+        api_semaphore = None
+        print("API rate limiting disabled (not recommended for high worker counts)")
     # Use defaults if not provided
     if player_indices is None:
         player_indices = DEFAULT_PLAYER_INDICES
@@ -161,7 +193,11 @@ def run_parallel_simulation(
     total_games = num_agents * (num_agents - 1) * games_per_direction
     print(f"Running with {num_agents} agents → {total_games} total games ({games_per_direction} games per direction)")
     print(f"Transfer rate: {TRANSFER_RATE}")
-    print(f"Max concurrent games: {max_workers}")
+    print(f"Max concurrent games (workers): {max_workers}")
+    if api_rate_limit > 0:
+        print(f"Max concurrent API calls: {api_rate_limit} (rate limiting enabled)")
+    else:
+        print(f"Max concurrent API calls: unlimited (rate limiting disabled)")
 
     # Get selected personas
     selected_personas = [personas[i] for i in agent_indices]
@@ -191,9 +227,13 @@ def run_parallel_simulation(
     # Run games in parallel
     results = []
     failed_games = 0
+    rate_limit_hits = 0  # Track rate limit errors
     start_time = time.time()
 
     print(f"\n🚀 Starting parallel execution with {max_workers} workers...")
+    if api_rate_limit > 0 and max_workers > api_rate_limit:
+        print(f"⚠️  Note: Workers ({max_workers}) > API rate limit ({api_rate_limit})")
+        print(f"    Some workers may wait for API availability")
     print("=" * 70)
 
     with ThreadPoolExecutor(max_workers=max_workers) as executor:
@@ -213,14 +253,22 @@ def run_parallel_simulation(
                 result = future.result(timeout=60)  # 60 second timeout per game
                 if result:
                     results.append(result)
+                    # Check if this game had rate limit issues (heuristic based on reasoning)
+                    if "rate limit" in str(result.get("proposer_reasoning", "")).lower():
+                        rate_limit_hits += 1
                 else:
                     failed_games += 1
-                    print(f"⚠️  Game {game_id} failed")
+                    if verbose:
+                        print(f"⚠️  Game {game_id} failed")
             except Exception as e:
                 failed_games += 1
-                print(f"⚠️  Game {game_id} exception: {str(e)[:100]}")
+                error_msg = str(e)[:100]
+                if "rate limit" in error_msg.lower() or "429" in error_msg:
+                    rate_limit_hits += 1
+                if verbose:
+                    print(f"⚠️  Game {game_id} exception: {error_msg}")
 
-            # Update progress bar
+            # Update progress bar with rate limit warning
             if not verbose:
                 percent = (completed / total_games) * 100
                 bar_length = 50
@@ -229,7 +277,13 @@ def run_parallel_simulation(
                 elapsed = time.time() - start_time
                 rate = completed / elapsed if elapsed > 0 else 0
                 eta = (total_games - completed) / rate if rate > 0 else 0
-                print(f'\rProgress: [{bar}] {percent:.1f}% ({completed}/{total_games}) | Rate: {rate:.1f} games/s | ETA: {eta:.0f}s',
+
+                # Add rate limit indicator if hitting limits
+                rate_limit_indicator = ""
+                if rate_limit_hits > 0:
+                    rate_limit_indicator = f" | ⚠️  Rate limits: {rate_limit_hits}"
+
+                print(f'\rProgress: [{bar}] {percent:.1f}% ({completed}/{total_games}) | Rate: {rate:.1f} games/s | ETA: {eta:.0f}s{rate_limit_indicator}',
                       end='', flush=True)
 
     # Print newline after progress bar
@@ -280,6 +334,16 @@ def run_parallel_simulation(
     print(f"Total games attempted: {total_games}")
     print(f"Successful games: {successful_games} ({successful_games/total_games*100:.1f}%)")
     print(f"Failed games: {failed_games} ({failed_games/total_games*100:.1f}%)")
+
+    # Add rate limit warning if applicable
+    if rate_limit_hits > 0:
+        print()
+        print(f"⚠️  RATE LIMIT WARNINGS: {rate_limit_hits} games hit rate limits")
+        if max_workers > api_rate_limit:
+            print(f"    Recommendation: Reduce --workers to {api_rate_limit} or less")
+        else:
+            print(f"    Recommendation: Reduce --workers or increase --api-rate-limit")
+        print(f"    Current settings: {max_workers} workers, {api_rate_limit} API limit")
 
     if successful_games > 0:
         print(f"Total accepted: {accepted} ({accepted/successful_games*100:.1f}%)")
@@ -369,6 +433,13 @@ Examples:
         type=int,
         default=DEFAULT_MAX_WORKERS,
         help=f"Maximum number of concurrent games. Default: {DEFAULT_MAX_WORKERS}"
+    )
+
+    parser.add_argument(
+        "--api-rate-limit",
+        type=int,
+        default=DEFAULT_API_RATE_LIMIT,
+        help=f"Maximum number of concurrent API calls (0 = no limit). Default: {DEFAULT_API_RATE_LIMIT}"
     )
 
     # Game configuration
@@ -526,7 +597,8 @@ def main():
         games_per_direction=args.games,
         personas_file=args.personas_file,
         verbose=args.verbose,
-        max_workers=args.workers
+        max_workers=args.workers,
+        api_rate_limit=args.api_rate_limit
     )
 
     # Save results to CSV

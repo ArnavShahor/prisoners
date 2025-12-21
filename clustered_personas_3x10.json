@@ -1,0 +1,304 @@
+[
+  {
+    "player_number": 1,
+    "name": "Alex Morgan",
+    "gender": "Male",
+    "age": 30,
+    "location": "USA",
+    "job": "Backend Software Engineer",
+    "description": "Alex is a backend software engineer who focuses on building scalable services, optimizing performance and maintaining clean system architecture.",
+    "traits": { "FS": 0.12, "GR": -0.24, "RA": 0.38, "SS": -0.42, "ST": 0.8 }
+  },
+  {
+    "player_number": 2,
+    "name": "Emily Carter",
+    "gender": "Female",
+    "age": 27,
+    "location": "USA",
+    "job": "Frontend Software Engineer",
+    "description": "Emily is a frontend software engineer who prioritizes usability, accessibility and translating design systems into reliable interfaces.",
+    "traits": { "FS": 0.22, "GR": -0.28, "RA": 0.14, "SS": -0.18, "ST": 0.52 }
+  },
+  {
+    "player_number": 3,
+    "name": "Daniel Brooks",
+    "gender": "Male",
+    "age": 33,
+    "location": "USA",
+    "job": "Full Stack Software Engineer",
+    "description": "Daniel works across the stack and enjoys shipping complete features with pragmatic engineering decisions.",
+    "traits": { "FS": 0.14, "GR": -0.2, "RA": 0.32, "SS": -0.34, "ST": 0.72 }
+  },
+  {
+    "player_number": 4,
+    "name": "Laura Bennett",
+    "gender": "Female",
+    "age": 38,
+    "location": "USA",
+    "job": "Senior Software Developer",
+    "description": "Laura is a senior developer who mentors engineers and designs systems with long-term maintainability in mind.",
+    "traits": { "FS": 0.1, "GR": -0.26, "RA": 0.44, "SS": -0.46, "ST": 0.84 }
+  },
+  {
+    "player_number": 5,
+    "name": "Michael Turner",
+    "gender": "Male",
+    "age": 35,
+    "location": "USA",
+    "job": "Platform Software Engineer",
+    "description": "Michael builds internal platforms and focuses on reliability, tooling and developer productivity.",
+    "traits": { "FS": 0.06, "GR": -0.22, "RA": 0.48, "SS": -0.5, "ST": 0.82 }
+  },
+  {
+    "player_number": 6,
+    "name": "Jason Liu",
+    "gender": "Male",
+    "age": 34,
+    "location": "USA",
+    "job": "Cloud Software Engineer",
+    "description": "Jason designs cloud-native systems and automates infrastructure for scalability and resilience.",
+    "traits": { "FS": 0.08, "GR": -0.24, "RA": 0.5, "SS": -0.48, "ST": 0.8 }
+  },
+  {
+    "player_number": 7,
+    "name": "Rachel Kim",
+    "gender": "Female",
+    "age": 29,
+    "location": "USA",
+    "job": "Systems Software Engineer",
+    "description": "Rachel works close to the system level, optimizing performance and reliability of core components.",
+    "traits": { "FS": 0.04, "GR": -0.18, "RA": 0.52, "SS": -0.54, "ST": 0.86 }
+  },
+  {
+    "player_number": 8,
+    "name": "Andrew Collins",
+    "gender": "Male",
+    "age": 31,
+    "location": "USA",
+    "job": "Application Software Engineer",
+    "description": "Andrew develops user-facing applications and balances functionality with maintainability.",
+    "traits": { "FS": 0.18, "GR": -0.22, "RA": 0.28, "SS": -0.26, "ST": 0.64 }
+  },
+  {
+    "player_number": 9,
+    "name": "Sophia Nguyen",
+    "gender": "Female",
+    "age": 41,
+    "location": "USA",
+    "job": "Principal Software Engineer",
+    "description": "Sophia sets technical direction, reviews architectural decisions and ensures engineering quality across teams.",
+    "traits": { "FS": 0.06, "GR": -0.28, "RA": 0.58, "SS": -0.56, "ST": 0.9 }
+  },
+  {
+    "player_number": 10,
+    "name": "Brian Walsh",
+    "gender": "Male",
+    "age": 37,
+    "location": "USA",
+    "job": "Infrastructure Software Engineer",
+    "description": "Brian builds infrastructure software that supports large-scale distributed systems.",
+    "traits": { "FS": 0.02, "GR": -0.2, "RA": 0.56, "SS": -0.52, "ST": 0.88 }
+  },
+
+  {
+    "player_number": 11,
+    "name": "Amanda Lewis",
+    "gender": "Female",
+    "age": 29,
+    "location": "USA",
+    "job": "Registered Nurse",
+    "description": "Amanda is a registered nurse who prioritizes patient care, empathy and teamwork in clinical settings.",
+    "traits": { "FS": 0.72, "GR": -0.64, "RA": 0.04, "SS": 0.56, "ST": 0.18 }
+  },
+  {
+    "player_number": 12,
+    "name": "Kevin Marshall",
+    "gender": "Male",
+    "age": 41,
+    "location": "USA",
+    "job": "Clinical Nurse Specialist",
+    "description": "Kevin combines clinical expertise with leadership and mentoring of nursing staff.",
+    "traits": { "FS": 0.58, "GR": -0.5, "RA": 0.18, "SS": 0.44, "ST": 0.3 }
+  },
+  {
+    "player_number": 13,
+    "name": "Lisa Grant",
+    "gender": "Female",
+    "age": 34,
+    "location": "USA",
+    "job": "Staff Nurse",
+    "description": "Lisa provides direct patient care and maintains calm and consistency in high-pressure environments.",
+    "traits": { "FS": 0.66, "GR": -0.6, "RA": 0.06, "SS": 0.52, "ST": 0.2 }
+  },
+  {
+    "player_number": 14,
+    "name": "Daniel Ruiz",
+    "gender": "Male",
+    "age": 36,
+    "location": "USA",
+    "job": "Hospital Nurse",
+    "description": "Daniel supports patient recovery through attentive care and collaboration with medical teams.",
+    "traits": { "FS": 0.64, "GR": -0.58, "RA": 0.08, "SS": 0.48, "ST": 0.22 }
+  },
+  {
+    "player_number": 15,
+    "name": "Brian Cole",
+    "gender": "Male",
+    "age": 35,
+    "location": "USA",
+    "job": "Physical Therapist",
+    "description": "Brian designs rehabilitation plans and motivates patients through structured recovery programs.",
+    "traits": { "FS": 0.6, "GR": -0.54, "RA": 0.14, "SS": 0.4, "ST": 0.24 }
+  },
+  {
+    "player_number": 16,
+    "name": "Olivia Parker",
+    "gender": "Female",
+    "age": 33,
+    "location": "USA",
+    "job": "Rehabilitation Therapist",
+    "description": "Olivia helps patients regain mobility and independence through guided therapeutic interventions.",
+    "traits": { "FS": 0.62, "GR": -0.56, "RA": 0.12, "SS": 0.42, "ST": 0.2 }
+  },
+  {
+    "player_number": 17,
+    "name": "Natalie Foster",
+    "gender": "Female",
+    "age": 32,
+    "location": "USA",
+    "job": "Hospital Pharmacist",
+    "description": "Natalie ensures medication safety and accuracy within hospital environments.",
+    "traits": { "FS": 0.38, "GR": -0.42, "RA": 0.48, "SS": 0.12, "ST": 0.54 }
+  },
+  {
+    "player_number": 18,
+    "name": "Victor Chen",
+    "gender": "Male",
+    "age": 39,
+    "location": "USA",
+    "job": "Clinical Pharmacist",
+    "description": "Victor collaborates with clinicians to optimize medication therapies for patients.",
+    "traits": { "FS": 0.34, "GR": -0.4, "RA": 0.52, "SS": 0.08, "ST": 0.56 }
+  },
+  {
+    "player_number": 19,
+    "name": "Emily Zhao",
+    "gender": "Female",
+    "age": 31,
+    "location": "USA",
+    "job": "Medical Laboratory Scientist",
+    "description": "Emily performs diagnostic testing and maintains strict laboratory protocols.",
+    "traits": { "FS": 0.22, "GR": -0.36, "RA": 0.56, "SS": -0.08, "ST": 0.5 }
+  },
+  {
+    "player_number": 20,
+    "name": "Robert Klein",
+    "gender": "Male",
+    "age": 37,
+    "location": "USA",
+    "job": "Clinical Laboratory Scientist",
+    "description": "Robert analyzes clinical samples and supports medical decision-making through accurate lab results.",
+    "traits": { "FS": 0.18, "GR": -0.34, "RA": 0.58, "SS": -0.12, "ST": 0.52 }
+  },
+
+  {
+    "player_number": 21,
+    "name": "Megan Scott",
+    "gender": "Female",
+    "age": 32,
+    "location": "USA",
+    "job": "Content Marketing Manager",
+    "description": "Megan plans content strategies and aligns messaging with brand goals.",
+    "traits": { "FS": 0.34, "GR": -0.28, "RA": 0.06, "SS": 0.26, "ST": 0.16 }
+  },
+  {
+    "player_number": 22,
+    "name": "Ryan Mitchell",
+    "gender": "Male",
+    "age": 29,
+    "location": "USA",
+    "job": "Digital Marketing Specialist",
+    "description": "Ryan experiments with channels and optimizes campaigns using performance data.",
+    "traits": { "FS": 0.3, "GR": -0.22, "RA": -0.06, "SS": 0.22, "ST": 0.14 }
+  },
+  {
+    "player_number": 23,
+    "name": "Chloe Adams",
+    "gender": "Female",
+    "age": 35,
+    "location": "USA",
+    "job": "Brand Strategist",
+    "description": "Chloe defines brand positioning and long-term messaging frameworks.",
+    "traits": { "FS": 0.42, "GR": -0.32, "RA": -0.1, "SS": 0.2, "ST": 0.24 }
+  },
+  {
+    "player_number": 24,
+    "name": "Evan Brooks",
+    "gender": "Male",
+    "age": 27,
+    "location": "USA",
+    "job": "Creative Content Writer",
+    "description": "Evan crafts narratives and adapts tone for different audiences and platforms.",
+    "traits": { "FS": 0.38, "GR": -0.26, "RA": -0.2, "SS": 0.32, "ST": 0.06 }
+  },
+  {
+    "player_number": 25,
+    "name": "Isabella Torres",
+    "gender": "Female",
+    "age": 31,
+    "location": "USA",
+    "job": "Visual Communication Designer",
+    "description": "Isabella communicates ideas visually through layout, color and typography.",
+    "traits": { "FS": 0.36, "GR": -0.24, "RA": -0.14, "SS": 0.3, "ST": 0.12 }
+  },
+  {
+    "player_number": 26,
+    "name": "Kevin Moore",
+    "gender": "Male",
+    "age": 28,
+    "location": "USA",
+    "job": "Copywriter",
+    "description": "Kevin writes persuasive copy that supports campaigns and brand voice.",
+    "traits": { "FS": 0.32, "GR": -0.22, "RA": -0.18, "SS": 0.28, "ST": 0.08 }
+  },
+  {
+    "player_number": 27,
+    "name": "Laura Jenkins",
+    "gender": "Female",
+    "age": 34,
+    "location": "USA",
+    "job": "Marketing Communications Specialist",
+    "description": "Laura coordinates messaging across channels to ensure clarity and consistency.",
+    "traits": { "FS": 0.28, "GR": -0.2, "RA": 0.02, "SS": 0.24, "ST": 0.18 }
+  },
+  {
+    "player_number": 28,
+    "name": "Daniel Foster",
+    "gender": "Male",
+    "age": 42,
+    "location": "USA",
+    "job": "Creative Director",
+    "description": "Daniel leads creative teams and shapes overall brand expression.",
+    "traits": { "FS": 0.46, "GR": -0.34, "RA": -0.04, "SS": 0.3, "ST": 0.28 }
+  },
+  {
+    "player_number": 29,
+    "name": "Samantha Lee",
+    "gender": "Female",
+    "age": 33,
+    "location": "USA",
+    "job": "Brand Content Manager",
+    "description": "Samantha manages brand content and ensures alignment with strategic goals.",
+    "traits": { "FS": 0.4, "GR": -0.3, "RA": 0.04, "SS": 0.26, "ST": 0.2 }
+  },
+  {
+    "player_number": 30,
+    "name": "Justin Harper",
+    "gender": "Male",
+    "age": 31,
+    "location": "USA",
+    "job": "Digital Content Producer",
+    "description": "Justin produces digital content and collaborates with creative teams to deliver engaging media.",
+    "traits": { "FS": 0.34, "GR": -0.26, "RA": -0.08, "SS": 0.24, "ST": 0.14 }
+  }
+]

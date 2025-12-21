@@ -1,0 +1,308 @@
+[
+    {
+      "player_number": 1,
+      "name": "Alex Morgan",
+      "gender": "Male",
+      "age": 30,
+      "location": "USA",
+      "job": "Backend Software Engineer",
+      "description": "Alex is a backend software engineer who focuses on building reliable services, optimizing performance and collaborating closely with infrastructure and product teams.",
+      "traits": { "FS": 0.18, "GR": -0.22, "RA": 0.34, "SS": -0.36, "ST": 0.72 }
+    },
+    {
+      "player_number": 2,
+      "name": "Emily Carter",
+      "gender": "Female",
+      "age": 27,
+      "location": "USA",
+      "job": "Frontend Software Engineer",
+      "description": "Emily is a frontend software engineer who cares about user experience, clean interfaces and translating design systems into responsive applications.",
+      "traits": { "FS": 0.26, "GR": -0.28, "RA": 0.12, "SS": -0.12, "ST": 0.48 }
+    },
+    {
+      "player_number": 3,
+      "name": "Daniel Brooks",
+      "gender": "Male",
+      "age": 33,
+      "location": "USA",
+      "job": "Full Stack Software Engineer",
+      "description": "Daniel is a full stack engineer who enjoys working across the stack, shipping features end to end and solving problems pragmatically.",
+      "traits": { "FS": 0.14, "GR": -0.18, "RA": 0.28, "SS": -0.28, "ST": 0.66 }
+    },
+    {
+      "player_number": 4,
+      "name": "Laura Bennett",
+      "gender": "Female",
+      "age": 38,
+      "location": "USA",
+      "job": "Senior Software Developer",
+      "description": "Laura is a senior software developer who mentors teammates, designs scalable systems and prioritizes long-term maintainability.",
+      "traits": { "FS": 0.12, "GR": -0.24, "RA": 0.44, "SS": -0.4, "ST": 0.78 }
+    },
+    {
+      "player_number": 5,
+      "name": "Michael Turner",
+      "gender": "Male",
+      "age": 35,
+      "location": "USA",
+      "job": "Platform Software Engineer",
+      "description": "Michael is a platform engineer focused on internal tooling, system reliability and enabling other engineers to move faster.",
+      "traits": { "FS": 0.08, "GR": -0.16, "RA": 0.46, "SS": -0.44, "ST": 0.74 }
+    },
+  
+    {
+      "player_number": 6,
+      "name": "Sophia Nguyen",
+      "gender": "Female",
+      "age": 29,
+      "location": "USA",
+      "job": "Data Scientist",
+      "description": "Sophia is a data scientist who builds statistical models, experiments rigorously and translates data into actionable insights.",
+      "traits": { "FS": 0.16, "GR": -0.34, "RA": 0.32, "SS": -0.38, "ST": 0.76 }
+    },
+    {
+      "player_number": 7,
+      "name": "Ethan Park",
+      "gender": "Male",
+      "age": 31,
+      "location": "USA",
+      "job": "Machine Learning Engineer",
+      "description": "Ethan is a machine learning engineer who productionizes models, optimizes pipelines and bridges research with engineering.",
+      "traits": { "FS": 0.1, "GR": -0.26, "RA": 0.38, "SS": -0.42, "ST": 0.8 }
+    },
+    {
+      "player_number": 8,
+      "name": "Rachel Kim",
+      "gender": "Female",
+      "age": 28,
+      "location": "USA",
+      "job": "Data Analyst",
+      "description": "Rachel is a data analyst who focuses on dashboards, reporting and uncovering trends that support operational decisions.",
+      "traits": { "FS": 0.18, "GR": -0.3, "RA": 0.26, "SS": -0.24, "ST": 0.62 }
+    },
+    {
+      "player_number": 9,
+      "name": "Thomas Reed",
+      "gender": "Male",
+      "age": 34,
+      "location": "USA",
+      "job": "Applied Research Scientist",
+      "description": "Thomas is an applied research scientist who explores new methods, runs controlled experiments and collaborates with engineers.",
+      "traits": { "FS": 0.22, "GR": -0.42, "RA": 0.4, "SS": -0.3, "ST": 0.82 }
+    },
+    {
+      "player_number": 10,
+      "name": "Victor Alvarez",
+      "gender": "Male",
+      "age": 36,
+      "location": "USA",
+      "job": "Quantitative Analyst",
+      "description": "Victor is a quantitative analyst who builds mathematical models, evaluates risk and prefers precision over intuition.",
+      "traits": { "FS": -0.28, "GR": 0.44, "RA": 0.12, "SS": -0.46, "ST": 0.7 }
+    },
+  
+    {
+      "player_number": 11,
+      "name": "Amanda Lewis",
+      "gender": "Female",
+      "age": 29,
+      "location": "USA",
+      "job": "Registered Nurse",
+      "description": "Amanda is a registered nurse who prioritizes patient care, teamwork and maintaining calm under pressure.",
+      "traits": { "FS": 0.68, "GR": -0.6, "RA": 0.02, "SS": 0.54, "ST": 0.18 }
+    },
+    {
+      "player_number": 12,
+      "name": "Kevin Marshall",
+      "gender": "Male",
+      "age": 41,
+      "location": "USA",
+      "job": "Clinical Nurse Specialist",
+      "description": "Kevin is a clinical nurse specialist who combines patient care expertise with mentoring and clinical leadership.",
+      "traits": { "FS": 0.54, "GR": -0.46, "RA": 0.18, "SS": 0.42, "ST": 0.3 }
+    },
+    {
+      "player_number": 13,
+      "name": "Natalie Foster",
+      "gender": "Female",
+      "age": 32,
+      "location": "USA",
+      "job": "Hospital Pharmacist",
+      "description": "Natalie is a hospital pharmacist who ensures medication safety, reviews prescriptions carefully and supports clinical teams.",
+      "traits": { "FS": 0.36, "GR": -0.38, "RA": 0.44, "SS": 0.08, "ST": 0.52 }
+    },
+    {
+      "player_number": 14,
+      "name": "Brian Cole",
+      "gender": "Male",
+      "age": 35,
+      "location": "USA",
+      "job": "Physical Therapist",
+      "description": "Brian is a physical therapist who designs rehabilitation plans and motivates patients through structured recovery programs.",
+      "traits": { "FS": 0.6, "GR": -0.52, "RA": 0.14, "SS": 0.38, "ST": 0.2 }
+    },
+    {
+      "player_number": 15,
+      "name": "Olivia Sanchez",
+      "gender": "Female",
+      "age": 31,
+      "location": "USA",
+      "job": "Medical Laboratory Scientist",
+      "description": "Olivia is a medical laboratory scientist who values accuracy, follows protocols strictly and supports diagnostics through data.",
+      "traits": { "FS": 0.18, "GR": -0.34, "RA": 0.56, "SS": -0.12, "ST": 0.48 }
+    },
+  
+    {
+      "player_number": 16,
+      "name": "James Porter",
+      "gender": "Male",
+      "age": 39,
+      "location": "USA",
+      "job": "High School Mathematics Teacher",
+      "description": "James is a mathematics teacher who emphasizes structured learning, problem solving and long-term skill development.",
+      "traits": { "FS": 0.42, "GR": -0.56, "RA": 0.38, "SS": 0.14, "ST": 0.24 }
+    },
+    {
+      "player_number": 17,
+      "name": "Hannah Lee",
+      "gender": "Female",
+      "age": 34,
+      "location": "USA",
+      "job": "Elementary School Teacher",
+      "description": "Hannah is an elementary school teacher who focuses on patience, emotional development and foundational learning.",
+      "traits": { "FS": 0.56, "GR": -0.62, "RA": 0.22, "SS": 0.32, "ST": 0.18 }
+    },
+    {
+      "player_number": 18,
+      "name": "Samuel Wright",
+      "gender": "Male",
+      "age": 37,
+      "location": "USA",
+      "job": "Academic Counselor",
+      "description": "Samuel is an academic counselor who guides students through academic decisions and long-term planning.",
+      "traits": { "FS": 0.48, "GR": -0.48, "RA": 0.26, "SS": 0.36, "ST": 0.22 }
+    },
+    {
+      "player_number": 19,
+      "name": "Erica Johnson",
+      "gender": "Female",
+      "age": 33,
+      "location": "USA",
+      "job": "Social Services Case Manager",
+      "description": "Erica is a social services case manager who coordinates support systems and advocates for vulnerable populations.",
+      "traits": { "FS": 0.72, "GR": -0.66, "RA": 0.1, "SS": 0.58, "ST": 0.06 }
+    },
+    {
+      "player_number": 20,
+      "name": "David Lin",
+      "gender": "Male",
+      "age": 41,
+      "location": "USA",
+      "job": "Educational Program Coordinator",
+      "description": "David is an educational program coordinator who manages initiatives, aligns stakeholders and tracks outcomes.",
+      "traits": { "FS": 0.34, "GR": -0.32, "RA": 0.42, "SS": 0.18, "ST": 0.36 }
+    },
+  
+    {
+      "player_number": 21,
+      "name": "Mark Davis",
+      "gender": "Male",
+      "age": 36,
+      "location": "USA",
+      "job": "Industrial Electrician",
+      "description": "Mark is an industrial electrician who installs and maintains electrical systems with a strong focus on safety.",
+      "traits": { "FS": 0.06, "GR": -0.12, "RA": 0.48, "SS": -0.34, "ST": 0.22 }
+    },
+    {
+      "player_number": 22,
+      "name": "Laura Peterson",
+      "gender": "Female",
+      "age": 43,
+      "location": "USA",
+      "job": "Construction Site Supervisor",
+      "description": "Laura is a construction site supervisor who coordinates crews, enforces safety standards and manages schedules.",
+      "traits": { "FS": 0.12, "GR": -0.08, "RA": 0.52, "SS": -0.28, "ST": 0.3 }
+    },
+    {
+      "player_number": 23,
+      "name": "Chris Nolan",
+      "gender": "Male",
+      "age": 34,
+      "location": "USA",
+      "job": "Mechanical Maintenance Technician",
+      "description": "Chris is a mechanical maintenance technician who diagnoses equipment issues and prevents downtime through routine checks.",
+      "traits": { "FS": 0.1, "GR": -0.14, "RA": 0.56, "SS": -0.26, "ST": 0.28 }
+    },
+    {
+      "player_number": 24,
+      "name": "Angela Morris",
+      "gender": "Female",
+      "age": 38,
+      "location": "USA",
+      "job": "HVAC Systems Technician",
+      "description": "Angela is an HVAC systems technician who installs, maintains and troubleshoots climate control systems efficiently.",
+      "traits": { "FS": 0.08, "GR": -0.18, "RA": 0.58, "SS": -0.3, "ST": 0.26 }
+    },
+    {
+      "player_number": 25,
+      "name": "Robert King",
+      "gender": "Male",
+      "age": 40,
+      "location": "USA",
+      "job": "Civil Infrastructure Technician",
+      "description": "Robert is a civil infrastructure technician who inspects and maintains public infrastructure with regulatory awareness.",
+      "traits": { "FS": 0.04, "GR": -0.1, "RA": 0.6, "SS": -0.32, "ST": 0.34 }
+    },
+  
+    {
+      "player_number": 26,
+      "name": "Megan Scott",
+      "gender": "Female",
+      "age": 32,
+      "location": "USA",
+      "job": "Content Marketing Manager",
+      "description": "Megan is a content marketing manager who plans campaigns, analyzes engagement and aligns content with brand goals.",
+      "traits": { "FS": 0.32, "GR": -0.26, "RA": 0.04, "SS": 0.24, "ST": 0.14 }
+    },
+    {
+      "player_number": 27,
+      "name": "Ryan Mitchell",
+      "gender": "Male",
+      "age": 29,
+      "location": "USA",
+      "job": "Digital Marketing Specialist",
+      "description": "Ryan is a digital marketing specialist who experiments with channels, tracks metrics and iterates quickly.",
+      "traits": { "FS": 0.28, "GR": -0.2, "RA": -0.06, "SS": 0.2, "ST": 0.12 }
+    },
+    {
+      "player_number": 28,
+      "name": "Chloe Adams",
+      "gender": "Female",
+      "age": 35,
+      "location": "USA",
+      "job": "Brand Strategist",
+      "description": "Chloe is a brand strategist who defines positioning, aligns messaging and balances creativity with business goals.",
+      "traits": { "FS": 0.4, "GR": -0.3, "RA": -0.08, "SS": 0.18, "ST": 0.22 }
+    },
+    {
+      "player_number": 29,
+      "name": "Evan Brooks",
+      "gender": "Male",
+      "age": 27,
+      "location": "USA",
+      "job": "Creative Content Writer",
+      "description": "Evan is a creative content writer who crafts narratives, adapts tone and experiments with storytelling formats.",
+      "traits": { "FS": 0.36, "GR": -0.24, "RA": -0.18, "SS": 0.3, "ST": 0.06 }
+    },
+    {
+      "player_number": 30,
+      "name": "Isabella Torres",
+      "gender": "Female",
+      "age": 31,
+      "location": "USA",
+      "job": "Visual Communication Designer",
+      "description": "Isabella is a visual communication designer who creates visual systems and communicates ideas through design.",
+      "traits": { "FS": 0.34, "GR": -0.22, "RA": -0.12, "SS": 0.28, "ST": 0.1 }
+    }
+  ]
+  

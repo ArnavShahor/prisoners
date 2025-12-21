@@ -39,7 +39,7 @@ OPPONENT_DESCRIPTION = DEFAULT_OPPONENT_DESCRIPTION
 TRANSFER_RATE = DEFAULT_TRANSFER_RATE
 
 # Parallel execution configuration
-DEFAULT_MAX_WORKERS = 10  # Default number of concurrent games/API calls
+DEFAULT_MAX_WORKERS = 50  # Default number of concurrent games/API calls
 
 # Global semaphore for API rate limiting (initialized in run_parallel_simulation)
 api_semaphore = None

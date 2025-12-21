@@ -1,6 +1,7 @@
 import torch
 import numpy as np
 import json
+import argparse
 from tqdm.auto import tqdm
 from sentence_transformers import SentenceTransformer
 from sentence_transformers.util import batch_to_device, cos_sim
@@ -33,8 +34,8 @@ def encode(jobbert_model, texts, batch_size: int = 8):
     original_order = np.argsort(sorted_indices)
     return sorted_embeddings[original_order]
 
-# Example usage
-job_titles = [
+# Default job titles
+DEFAULT_JOB_TITLES = [
     'Software Engineer',
     'Senior Software Developer',
     'Product Manager',
@@ -67,54 +68,78 @@ job_titles = [
     'Environmental Scientist'
 ]
 
-# Get embeddings
-embeddings = encode(model, job_titles)
-
-# Save embeddings to JSON file
-embeddings_dict = {
-    job_title: embedding.tolist() 
-    for job_title, embedding in zip(job_titles, embeddings)
-}
-
-with open('job_embeddings.json', 'w') as f:
-    json.dump(embeddings_dict, f, indent=2)
-
-print(f"Saved embeddings for {len(job_titles)} jobs to job_embeddings.json")
-
-# Calculate cosine similarity matrix
-similarities = cos_sim(embeddings, embeddings)
-similarities_np = similarities.cpu().numpy() if hasattr(similarities, 'cpu') else similarities
-
-# Format and save cosine similarity matrix
-similarity_dict = {
-    job_titles[i]: {
-        job_titles[j]: float(similarities_np[i, j])
-        for j in range(len(job_titles))
-    }
-    for i in range(len(job_titles))
-}
-
-with open('job_similarities.json', 'w') as f:
-    json.dump(similarity_dict, f, indent=2)
-
-print(f"\nSaved cosine similarity matrix to job_similarities.json")
-
-# Print formatted similarity matrix
-print("\nCosine Similarity Matrix:")
-print("=" * 80)
-print(f"{'Job Title':<30} | Most Similar Jobs (Top 5)")
-print("-" * 80)
-
-for i, job_title in enumerate(job_titles):
-    # Get similarities for this job (excluding self-similarity)
-    job_similarities = [(job_titles[j], float(similarities_np[i, j])) 
-                        for j in range(len(job_titles)) if i != j]
-    # Sort by similarity (descending)
-    job_similarities.sort(key=lambda x: x[1], reverse=True)
-    # Get top 5
-    top_5 = job_similarities[:5]
+def main():
+    parser = argparse.ArgumentParser(description='Generate embeddings and similarity matrix for job titles')
+    parser.add_argument('--input-jobs', type=str, default=None, help='Path to JSON file with job titles (optional)')
+    parser.add_argument('--output-embeddings', type=str, default='job_embeddings.json', help='Output file for embeddings')
+    parser.add_argument('--output-similarities', type=str, default='job_similarities.json', help='Output file for similarities')
     
-    top_5_str = ", ".join([f"{job} ({sim:.3f})" for job, sim in top_5])
-    print(f"{job_title:<30} | {top_5_str}")
+    args = parser.parse_args()
+    
+    # Load job titles
+    if args.input_jobs:
+        with open(args.input_jobs, 'r', encoding='utf-8') as f:
+            data = json.load(f)
+            if isinstance(data, list):
+                job_titles = data
+            elif isinstance(data, dict) and 'all_jobs' in data:
+                job_titles = data['all_jobs']
+            else:
+                job_titles = data if isinstance(data, list) else list(data.keys())
+    else:
+        job_titles = DEFAULT_JOB_TITLES  # Use default list
+    
+    # Get embeddings
+    embeddings = encode(model, job_titles)
+    
+    # Save embeddings to JSON file
+    embeddings_dict = {
+        job_title: embedding.tolist() 
+        for job_title, embedding in zip(job_titles, embeddings)
+    }
+    
+    with open(args.output_embeddings, 'w') as f:
+        json.dump(embeddings_dict, f, indent=2)
+    
+    print(f"Saved embeddings for {len(job_titles)} jobs to {args.output_embeddings}")
+    
+    # Calculate cosine similarity matrix
+    similarities = cos_sim(embeddings, embeddings)
+    similarities_np = similarities.cpu().numpy() if hasattr(similarities, 'cpu') else similarities
+    
+    # Format and save cosine similarity matrix
+    similarity_dict = {
+        job_titles[i]: {
+            job_titles[j]: float(similarities_np[i, j])
+            for j in range(len(job_titles))
+        }
+        for i in range(len(job_titles))
+    }
+    
+    with open(args.output_similarities, 'w') as f:
+        json.dump(similarity_dict, f, indent=2)
+    
+    print(f"\nSaved cosine similarity matrix to {args.output_similarities}")
+    
+    # Print formatted similarity matrix
+    print("\nCosine Similarity Matrix:")
+    print("=" * 80)
+    print(f"{'Job Title':<30} | Most Similar Jobs (Top 5)")
+    print("-" * 80)
+    
+    for i, job_title in enumerate(job_titles):
+        # Get similarities for this job (excluding self-similarity)
+        job_similarities = [(job_titles[j], float(similarities_np[i, j])) 
+                            for j in range(len(job_titles)) if i != j]
+        # Sort by similarity (descending)
+        job_similarities.sort(key=lambda x: x[1], reverse=True)
+        # Get top 5
+        top_5 = job_similarities[:5]
+        
+        top_5_str = ", ".join([f"{job} ({sim:.3f})" for job, sim in top_5])
+        print(f"{job_title:<30} | {top_5_str}")
+    
+    print("=" * 80)
 
-print("=" * 80)
+if __name__ == "__main__":
+    main()

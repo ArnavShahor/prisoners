@@ -369,6 +369,29 @@ def run_model_5_demographics(df: pd.DataFrame):
     return results
 
 
+def run_model_6_gender_dummies(df: pd.DataFrame):
+    """Model 6: Gender dummy variables (from_men, to_men)"""
+    has_gender = 'proposer_gender' in df.columns and 'responder_gender' in df.columns
+
+    if not has_gender:
+        print("\n[SKIP] Model 6: No gender data available")
+        return None
+
+    df_clean = df.copy()
+
+    # Create gender dummies: 1 if male, 0 otherwise
+    df_clean['from_men'] = (df_clean['proposer_gender'].str.upper().str[0] == 'M').astype(int)
+    df_clean['to_men'] = (df_clean['responder_gender'].str.upper().str[0] == 'M').astype(int)
+
+    X = df_clean[['from_men', 'to_men']].values
+    y = df_clean['offer'].values
+
+    results = fit_linear_model(X, y, ['from_men', 'to_men'])
+    print_model_results(results, "MODEL 6: Gender Dummies (offer ~ from_men + to_men)")
+
+    return results
+
+
 def run_model_7_full_model(df: pd.DataFrame):
     """Model 7: Full model with all controls"""
     features = ['within_cluster']
@@ -512,6 +535,7 @@ def main():
     models['Model 3: + Interaction'] = run_model_3_interaction(df)
     models['Model 4: + Cluster FE'] = run_model_4_cluster_fixed_effects(df)
     models['Model 5: + Demographics'] = run_model_5_demographics(df)
+    models['Model 6: Gender Dummies'] = run_model_6_gender_dummies(df)
     models['Model 7: Full Model'] = run_model_7_full_model(df)
     
     # Compare models

@@ -370,7 +370,7 @@ def run_model_5_demographics(df: pd.DataFrame):
 
 
 def run_model_6_gender_dummies(df: pd.DataFrame):
-    """Model 6: Gender dummy variables (from_men, to_men)"""
+    """Model 6: Gender dummy variables (from_men, to_men) with interaction"""
     has_gender = 'proposer_gender' in df.columns and 'responder_gender' in df.columns
 
     if not has_gender:
@@ -382,12 +382,13 @@ def run_model_6_gender_dummies(df: pd.DataFrame):
     # Create gender dummies: 1 if male, 0 otherwise
     df_clean['from_men'] = (df_clean['proposer_gender'].str.upper().str[0] == 'M').astype(int)
     df_clean['to_men'] = (df_clean['responder_gender'].str.upper().str[0] == 'M').astype(int)
+    df_clean['from_men_x_to_men'] = df_clean['from_men'] * df_clean['to_men']
 
-    X = df_clean[['from_men', 'to_men']].values
+    X = df_clean[['from_men', 'to_men', 'from_men_x_to_men']].values
     y = df_clean['offer'].values
 
-    results = fit_linear_model(X, y, ['from_men', 'to_men'])
-    print_model_results(results, "MODEL 6: Gender Dummies (offer ~ from_men + to_men)")
+    results = fit_linear_model(X, y, ['from_men', 'to_men', 'from_men:to_men'])
+    print_model_results(results, "MODEL 6: Gender Dummies (offer ~ from_men + to_men + from_men:to_men)")
 
     return results
 

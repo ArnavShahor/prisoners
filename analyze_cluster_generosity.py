@@ -471,86 +471,39 @@ def analyze_directional_effects(df: pd.DataFrame):
 
 
 def create_visualizations(df: pd.DataFrame, output_dir: str = "visualizations", csv_name: str = ""):
-    """Create visualizations for cluster-based analysis."""
+    """Create a single box plot comparing within-cluster vs between-cluster offers."""
     Path(output_dir).mkdir(parents=True, exist_ok=True)
-    
+
     within_offers = df[df['within_cluster']]['offer'].values
     between_offers = df[df['between_cluster']]['offer'].values
-    
-    # Create figure with subplots
-    fig, axes = plt.subplots(2, 2, figsize=(16, 12))
-    fig.suptitle('Cluster-Based Generosity Analysis: Within vs Between Clusters', 
-                 fontsize=16, fontweight='bold')
-    
-    # 1. Box plot comparison
-    ax1 = axes[0, 0]
+
+    fig, ax = plt.subplots(figsize=(8, 6))
+
     box_data = [within_offers, between_offers]
-    bp = ax1.boxplot(box_data, labels=['Within Cluster', 'Between Clusters'], 
-                     patch_artist=True, showmeans=True)
+    bp = ax.boxplot(box_data, labels=['Within Cluster', 'Between Clusters'],
+                    patch_artist=True, showmeans=True, widths=0.5)
     bp['boxes'][0].set_facecolor('lightblue')
+    bp['boxes'][0].set_edgecolor('black')
+    bp['boxes'][0].set_linewidth(1.5)
     bp['boxes'][1].set_facecolor('lightcoral')
-    ax1.set_ylabel('Offer Amount ($)', fontsize=12)
-    ax1.set_title('Offer Distribution: Within vs Between Clusters', fontsize=13, fontweight='bold')
-    ax1.grid(True, alpha=0.3)
-    
-    # Add mean lines
-    ax1.axhline(np.mean(within_offers), color='blue', linestyle='--', alpha=0.7, label=f'Within mean: ${np.mean(within_offers):.2f}')
-    ax1.axhline(np.mean(between_offers), color='red', linestyle='--', alpha=0.7, label=f'Between mean: ${np.mean(between_offers):.2f}')
-    ax1.legend()
-    
-    # 2. Violin plot
-    ax2 = axes[0, 1]
-    violin_data = pd.DataFrame({
-        'Offer': np.concatenate([within_offers, between_offers]),
-        'Type': ['Within Cluster'] * len(within_offers) + ['Between Clusters'] * len(between_offers)
-    })
-    sns.violinplot(data=violin_data, x='Type', y='Offer', ax=ax2, palette=['lightblue', 'lightcoral'])
-    ax2.set_ylabel('Offer Amount ($)', fontsize=12)
-    ax2.set_title('Offer Distribution (Violin Plot)', fontsize=13, fontweight='bold')
-    ax2.grid(True, alpha=0.3)
-    
-    # 3. Histogram comparison
-    ax3 = axes[1, 0]
-    ax3.hist(within_offers, bins=20, alpha=0.6, label='Within Cluster', color='lightblue', edgecolor='black')
-    ax3.hist(between_offers, bins=20, alpha=0.6, label='Between Clusters', color='lightcoral', edgecolor='black')
-    ax3.set_xlabel('Offer Amount ($)', fontsize=12)
-    ax3.set_ylabel('Frequency', fontsize=12)
-    ax3.set_title('Offer Distribution Histogram', fontsize=13, fontweight='bold')
-    ax3.legend()
-    ax3.grid(True, alpha=0.3)
-    
-    # 4. Per-cluster comparison
-    ax4 = axes[1, 1]
-    cluster_stats = []
-    for cluster_key, cluster_info in CLUSTERS.items():
-        cluster_games = df[df['proposer_cluster'] == cluster_key]
-        if len(cluster_games) > 0:
-            within = cluster_games[cluster_games['responder_cluster'] == cluster_key]
-            between = cluster_games[cluster_games['responder_cluster'] != cluster_key]
-            if len(within) > 0 and len(between) > 0:
-                cluster_stats.append({
-                    'Cluster': cluster_key,
-                    'Within': np.mean(within['offer']),
-                    'Between': np.mean(between['offer'])
-                })
-    
-    if cluster_stats:
-        cluster_df = pd.DataFrame(cluster_stats)
-        x = np.arange(len(cluster_df))
-        width = 0.35
-        ax4.bar(x - width/2, cluster_df['Within'], width, label='Within Cluster', color='lightblue')
-        ax4.bar(x + width/2, cluster_df['Between'], width, label='Between Clusters', color='lightcoral')
-        ax4.set_xlabel('Cluster', fontsize=12)
-        ax4.set_ylabel('Mean Offer ($)', fontsize=12)
-        ax4.set_title('Mean Offers by Cluster', fontsize=13, fontweight='bold')
-        ax4.set_xticks(x)
-        ax4.set_xticklabels(cluster_df['Cluster'], rotation=45, ha='right')
-        ax4.legend()
-        ax4.grid(True, alpha=0.3, axis='y')
-    
+    bp['boxes'][1].set_edgecolor('black')
+    bp['boxes'][1].set_linewidth(1.5)
+
+    for element in ['whiskers', 'fliers', 'means', 'medians', 'caps']:
+        plt.setp(bp[element], color='black', linewidth=1.5)
+
+    ax.axhline(np.mean(within_offers), color='blue', linestyle='--', alpha=0.7,
+               label=f'Within mean: ${np.mean(within_offers):.2f}')
+    ax.axhline(np.mean(between_offers), color='red', linestyle='--', alpha=0.7,
+               label=f'Between mean: ${np.mean(between_offers):.2f}')
+
+    ax.set_ylabel('Offer Amount ($)', fontsize=13, fontweight='bold')
+    ax.set_title('Offer Distribution: Within vs Between Clusters',
+                 fontsize=14, fontweight='bold', pad=12)
+    ax.legend(fontsize=10, framealpha=0.95, edgecolor='black')
+    ax.grid(True, alpha=0.3, axis='y', linestyle='--')
+
     plt.tight_layout()
-    
-    # Save figure
     output_file = Path(output_dir) / f"cluster_generosity_analysis_{csv_name}.png"
     plt.savefig(output_file, dpi=300, bbox_inches='tight')
     print(f"[OK] Saved visualization: {output_file}")

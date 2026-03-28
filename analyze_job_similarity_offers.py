@@ -278,39 +278,28 @@ def calculate_statistics(df: pd.DataFrame):
 
 
 def create_visualizations(df: pd.DataFrame, output_dir: str = "visualizations", csv_name: str = ""):
-    """Create focused, intuitive visualizations of job similarity vs offer amount."""
+    """Create a single scatter plot of job similarity vs offer amount with regression line."""
     output_path = Path(output_dir)
     output_path.mkdir(exist_ok=True)
-    
-    # Create filename suffix from CSV name
+
     if csv_name:
         file_suffix = f"_{csv_name}"
     else:
         file_suffix = ""
-    
-    # Calculate statistics for annotations
-    correlation = df['job_similarity'].corr(df['offer'])
-    r, p_value = stats.pearsonr(df['job_similarity'], df['offer'])
+
+    # Fit regression
     X = df[['job_similarity']].values
     y = df['offer'].values
     model = LinearRegression()
     model.fit(X, y)
     slope = model.coef_[0]
     intercept = model.intercept_
-    r_squared = model.score(X, y)
-    
-    # Create figure with a cleaner 2x2 layout
-    fig = plt.figure(figsize=(16, 12))
-    # Adjust grid layout for better alignment
-    gs = fig.add_gridspec(2, 2, hspace=0.35, wspace=0.25, 
-                          left=0.08, right=0.97, top=0.94, bottom=0.08)
-    
-    # ========== PLOT 1: Main Scatter Plot with Regression Line ==========
-    ax1 = fig.add_subplot(gs[0, :])
-    
-    # Create scatter plot with color mapping
-    scatter = ax1.scatter(
-        df['job_similarity'], 
+
+    # Single figure
+    fig, ax = plt.subplots(figsize=(10, 7))
+
+    scatter = ax.scatter(
+        df['job_similarity'],
         df['offer'],
         alpha=0.6,
         s=50,
@@ -320,124 +309,34 @@ def create_visualizations(df: pd.DataFrame, output_dir: str = "visualizations", 
         cmap='plasma',
         zorder=3
     )
-    
-    # Add regression line
-    z = np.polyfit(df['job_similarity'], df['offer'], 1)
-    p = np.poly1d(z)
+
+    # Regression line
     x_line = np.linspace(df['job_similarity'].min(), df['job_similarity'].max(), 100)
-    y_line = p(x_line)
-    ax1.plot(x_line, y_line, "r-", linewidth=3, alpha=0.9, 
-             label=f'Trend Line: Offer = {slope:.1f} × Similarity + {intercept:.1f}', zorder=4)
-    
-    # Add shaded confidence region
+    y_line = slope * x_line + intercept
+    ax.plot(x_line, y_line, "r-", linewidth=3, alpha=0.9,
+            label=f'Offer = {slope:.1f} x Similarity + {intercept:.1f}', zorder=4)
+
     y_std = df['offer'].std()
-    ax1.fill_between(x_line, y_line - y_std, y_line + y_std, 
-                     alpha=0.2, color='red', label='±1 Std Dev')
-    
-    ax1.set_xlabel('Job Similarity Score (0 = Very Different, 1 = Very Similar)', 
-                   fontsize=14, fontweight='bold', labelpad=10)
-    ax1.set_ylabel('Offer Amount ($)', fontsize=14, fontweight='bold', labelpad=10)
-    ax1.set_title('Relationship Between Job Similarity and Offer Amount', 
-                  fontsize=16, fontweight='bold', pad=15, loc='left')
-    # Position legend better - avoid overlap with data and text boxes
-    ax1.legend(fontsize=10, loc='upper right', framealpha=0.95, 
-              edgecolor='black', frameon=True, fancybox=True, shadow=True,
-              bbox_to_anchor=(0.98, 0.85))
-    ax1.grid(True, alpha=0.3, linestyle='--', zorder=1)
-    ax1.set_ylim([df['offer'].min() - 2, df['offer'].max() + 2])
-    
-    # Add colorbar with proper spacing
-    cbar = plt.colorbar(scatter, ax=ax1, pad=0.02, aspect=30)
-    cbar.set_label('Job Similarity Score', fontsize=12, fontweight='bold', labelpad=10)
-    
-    # ========== PLOT 2: Grouped Comparison ==========
-    ax2 = fig.add_subplot(gs[1, 0])
-    
-    # Create meaningful similarity groups
-    similarity_mean = df['job_similarity'].median()
-    df['similarity_group'] = df['job_similarity'].apply(
-        lambda x: 'Below Median\n(Less Similar)' if x < similarity_mean 
-        else 'Above Median\n(More Similar)'
-    )
-    
-    # Create grouped box plot
-    groups = df['similarity_group'].unique()
-    data_to_plot = [df[df['similarity_group'] == group]['offer'].values for group in groups]
-    
-    bp = ax2.boxplot(data_to_plot, patch_artist=True,
-                     widths=0.6, showmeans=True, meanline=True)
-    ax2.set_xticklabels(groups)
-    
-    # Color the boxes
-    colors = ['lightcoral', 'lightblue']
-    for patch, color in zip(bp['boxes'], colors):
-        patch.set_facecolor(color)
-        patch.set_alpha(0.7)
-        patch.set_edgecolor('black')
-        patch.set_linewidth(2)
-    
-    # Style other elements
-    for element in ['whiskers', 'fliers', 'means', 'medians', 'caps']:
-        plt.setp(bp[element], color='black', linewidth=1.5)
-    
-    ax2.set_ylabel('Offer Amount ($)', fontsize=12, fontweight='bold', labelpad=8)
-    ax2.set_xlabel('Job Similarity Group', fontsize=12, fontweight='bold', labelpad=8)
-    ax2.set_title('Offers: Less Similar vs More Similar Jobs', 
-                  fontsize=13, fontweight='bold', pad=10, loc='left')
-    ax2.grid(True, alpha=0.3, axis='y', linestyle='--')
-    ax2.set_ylim([df['offer'].min() - 2, df['offer'].max() + 4])
-    
-    # ========== PLOT 3: Average Offer by Similarity Bins ==========
-    ax3 = fig.add_subplot(gs[1, 1])
-    
-    # Create bins that make sense for the data range
-    similarity_min = df['job_similarity'].min()
-    similarity_max = df['job_similarity'].max()
-    similarity_range = similarity_max - similarity_min
-    
-    # Use 3 bins based on actual data range
-    if similarity_range > 0.2:
-        num_bins = 3
-        bin_edges = np.linspace(similarity_min, similarity_max, num_bins + 1)
-        labels = [f'Low\n({bin_edges[i]:.2f}-{bin_edges[i+1]:.2f})' 
-                 for i in range(num_bins)]
-    else:
-        # If range is small, use 2 bins
-        num_bins = 2
-        bin_edges = np.linspace(similarity_min, similarity_max, num_bins + 1)
-        labels = [f'Low\n({bin_edges[0]:.2f}-{bin_edges[1]:.2f})',
-                 f'High\n({bin_edges[1]:.2f}-{bin_edges[2]:.2f})']
-    
-    df['similarity_bin'] = pd.cut(df['job_similarity'], bins=bin_edges, labels=labels)
-    
-    avg_by_bin = df.groupby('similarity_bin', observed=True)['offer'].agg(['mean', 'std', 'count'])
-    
-    if len(avg_by_bin) > 0:
-        x_pos = np.arange(len(avg_by_bin))
-        colors_bar = plt.cm.plasma(np.linspace(0.3, 0.9, len(avg_by_bin)))
-        
-        bars = ax3.bar(x_pos, avg_by_bin['mean'], yerr=avg_by_bin['std'], 
-                      capsize=8, alpha=0.8, edgecolor='black', linewidth=2,
-                      color=colors_bar)
-        
-        ax3.set_xticks(x_pos)
-        ax3.set_xticklabels(avg_by_bin.index, fontsize=11, fontweight='bold', ha='center')
-        ax3.set_ylabel('Average Offer Amount ($)', fontsize=12, fontweight='bold', labelpad=10)
-        ax3.set_title('Average Offer by Similarity Level', 
-                      fontsize=13, fontweight='bold', pad=12, loc='left')
-        ax3.grid(True, alpha=0.3, axis='y', linestyle='--')
-        
-        ax3.set_ylim([0, df['offer'].max() + 6])
-        ax3.set_xlabel('Similarity Level', fontsize=12, fontweight='bold', labelpad=8)
-    
-    # Add overall title - centered and properly positioned
-    fig.suptitle('Job Similarity vs Offer Amount in Ultimatum Game', 
-                 fontsize=17, fontweight='bold', y=0.98, x=0.5, ha='center')
-    
-    # Save the figure
+    ax.fill_between(x_line, y_line - y_std, y_line + y_std,
+                    alpha=0.2, color='red', label='\u00b11 Std Dev')
+
+    ax.set_xlabel('Job Similarity Score (Cosine Similarity)',
+                  fontsize=13, fontweight='bold', labelpad=10)
+    ax.set_ylabel('Offer Amount ($)', fontsize=13, fontweight='bold', labelpad=10)
+    ax.set_title('Job Similarity vs Offer Amount',
+                 fontsize=15, fontweight='bold', pad=15)
+    ax.legend(fontsize=10, loc='upper right', framealpha=0.95,
+              edgecolor='black', frameon=True)
+    ax.grid(True, alpha=0.3, linestyle='--', zorder=1)
+    ax.set_ylim([df['offer'].min() - 2, df['offer'].max() + 2])
+
+    cbar = plt.colorbar(scatter, ax=ax, pad=0.02, aspect=30)
+    cbar.set_label('Job Similarity', fontsize=11, fontweight='bold', labelpad=10)
+
+    plt.tight_layout()
     output_file = output_path / f'job_similarity_vs_offer{file_suffix}.png'
     plt.savefig(output_file, dpi=300, bbox_inches='tight', facecolor='white')
-    print(f"✅ Saved visualization: {output_file}")
+    print(f"\u2705 Saved visualization: {output_file}")
     plt.close()
 
 

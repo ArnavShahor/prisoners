@@ -334,45 +334,6 @@ def create_visualizations(df: pd.DataFrame, output_dir: str = "visualizations", 
     ax1.fill_between(x_line, y_line - y_std, y_line + y_std, 
                      alpha=0.2, color='red', label='±1 Std Dev')
     
-    # Add correlation and significance info in a clear box
-    sig_text = "***" if p_value < 0.001 else "**" if p_value < 0.01 else "*" if p_value < 0.05 else "ns"
-    info_text = f'Correlation: r = {correlation:.3f} {sig_text}\n'
-    info_text += f'R² = {r_squared:.3f} ({r_squared*100:.1f}% variance explained)\n'
-    info_text += f'p-value = {p_value:.4f}'
-    
-    # Add correlation info box - positioned to avoid legend
-    ax1.text(0.02, 0.98, info_text,
-             transform=ax1.transAxes,
-             fontsize=11,
-             verticalalignment='top',
-             horizontalalignment='left',
-             bbox=dict(boxstyle='round', facecolor='white', edgecolor='black', 
-                      linewidth=2, alpha=0.95, pad=8),
-             family='monospace',
-             zorder=5)
-    
-    # Add interpretation text
-    if correlation > 0.1:
-        interp = "Higher job similarity -> Higher offers"
-        color = 'green'
-    elif correlation < -0.1:
-        interp = "Higher job similarity -> Lower offers"
-        color = 'red'
-    else:
-        interp = "Weak relationship between similarity and offers"
-        color = 'gray'
-    
-    ax1.text(0.98, 0.05, interp,
-             transform=ax1.transAxes,
-             fontsize=12,
-             fontweight='bold',
-             color=color,
-             horizontalalignment='right',
-             verticalalignment='bottom',
-             bbox=dict(boxstyle='round', facecolor='lightyellow', 
-                      edgecolor=color, linewidth=2, alpha=0.9, pad=8),
-             zorder=5)
-    
     ax1.set_xlabel('Job Similarity Score (0 = Very Different, 1 = Very Similar)', 
                    fontsize=14, fontweight='bold', labelpad=10)
     ax1.set_ylabel('Offer Amount ($)', fontsize=14, fontweight='bold', labelpad=10)
@@ -418,14 +379,6 @@ def create_visualizations(df: pd.DataFrame, output_dir: str = "visualizations", 
     # Style other elements
     for element in ['whiskers', 'fliers', 'means', 'medians', 'caps']:
         plt.setp(bp[element], color='black', linewidth=1.5)
-    
-    # Add mean values on top
-    for i, group in enumerate(groups):
-        mean_val = df[df['similarity_group'] == group]['offer'].mean()
-        count = len(df[df['similarity_group'] == group])
-        ax2.text(i+1, mean_val + 1.5, f'${mean_val:.1f}\n(n={count})',
-                ha='center', va='bottom', fontsize=10, fontweight='bold',
-                bbox=dict(boxstyle='round', facecolor='white', alpha=0.9, pad=4))
     
     ax2.set_ylabel('Offer Amount ($)', fontsize=12, fontweight='bold', labelpad=8)
     ax2.set_xlabel('Job Similarity Group', fontsize=12, fontweight='bold', labelpad=8)
@@ -473,16 +426,6 @@ def create_visualizations(df: pd.DataFrame, output_dir: str = "visualizations", 
         ax3.set_title('Average Offer by Similarity Level', 
                       fontsize=13, fontweight='bold', pad=12, loc='left')
         ax3.grid(True, alpha=0.3, axis='y', linestyle='--')
-        
-        # Add value labels on bars
-        for i, (bar, mean_val, std_val, count) in enumerate(zip(bars, avg_by_bin['mean'], 
-                                                                 avg_by_bin['std'], 
-                                                                 avg_by_bin['count'])):
-            height = bar.get_height()
-            ax3.text(bar.get_x() + bar.get_width()/2., height + std_val + 1,
-                    f'${mean_val:.1f}\n(n={int(count)})',
-                    ha='center', va='bottom', fontsize=10, fontweight='bold',
-                    bbox=dict(boxstyle='round', facecolor='white', alpha=0.9, pad=4))
         
         ax3.set_ylim([0, df['offer'].max() + 6])
         ax3.set_xlabel('Similarity Level', fontsize=12, fontweight='bold', labelpad=8)

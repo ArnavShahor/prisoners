@@ -627,23 +627,6 @@ def create_gender_visualizations(df: pd.DataFrame, output_dir: str = "visualizat
         ax.fill_between(x_line, y_line - y_std, y_line + y_std, 
                         alpha=0.15, color='red', zorder=2)
         
-        # Add statistics text box
-        sig_text = "***" if p_value < 0.001 else "**" if p_value < 0.01 else "*" if p_value < 0.05 else "ns"
-        info_text = f'n = {len(df_gender)}\n'
-        info_text += f'r = {correlation:.3f} {sig_text}\n'
-        info_text += f'R² = {r_squared:.3f}\n'
-        info_text += f'p = {p_value:.4f}'
-        
-        ax.text(0.02, 0.98, info_text,
-               transform=ax.transAxes,
-               fontsize=10,
-               verticalalignment='top',
-               horizontalalignment='left',
-               bbox=dict(boxstyle='round', facecolor='white', edgecolor='black', 
-                        linewidth=1.5, alpha=0.95, pad=6),
-               family='monospace',
-               zorder=5)
-        
         # Add mean offer annotation
         mean_offer = df_gender['offer'].mean()
         ax.axhline(mean_offer, color='green', linestyle='--', linewidth=1.5, 

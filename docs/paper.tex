@@ -1,0 +1,51 @@
+
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{geometry}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\geometry{a4paper, margin=1in}
+
+\title{The Irrational Agent? Do LLMs Inherit Human Biases?\\
+\large Similarity and Gender in the Ultimatum Game}
+\author{Or Bar Zur \& Gal Barak}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+As Large Language Models (LLMs) are increasingly deployed as autonomous economic agents, it is critical to determine whether they behave as purely rational actors or if they inherit human biases. This paper investigates how social considerations, specifically gender and professional similarity, influence LLM decision-making in the Ultimatum Game. We find that LLM agents significantly deviate from pure mathematical rationality. Our results indicate that LLMs offer significantly less to male responders and offer significantly more to responders within their own professional cluster. These deviations reflect strategic expectations about the opponent's willingness to accept or reject offers based on their identity.
+\end{abstract}
+
+\section{Introduction}
+Strategic interactions are rarely one-shot; they are typically repeated, allowing phenomena such as cooperation, punishment, and reputation to emerge. While classical game theory dictates that defection remains the dominant strategy in finitely repeated games via backward induction, the Folk Theorem suggests that a wide range of cooperative outcomes can be sustained if players are sufficiently patient and can condition future actions on past behavior (e.g., using a ``Grim Trigger'' punishment strategy). 
+
+However, behavioral economic experiments consistently show that human players deviate from these theoretical equilibrium models. These deviations are largely caused by social considerations, prejudices, and human biases. As LLMs are increasingly integrated as economic agents capable of conducting autonomous negotiations, our primary research question is: Do these models operate rationally and objectively, or do they inherit human biases?. Specifically, we examine whether there are observable disparities in resource allocation based on gender, and whether sharing a profession leads to significantly different outcomes.
+
+\section{Experimental Design and Methodology}
+
+To test these hypotheses, we employed a one-shot Ultimatum Game. In this game, a Proposer is tasked with allocating a resource of 100. The Responder can then either accept the offer or reject it; if rejected, both players receive zero. 
+
+Our experiment utilized 30 distinct AI-based agents representing individual personas. The agents were divided equally by gender (15 men and 15 women) and categorized into 6 different job ``clusters'' (e.g., healthcare, social), with 5 agents from each sector. These agents were not programmed with fixed strategies or utility functions; instead, their decisions were generated via contextual AI prompts based on their attributes, such as name and profession. Each pair of agents played 10 different games without shared context, and each agent played once as the Proposer and once as the Responder.
+
+\subsection{Defining Similarity}
+To quantify professional similarity between agents, we utilized high-dimensional O*NET embeddings representing skills, knowledge, abilities, work activities, and work context. The similarity between any two professions was calculated using cosine similarity in this vector space.
+
+\section{Results}
+
+\subsection{Gender Analysis}
+Regression analysis on gender interactions revealed no statistically meaningful effect of the Proposer's gender (``From Men'') on offer size or strategic behavior (coefficient 0.10, p = 0.737). However, the Responder's gender (``To Men'') had a highly significant negative effect on the offers received (coefficient -1.03, p $<$ 0.001). The interpretation of this data suggests that Proposers expect male responders to accept lower offers; therefore, they offer them slightly less. This reflects strategic expectations derived from human biases rather than gender-based preferences.
+
+\subsection{Similarity Analysis}
+When analyzing the impact of professional similarity, the results showed that interactions between agents within the same professional cluster (``Within Cluster'') are associated with significantly higher offers than cross-profession interactions (coefficient 1.32, p $<$ 0.001). In this context, Proposers expect professionally similar responders to be less tolerant of low offers. Consequently, Proposers strategically increase their offers to these similar agents to reduce the risk of rejection.
+
+\section{Limitations and Future Work}
+This study has several limitations. First, the analysis was conducted using a single language model, Claude Sonnet 4.5. Second, while we attempted to explore richer agent personas, these additional attributes did not produce systematic or generalizable effects. Finally, our metric for similarity was defined exclusively using professional O*NET embeddings, ignoring other potential axes of similarity. Future work should explore the generalizability of these findings across different models and broader definitions of similarity.
+
+\section{Conclusion}
+The findings conclusively demonstrate that LLMs do not strictly adhere to the mathematical ``Rational Agent'' model. Instead, they display significant deviations similar to human social preferences. The behavior of LLMs in the Ultimatum Game is not neutral; rather, it is significantly influenced by the identity—specifically the gender and professional background—of their opponents. 
+
+\end{document}
+```

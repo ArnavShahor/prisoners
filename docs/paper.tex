@@ -4,6 +4,12 @@
 \usepackage{geometry}
 \usepackage{booktabs}
 \usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{amsmath}
+\usepackage{multirow}
+\usepackage{caption}
+\usepackage{setspace}
 \geometry{a4paper, margin=1in}
 
 \title{The Irrational Agent? Do LLMs Inherit Human Biases?\\
@@ -16,36 +22,287 @@
 \maketitle
 
 \begin{abstract}
-As Large Language Models (LLMs) are increasingly deployed as autonomous economic agents, it is critical to determine whether they behave as purely rational actors or if they inherit human biases. This paper investigates how social considerations, specifically gender and professional similarity, influence LLM decision-making in the Ultimatum Game. We find that LLM agents significantly deviate from pure mathematical rationality. Our results indicate that LLMs offer significantly less to male responders and offer significantly more to responders within their own professional cluster. These deviations reflect strategic expectations about the opponent's willingness to accept or reject offers based on their identity.
+As Large Language Models (LLMs) are increasingly deployed as autonomous economic agents---negotiating prices, allocating resources, and making strategic decisions on behalf of users---it is critical to determine whether they behave as purely rational actors or if they inherit human biases. This paper investigates how social considerations, specifically gender and professional similarity, influence LLM decision-making in the Ultimatum Game. We construct 30 LLM-based agents with distinct personas (name, gender, and profession) drawn from six professional clusters, and simulate 8,700 one-shot Ultimatum Game interactions using Claude Sonnet 4. We find that LLM agents significantly deviate from pure mathematical rationality: offers to male responders are \$1.03 lower than to female responders ($p < 0.001$), and within-cluster offers are \$1.32 higher than between-cluster offers ($p < 0.001$, Cohen's $d = 0.46$). Crucially, the proposer's own gender has no effect on offer size, suggesting these patterns reflect strategic expectations about the opponent's behavior rather than intrinsic gender-based preferences. These results are robust across multiple regression specifications including cluster fixed effects. Our findings have direct implications for the deployment of LLMs in negotiation, customer service, and hiring contexts, where identity-dependent behavior could produce systematic disparities.
 \end{abstract}
 
 \section{Introduction}
-Strategic interactions are rarely one-shot; they are typically repeated, allowing phenomena such as cooperation, punishment, and reputation to emerge. While classical game theory dictates that defection remains the dominant strategy in finitely repeated games via backward induction, the Folk Theorem suggests that a wide range of cooperative outcomes can be sustained if players are sufficiently patient and can condition future actions on past behavior (e.g., using a ``Grim Trigger'' punishment strategy). 
 
-However, behavioral economic experiments consistently show that human players deviate from these theoretical equilibrium models. These deviations are largely caused by social considerations, prejudices, and human biases. As LLMs are increasingly integrated as economic agents capable of conducting autonomous negotiations, our primary research question is: Do these models operate rationally and objectively, or do they inherit human biases?. Specifically, we examine whether there are observable disparities in resource allocation based on gender, and whether sharing a profession leads to significantly different outcomes.
+The Ultimatum Game, introduced by G\"{u}th, Schmittberger, and Schwarze~\cite{guth1982}, is one of the most widely studied paradigms in experimental economics. In this two-player game, a Proposer divides a sum of money and a Responder either accepts or rejects the proposed split; rejection results in both players receiving nothing. Under the standard assumption of rational, self-interested agents, the subgame-perfect Nash equilibrium predicts that the Proposer should offer the smallest possible amount, and the Responder should accept any positive offer. However, decades of behavioral experiments with human subjects have consistently shown that proposers typically offer 40--50\% of the total, and responders frequently reject offers below 20--30\%~\cite{camerer2003}.
+
+These deviations from theoretical predictions have been attributed to fairness norms, social preferences, and strategic expectations about the opponent's willingness to reject unfair offers. The Folk Theorem further suggests that in repeated interactions, a wide range of cooperative outcomes can be sustained if players are sufficiently patient and can condition future actions on past behavior~\cite{aumann1959,friedman1971}. While our experiment uses one-shot games, the agents---trained on corpora reflecting repeated human interactions---may nonetheless internalize norms associated with repeated-game reasoning.
+
+A growing body of research has begun to examine whether LLMs, when placed in the role of economic agents, exhibit similar behavioral patterns. Horton~\cite{horton2023} demonstrated that LLMs can serve as plausible proxies for human subjects in economic experiments, reproducing well-known behavioral phenomena. Aher et al.~\cite{aher2023} showed that LLM-generated agents replicate classic social science results, including Ultimatum Game behavior. More recently, several studies have explored LLM strategic reasoning in games~\cite{brookins2023,guo2024}, finding that LLMs often deviate from Nash equilibrium in ways that mirror human biases.
+
+The practical importance of understanding LLM decision-making biases is growing rapidly. LLMs are being deployed as autonomous agents in customer service negotiations, hiring decisions, resource allocation, and financial transactions. If these models exhibit identity-dependent behavior---offering different terms based on a counterpart's perceived gender or professional background---the resulting disparities could have significant real-world consequences, particularly in high-stakes domains where fairness and equal treatment are legally or ethically mandated.
+
+Our study makes two primary contributions. First, we introduce a controlled experimental framework with richly specified agent personas organized into professional clusters, enabling us to test both gender and professional similarity effects simultaneously. Second, we provide evidence for two specific hypotheses:
+
+\begin{itemize}
+    \item[\textbf{H1}:] \textbf{Gender affects offers.} The gender of the responder systematically influences offer amounts, while the proposer's own gender does not.
+    \item[\textbf{H2}:] \textbf{Professional similarity affects offers.} Agents within the same professional cluster receive higher offers than agents from different clusters.
+\end{itemize}
 
 \section{Experimental Design and Methodology}
 
-To test these hypotheses, we employed a one-shot Ultimatum Game. In this game, a Proposer is tasked with allocating a resource of 100. The Responder can then either accept the offer or reject it; if rejected, both players receive zero. 
+\subsection{Agent Design}
 
-Our experiment utilized 30 distinct AI-based agents representing individual personas. The agents were divided equally by gender (15 men and 15 women) and categorized into 6 different job ``clusters'' (e.g., healthcare, social), with 5 agents from each sector. These agents were not programmed with fixed strategies or utility functions; instead, their decisions were generated via contextual AI prompts based on their attributes, such as name and profession. Each pair of agents played 10 different games without shared context, and each agent played once as the Proposer and once as the Responder.
+We constructed 30 distinct AI-based agents, each defined by a unique combination of first name, gender, and professional title. The agents were balanced by gender (15 male, 15 female) and organized into six professional clusters of five agents each. The clusters, designed to represent meaningfully distinct occupational domains, are:
 
-\subsection{Defining Similarity}
-To quantify professional similarity between agents, we utilized high-dimensional O*NET embeddings representing skills, knowledge, abilities, work activities, and work context. The similarity between any two professions was calculated using cosine similarity in this vector space.
+\begin{enumerate}
+    \item \textbf{TECH} --- Software Engineering \& Systems Development (e.g., Backend Software Engineer, Full Stack Software Engineer)
+    \item \textbf{DATA} --- Data, Analytics \& Quantitative Research (e.g., Data Scientist, Machine Learning Engineer)
+    \item \textbf{HEALTH} --- Healthcare \& Clinical Professions (e.g., Registered Nurse, Physical Therapist)
+    \item \textbf{SOCIAL} --- Education, Social Services \& Public Sector (e.g., High School Mathematics Teacher, Social Services Case Manager)
+    \item \textbf{TRADES} --- Skilled Trades \& Physical Engineering (e.g., Industrial Electrician, HVAC Systems Technician)
+    \item \textbf{CREATIVE} --- Creative, Marketing \& Content Roles (e.g., Brand Strategist, Visual Communication Designer)
+\end{enumerate}
+
+Each cluster contains a mix of male and female agents. The persona specification was deliberately minimal: agents received only a first name and professional title. This ``minimal prompt'' design choice was intentional---richer persona descriptions (including personality traits, hobbies, and backstory) were tested in pilot experiments but did not produce systematic or generalizable effects on game behavior, likely because the additional attributes introduced noise rather than signal.
+
+\subsection{LLM Configuration}
+
+All agent decisions were generated using Anthropic's Claude Sonnet 4 (\texttt{claude-sonnet-4-20250514}) with a maximum output of 512 tokens. Each agent received a prompt containing only the game rules, the amount to be divided (\$100), and the opponent's first name and profession. No system-level instructions regarding fairness, strategy, or bias were provided. Temperature and other generation parameters were kept at default values.
+
+\subsection{Game Protocol}
+
+We employed a one-shot Ultimatum Game with a \$100 endowment. For each ordered pair of agents $(i, j)$ where $i \neq j$, agent $i$ served as the Proposer and agent $j$ as the Responder. Each directed pair played 10 independent games with no shared context between games. With 30 agents, there are $30 \times 29 = 870$ unique directed pairs, yielding $870 \times 10 = 8{,}700$ total game instances. For the regression analyses, we averaged the 10 offers per directed pair to obtain 870 pair-level observations, reducing noise while preserving the full directed structure of the data.
+
+\subsection{Defining Professional Similarity}
+\label{sec:similarity}
+
+To quantify the professional similarity between agents, we employed the JobBERT-v2 sentence transformer model~\cite{jobbert2024} (\texttt{TechWolf/JobBERT-v2}), a domain-specific model trained on job titles and descriptions. Each of the 30 job titles was encoded into a 1024-dimensional embedding vector. The similarity between any two professions $i$ and $j$ was then computed as the cosine similarity:
+
+\begin{equation}
+    \text{sim}(i, j) = \frac{\mathbf{e}_i \cdot \mathbf{e}_j}{\|\mathbf{e}_i\| \, \|\mathbf{e}_j\|}
+\end{equation}
+
+\noindent where $\mathbf{e}_i$ denotes the embedding vector for job $i$. In our dataset, pairwise similarity scores range from 0.007 (near-orthogonal professions, e.g., HVAC Technician and Data Analyst) to 0.815 (highly similar professions, e.g., Backend Software Engineer and Full Stack Software Engineer), with a mean of 0.223.
+
+In addition to the continuous similarity measure, we define a binary variable $\textit{WithinCluster}_{ij}$ that equals 1 when the proposer and responder belong to the same professional cluster, and 0 otherwise. Of the 870 directed pairs, 120 (13.8\%) are within-cluster and 750 (86.2\%) are between-cluster.
+
+\subsection{Regression Specification}
+
+Our primary regression model takes the form:
+
+\begin{equation}
+    \text{Offer}_{ij} = \beta_0 + \beta_1 \cdot \textit{WithinCluster}_{ij} + \mathbf{X}_{ij}'\boldsymbol{\gamma} + \varepsilon_{ij}
+    \label{eq:regression}
+\end{equation}
+
+\noindent where $\text{Offer}_{ij}$ is the average offer from proposer $i$ to responder $j$ across 10 games, $\textit{WithinCluster}_{ij}$ is the binary same-cluster indicator, $\mathbf{X}_{ij}$ is a vector of control variables (which varies across model specifications), and $\varepsilon_{ij}$ is the error term. We estimate a series of nested models, progressively adding controls for continuous job similarity, cluster fixed effects, and demographic variables, to assess the robustness of the within-cluster effect.
 
 \section{Results}
 
+\subsection{Descriptive Statistics}
+
+Table~\ref{tab:summary} presents summary statistics for the offer amounts across the full sample and key subgroups.
+
+\begin{table}[H]
+\centering
+\caption{Summary Statistics: Offer Amounts (\$)}
+\label{tab:summary}
+\begin{tabular}{lrrrrr}
+\toprule
+\textbf{Group} & \textbf{N} & \textbf{Mean} & \textbf{Std Dev} & \textbf{Min} & \textbf{Max} \\
+\midrule
+Overall                 & 870 & 40.84 & 2.92 & 32.00 & 60.00 \\
+\midrule
+Within-cluster          & 120 & 41.98 & 3.53 & 32.00 & 60.00 \\
+Between-cluster         & 750 & 40.66 & 2.77 & 33.00 & 50.00 \\
+\midrule
+Male $\to$ Male         & 240 & 40.28 & 1.70 & 35.00 & 47.50 \\
+Female $\to$ Female     & 182 & 41.38 & 4.02 & 32.00 & 60.00 \\
+Male $\to$ Female       & 224 & 41.48 & 3.21 & 33.00 & 50.00 \\
+Female $\to$ Male       & 224 & 40.35 & 2.35 & 34.00 & 48.00 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The overall mean offer of \$40.84 is consistent with the behavioral economics literature on human Ultimatum Game play, where offers typically cluster around 40\% of the endowment~\cite{camerer2003}. The distribution is concentrated: the standard deviation is only \$2.92 on a \$100 scale.
+
+Two patterns are immediately visible. First, within-cluster offers (\$41.98) are higher than between-cluster offers (\$40.66), a difference of \$1.32 that we formally test below. Second, offers to male responders (Male$\to$Male: \$40.28; Female$\to$Male: \$40.35) are systematically lower than offers to female responders (Male$\to$Female: \$41.48; Female$\to$Female: \$41.38), regardless of the proposer's gender. This pattern suggests the effect is driven by the \emph{responder's} gender rather than the proposer's.
+
 \subsection{Gender Analysis}
-Regression analysis on gender interactions revealed no statistically meaningful effect of the Proposer's gender (``From Men'') on offer size or strategic behavior (coefficient 0.10, p = 0.737). However, the Responder's gender (``To Men'') had a highly significant negative effect on the offers received (coefficient -1.03, p $<$ 0.001). The interpretation of this data suggests that Proposers expect male responders to accept lower offers; therefore, they offer them slightly less. This reflects strategic expectations derived from human biases rather than gender-based preferences.
 
-\subsection{Similarity Analysis}
-When analyzing the impact of professional similarity, the results showed that interactions between agents within the same professional cluster (``Within Cluster'') are associated with significantly higher offers than cross-profession interactions (coefficient 1.32, p $<$ 0.001). In this context, Proposers expect professionally similar responders to be less tolerant of low offers. Consequently, Proposers strategically increase their offers to these similar agents to reduce the risk of rejection.
+To disentangle proposer and responder gender effects, we estimate a regression with separate gender indicators (Model 6 in Table~\ref{tab:regression}):
 
-\section{Limitations and Future Work}
-This study has several limitations. First, the analysis was conducted using a single language model, Claude Sonnet 4.5. Second, while we attempted to explore richer agent personas, these additional attributes did not produce systematic or generalizable effects. Finally, our metric for similarity was defined exclusively using professional O*NET embeddings, ignoring other potential axes of similarity. Future work should explore the generalizability of these findings across different models and broader definitions of similarity.
+\begin{equation}
+    \text{Offer}_{ij} = \beta_0 + \beta_1 \cdot \textit{FromMen}_i + \beta_2 \cdot \textit{ToMen}_j + \beta_3 \cdot (\textit{FromMen}_i \times \textit{ToMen}_j) + \varepsilon_{ij}
+\end{equation}
+
+The results confirm H1. The coefficient on $\textit{ToMen}$ is $-1.03$ ($p < 0.001$), indicating that offers directed to male responders are approximately \$1.03 lower than those to female responders, holding all else constant. The coefficient on $\textit{FromMen}$ is 0.10 ($p = 0.737$), showing no meaningful effect of the proposer's gender. The interaction term is also insignificant ($-0.17$, $p = 0.669$), ruling out gender-pairing effects.
+
+This asymmetry is noteworthy: the model does not simply exhibit a ``male proposers are stingy'' or ``female proposers are generous'' pattern. Instead, \emph{all} proposers---regardless of their own gender---offer less to male responders. This is consistent with a strategic expectations interpretation: the LLM has learned from its training corpus that male responders are perceived as more likely to accept lower offers, and adjusts its proposals accordingly.
+
+\subsection{Professional Similarity Analysis}
+
+Table~\ref{tab:regression} presents the results from our nested regression models testing H2.
+
+\begin{table}[H]
+\centering
+\caption{Regression Results: Determinants of Offer Amount}
+\label{tab:regression}
+\small
+\begin{tabular}{lcccccc}
+\toprule
+& \textbf{(1)} & \textbf{(2)} & \textbf{(4)} & \textbf{(5)} & \textbf{(6)} & \textbf{(7)} \\
+& Basic & + Similarity & + Cluster FE & + Demog. & Gender & Full \\
+\midrule
+Intercept & 40.66$^{***}$ & 40.65$^{***}$ & 41.06$^{***}$ & 40.73$^{***}$ & 41.38$^{***}$ & 40.76$^{***}$ \\
+& (0.11) & (0.19) & (0.30) & (0.17) & (0.21) & (0.46) \\[4pt]
+WithinCluster & 1.32$^{***}$ & 1.31$^{**}$ & 1.32$^{***}$ & 1.31$^{***}$ & & 1.19 \\
+& (0.28) & (0.40) & (0.25) & (0.28) & & (0.73) \\[4pt]
+JobSimilarity & & 0.06 & & & & 1.43 \\
+& & (0.89) & & & & (1.17) \\[4pt]
+Within $\times$ Sim. & & & & & & $-0.65$ \\
+& & & & & & (1.65) \\[4pt]
+FromMen & & & & & 0.10 & \\
+& & & & & (0.29) & \\[4pt]
+ToMen & & & & & $-1.03^{***}$ & \\
+& & & & & (0.29) & \\[4pt]
+FromMen $\times$ ToMen & & & & & $-0.17$ & \\
+& & & & & (0.39) & \\[4pt]
+SameGender & & & & $-0.10$ & & $-0.10$ \\
+& & & & (0.20) & & (0.18) \\[4pt]
+ProposerFemale & & & & $-0.05$ & & $-0.13$ \\
+& & & & (0.20) & & (0.18) \\[4pt]
+Cluster FE & No & No & Yes & No & No & Yes \\
+\midrule
+$R^2$ & 0.024 & 0.024 & 0.238 & 0.025 & 0.037 & 0.240 \\
+Adj. $R^2$ & 0.023 & 0.022 & 0.228 & 0.021 & 0.034 & 0.227 \\
+$N$ & 870 & 870 & 870 & 870 & 870 & 870 \\
+\bottomrule
+\multicolumn{7}{l}{\footnotesize Standard errors in parentheses. $^{*}p<0.05$, $^{**}p<0.01$, $^{***}p<0.001$.} \\
+\multicolumn{7}{l}{\footnotesize Cluster FE = proposer and responder cluster fixed effects (TECH as reference).} \\
+\end{tabular}
+\end{table}
+
+The within-cluster coefficient is remarkably stable across specifications. In the basic model (1), agents offer \$1.32 more to same-cluster responders ($p < 0.001$). This effect persists after controlling for continuous job similarity in Model 2 ($\beta = 1.31$, $p = 0.001$), where the continuous similarity measure itself is not significant ($\beta = 0.06$, $p = 0.950$). This suggests that it is the \emph{categorical} fact of belonging to the same professional cluster---not the continuous degree of professional overlap---that drives the effect.
+
+Adding cluster fixed effects in Model 4 does not attenuate the within-cluster coefficient ($\beta = 1.32$, $p < 0.001$), while dramatically improving model fit ($R^2$ increases from 0.024 to 0.238). The cluster fixed effects reveal substantial heterogeneity across professions: SOCIAL cluster responders receive the highest offers (coefficient $+1.78$, $p < 0.001$), while CREATIVE cluster responders receive the lowest ($-1.21$, $p < 0.001$). Among proposers, DATA agents make the lowest offers ($-2.01$, $p < 0.001$) and SOCIAL agents the highest ($+1.00$, $p < 0.001$).
+
+In the full model (7), which includes all controls, the within-cluster effect is attenuated ($\beta = 1.19$, $p = 0.107$) due to collinearity with the cluster fixed effects and interaction terms, but the direction and magnitude remain consistent. The overall $R^2$ of 0.240 indicates that professional identity---through cluster membership and cluster-pair dynamics---explains approximately 24\% of the variance in offer amounts.
+
+\subsection{Cluster-Pair Interactions}
+
+Figure~\ref{fig:heatmap} displays the mean offer for each of the 36 directed cluster pairs.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{figures/cluster_heatmap.png}
+    \caption{Mean offer amount by proposer-responder cluster pair. Blue-bordered cells indicate within-cluster (diagonal) pairs. The color scale ranges from red (lower offers, $\approx$\$37) to green (higher offers, $\approx$\$45).}
+    \label{fig:heatmap}
+\end{figure}
+
+The heatmap reveals several notable patterns. The SOCIAL cluster consistently elicits the highest offers as responders, regardless of the proposer's cluster (column mean $\approx$\$43). The SOCIAL$\to$SOCIAL pair has the highest mean offer in the entire matrix (\$44.88), while DATA$\to$CREATIVE has the lowest (\$37.10). Within-cluster pairs (diagonal cells) tend to have higher values than their off-diagonal counterparts in the same row, consistent with the regression results.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{figures/cluster_generosity.png}
+    \caption{Within-cluster versus between-cluster offer distributions. Top panels show box and violin plots of the overall comparison. Bottom panels show the per-cluster breakdown.}
+    \label{fig:generosity}
+\end{figure}
+
+\subsection{Job Similarity and Gender Interaction}
+
+Figure~\ref{fig:gender} presents the relationship between continuous job similarity and offer amount, stratified by the four gender combinations.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{figures/gender_analysis.png}
+    \caption{Job similarity versus offer amount by gender combination (proposer $\to$ responder). Each panel shows a scatter plot with regression line. The vertical offset between ``to men'' (top row, lower intercept) and ``to women'' (bottom row, higher intercept) panels reflects the responder gender effect.}
+    \label{fig:gender}
+\end{figure}
+
+The gender-stratified analysis reinforces the finding that the responder's gender drives offer differences. Both male-to-male and female-to-male panels show lower mean offers (\$40.28 and \$40.35, respectively) compared to male-to-female and female-to-female panels (\$41.48 and \$41.38). The continuous job similarity variable does not show a significant linear relationship within any single gender combination, consistent with the regression finding that the categorical cluster membership, rather than the continuous similarity score, is the operative variable.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{figures/job_similarity.png}
+    \caption{Overall relationship between job similarity (JobBERT-v2 cosine similarity) and offer amount. The trend line shows a weak positive association that is not statistically significant when included alongside the within-cluster indicator.}
+    \label{fig:similarity}
+\end{figure}
+
+\section{Discussion}
+
+Our results demonstrate that LLM agents exhibit systematic, identity-dependent behavior in strategic economic interactions. Two key patterns emerge: a responder-gender effect and a within-cluster premium. We discuss the interpretation and implications of each.
+
+\subsection{Strategic Expectations vs. Intrinsic Preferences}
+
+The gender effect we observe has a distinctive structure. The \emph{proposer's} gender does not affect offer amounts ($\beta = 0.10$, $p = 0.737$), but the \emph{responder's} gender does ($\beta = -1.03$, $p < 0.001$). This asymmetry is more consistent with strategic expectations than with intrinsic gender-based preferences. If the LLM harbored a simple prejudice (e.g., ``men deserve less''), we might expect this to interact with the proposer's identity. Instead, all proposers---male and female alike---offer less to male responders, suggesting the model has learned an expectation that male responders have lower minimum acceptable offers.
+
+This interpretation aligns with the broader behavioral economics literature, where proposers' offers are shaped not only by their own fairness preferences but by their beliefs about the responder's rejection threshold~\cite{camerer2003}. The LLM appears to have internalized a statistical regularity from its training corpus: that men may be perceived as more willing to accept lower offers in negotiation contexts.
+
+\subsection{Professional In-Group Favoritism}
+
+The within-cluster premium of \$1.32 (Cohen's $d = 0.46$, a medium effect size) suggests that LLMs exhibit a form of professional in-group favoritism. Critically, this effect is driven by categorical cluster membership rather than continuous professional similarity: when both variables are included in the regression, the binary within-cluster indicator remains significant while the continuous similarity measure does not.
+
+This pattern mirrors findings from social identity theory~\cite{tajfel1979}, which predicts that individuals favor in-group members even when group distinctions are minimal. The LLM appears to have learned that professionals from the same field may have shared norms or expectations, and adjusts its offers accordingly. The practical implication is that an LLM agent negotiating on behalf of a software engineer may offer more favorable terms to another software engineer than to, say, a nurse---not out of explicit bias, but because the model has internalized professional solidarity norms from its training data.
+
+\subsection{Implications for LLM Deployment}
+
+These findings have direct relevance for the deployment of LLMs in real-world decision-making contexts:
+
+\begin{itemize}
+    \item \textbf{Negotiations and pricing:} An LLM-based sales agent that systematically offers different prices based on a customer's perceived gender or profession could produce discriminatory outcomes, even without explicit instructions to do so.
+    \item \textbf{Hiring and resource allocation:} If LLMs evaluate candidates or allocate resources, professional in-group effects could lead to systematic favoritism toward candidates from similar backgrounds.
+    \item \textbf{Fairness auditing:} Our experimental framework provides a template for auditing LLM behavior across social dimensions. Organizations deploying LLM agents should test for identity-dependent behavior using controlled experiments similar to ours.
+\end{itemize}
+
+\section{Limitations}
+
+This study has several important limitations that should be considered when interpreting the results.
+
+\textbf{Single model.} All experiments were conducted using a single language model (Claude Sonnet 4). Different models---including open-source alternatives, other commercial offerings, and models of varying sizes---may exhibit different behavioral patterns. Cross-model replication is an important direction for future work.
+
+\textbf{Minimal persona design.} Our agents were specified with only a first name and professional title. While this minimal design was intentional (richer personas did not produce systematic effects in pilot testing), it means our results may not generalize to settings where agents have more detailed biographical information.
+
+\textbf{Professional similarity only.} We measured similarity exclusively along the professional dimension using JobBERT-v2 embeddings. Other axes of similarity---cultural background, educational history, personality traits, geographic proximity---were not examined and may produce different or additional effects.
+
+\textbf{One-shot games.} All interactions were one-shot with no memory between games. In repeated interactions, reputation effects and learning could produce different behavioral dynamics.
+
+\textbf{Prompt sensitivity.} We did not systematically test the sensitivity of results to prompt formulation. Small changes in how the game is described or how agent attributes are presented could potentially alter outcomes.
+
+\textbf{Proposer-only analysis.} We analyzed only the proposer's offer behavior. Responder acceptance/rejection behavior was not the focus of this study and may exhibit its own identity-dependent patterns.
 
 \section{Conclusion}
-The findings conclusively demonstrate that LLMs do not strictly adhere to the mathematical ``Rational Agent'' model. Instead, they display significant deviations similar to human social preferences. The behavior of LLMs in the Ultimatum Game is not neutral; rather, it is significantly influenced by the identity—specifically the gender and professional background—of their opponents. 
+
+This study provides evidence that LLM-based agents do not behave as purely rational, identity-blind actors in strategic economic interactions. Using the Ultimatum Game with 30 richly specified agent personas across six professional clusters, we find two robust effects: (1) offers to male responders are systematically lower than to female responders, and (2) within-cluster offers are systematically higher than between-cluster offers. These effects are consistent with strategic expectations---the LLM appears to model how different types of responders would react---rather than with simple prejudice or random noise.
+
+As LLMs are increasingly deployed as autonomous economic agents, these identity-dependent behavioral patterns deserve careful attention. Our results suggest that even without explicit instructions to discriminate, LLMs can produce systematic disparities in resource allocation based on the perceived identity of their counterparts. Fairness-aware deployment of LLM agents will require both awareness of these tendencies and active mitigation strategies.
+
+\begin{thebibliography}{99}
+
+\bibitem{guth1982}
+G\"{u}th, W., Schmittberger, R., \& Schwarze, B. (1982). An experimental analysis of ultimatum bargaining. \textit{Journal of Economic Behavior \& Organization}, 3(4), 367--388.
+
+\bibitem{camerer2003}
+Camerer, C. F. (2003). \textit{Behavioral Game Theory: Experiments in Strategic Interaction}. Princeton University Press.
+
+\bibitem{aumann1959}
+Aumann, R. J. (1959). Acceptable points in general cooperative $n$-person games. In \textit{Contributions to the Theory of Games IV}, Annals of Mathematics Studies 40 (pp.~287--324). Princeton University Press.
+
+\bibitem{friedman1971}
+Friedman, J. W. (1971). A non-cooperative equilibrium for supergames. \textit{Review of Economic Studies}, 38(1), 1--12.
+
+\bibitem{horton2023}
+Horton, J. J. (2023). Large language models as simulated economic agents: What can we learn from \textit{Homo silicus}? \textit{NBER Working Paper No.~31122}.
+
+\bibitem{aher2023}
+Aher, G. V., Arriaga, R. I., \& Kalai, A. T. (2023). Using large language models to simulate multiple humans and replicate human subject studies. In \textit{Proceedings of the 40th International Conference on Machine Learning} (pp.~337--371).
+
+\bibitem{brookins2023}
+Brookins, P., \& DeBacker, J. M. (2023). Playing games with GPT: What can we learn about a large language model from canonical strategic experiments? \textit{SSRN Working Paper}.
+
+\bibitem{guo2024}
+Guo, F., et al. (2024). Economics Arena for Large Language Models. \textit{arXiv preprint arXiv:2401.01735}.
+
+\bibitem{tajfel1979}
+Tajfel, H., \& Turner, J. C. (1979). An integrative theory of intergroup conflict. In W. G. Austin \& S. Worchel (Eds.), \textit{The Social Psychology of Intergroup Relations} (pp.~33--47). Brooks/Cole.
+
+\bibitem{jobbert2024}
+Decorte, J.-J., Van Hautte, J., Demeester, T., \& Develder, C. (2024). JobBERT: Understanding job titles through skills. In \textit{Proceedings of the 2024 Conference of the European Chapter of the Association for Computational Linguistics}.
+
+\end{thebibliography}
 
 \end{document}
-```

@@ -7,6 +7,9 @@ token_counter.py
 test_results/
 game_results.json
 
+# Python version manager
+.python-version
+
 # Python
 __pycache__/
 *.py[cod]

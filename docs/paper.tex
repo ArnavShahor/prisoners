@@ -158,6 +158,7 @@ Table~\ref{tab:regression} presents the results from our nested regression model
 \caption{Regression Results: Determinants of Offer Amount}
 \label{tab:regression}
 \small
+\resizebox{\textwidth}{!}{%
 \begin{tabular}{lccccccc}
 \toprule
 & \textbf{(1)} & \textbf{(2)} & \textbf{(3)} & \textbf{(4)} & \textbf{(5)} & \textbf{(6)} & \textbf{(7)} \\
@@ -189,7 +190,7 @@ $N$ & 870 & 870 & 870 & 870 & 870 & 870 & 870 \\
 \bottomrule
 \multicolumn{8}{l}{\footnotesize Standard errors in parentheses. $^{*}p<0.05$, $^{**}p<0.01$, $^{***}p<0.001$.} \\
 \multicolumn{8}{l}{\footnotesize Cluster FE = proposer and responder cluster fixed effects (TECH as reference).} \\
-\end{tabular}
+\end{tabular}}
 \end{table}
 
 The within-cluster coefficient is remarkably stable across specifications. In the basic model (1), agents offer \$1.32 more to same-cluster responders ($p < 0.001$, 95\% CI: [\$0.77, \$1.87]). This effect persists after controlling for continuous job similarity in Model 2 ($\beta = 1.31$, $p = 0.001$), where the continuous similarity measure itself is not significant ($\beta = 0.06$, $p = 0.950$). This suggests that it is the \emph{categorical} fact of belonging to the same professional cluster---not the continuous degree of professional overlap---that drives the effect. Adding the within-cluster $\times$ similarity interaction in Model 3 does not improve fit ($R^2 = 0.025$); the interaction term is not significant ($\beta = -0.86$, $p = 0.640$), further confirming that the categorical cluster boundary drives the effect independently of continuous similarity.

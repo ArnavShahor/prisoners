@@ -22,7 +22,7 @@
 \maketitle
 
 \begin{abstract}
-As Large Language Models (LLMs) are increasingly deployed as autonomous economic agents---negotiating prices, allocating resources, and making strategic decisions on behalf of users---it is critical to determine whether they behave as purely rational actors or if they inherit human biases. This paper investigates how social considerations, specifically gender and professional similarity, influence LLM decision-making in the Ultimatum Game. We construct 30 LLM-based agents with distinct personas (name, gender, and profession) drawn from six professional clusters, and simulate 8,700 one-shot Ultimatum Game interactions using Claude Sonnet 4. We find that LLM agents significantly deviate from pure mathematical rationality: offers to male responders are \$1.03 lower than to female responders ($p < 0.001$), and within-cluster offers are \$1.32 higher than between-cluster offers ($p < 0.001$). Crucially, the proposer's own gender has no effect on offer size, suggesting these patterns reflect strategic expectations about the opponent's behavior rather than intrinsic gender-based preferences. These results are robust across multiple regression specifications including cluster fixed effects. Our findings have direct implications for the deployment of LLMs in negotiation, customer service, and hiring contexts, where identity-dependent behavior could produce systematic disparities.
+As Large Language Models (LLMs) are increasingly deployed as autonomous economic agents -- negotiating prices, allocating resources, and making strategic decisions on behalf of users -- it is critical to determine whether they behave as purely rational actors or if they inherit human biases. This paper investigates how social considerations, specifically gender and professional similarity, influence LLM decision-making in the Ultimatum Game. We construct 30 LLM-based agents with distinct personas (name, gender, and profession) drawn from six professional clusters, and simulate 8,700 one-shot Ultimatum Game interactions using Claude Sonnet 4. We find that LLM agents significantly deviate from pure mathematical rationality: offers to male responders are \$1.03 lower than to female responders ($p < 0.001$), and within-cluster offers are \$1.32 higher than between-cluster offers ($p < 0.001$). Crucially, the proposer's own gender has no effect on offer size, suggesting these patterns reflect strategic expectations about the opponent's behavior rather than intrinsic gender-based preferences. These results are robust across multiple regression specifications including cluster fixed effects. Our findings have direct implications for the deployment of LLMs in negotiation, customer service, and hiring contexts, where identity-dependent behavior could produce systematic disparities.
 \end{abstract}
 
 \section{Introduction}
@@ -33,7 +33,7 @@ These deviations from theoretical predictions have been attributed to fairness n
 
 A growing body of research has begun to examine whether LLMs exhibit similar behavioral patterns when placed in the role of economic agents, and whether they inherit human biases around gender and social identity. We review this literature in Section~\ref{sec:related}.
 
-The practical importance of understanding LLM decision-making biases is growing rapidly. LLMs are being deployed as autonomous agents in customer service negotiations, hiring decisions, resource allocation, and financial transactions. If these models exhibit identity-dependent behavior---offering different terms based on a counterpart's perceived gender or professional background---the resulting disparities could have significant real-world consequences, particularly in high-stakes domains where fairness and equal treatment are legally or ethically mandated.
+The practical importance of understanding LLM decision-making biases is growing rapidly. LLMs are being deployed as autonomous agents in customer service negotiations, hiring decisions, resource allocation, and financial transactions. If these models exhibit identity-dependent behavior -- offering different terms based on a counterpart's perceived gender or professional background -- the resulting disparities could have significant real-world consequences, particularly in high-stakes domains where fairness and equal treatment are legally or ethically mandated.
 
 Our study makes two primary contributions. First, we introduce a controlled experimental framework with richly specified agent personas organized into professional clusters, enabling us to test both gender and professional similarity effects simultaneously. Second, we provide evidence for two specific hypotheses:
 
@@ -55,7 +55,7 @@ A substantial literature has documented social biases embedded in language techn
 
 \subsection{Social Identity and In-Group Effects}
 
-Social identity theory~\cite{tajfel1979} predicts that individuals favor in-group members even when group distinctions are arbitrary or minimal. The minimal group paradigm~\cite{tajfel1970} has shown that merely categorizing individuals into groups---even on trivial criteria---is sufficient to produce in-group favoritism in resource allocation tasks. Our professional cluster design parallels this paradigm: agents assigned to the same occupational cluster exhibit higher offers to one another, suggesting that the LLM has internalized norms of professional solidarity from its training data.
+Social identity theory~\cite{tajfel1979} predicts that individuals favor in-group members even when group distinctions are arbitrary or minimal. The minimal group paradigm~\cite{tajfel1970} has shown that merely categorizing individuals into groups -- even on trivial criteria -- is sufficient to produce in-group favoritism in resource allocation tasks. Our professional cluster design parallels this paradigm: agents assigned to the same occupational cluster exhibit higher offers to one another, suggesting that the LLM has internalized norms of professional solidarity from its training data.
 
 \section{Experimental Design and Methodology}
 
@@ -64,15 +64,15 @@ Social identity theory~\cite{tajfel1979} predicts that individuals favor in-grou
 We constructed 30 distinct AI-based agents, each defined by a unique combination of first name, gender, and professional title. The agent pool comprises 16 male and 14 female personas, organized into six professional clusters of five agents each. Each cluster contains a mix of genders (either 3 male / 2 female or 2 male / 3 female). The clusters, designed to represent meaningfully distinct occupational domains, are:
 
 \begin{enumerate}
-    \item \textbf{TECH} --- Software Engineering \& Systems Development (e.g., Backend Software Engineer, Full Stack Software Engineer)
-    \item \textbf{DATA} --- Data, Analytics \& Quantitative Research (e.g., Data Scientist, Machine Learning Engineer)
-    \item \textbf{HEALTH} --- Healthcare \& Clinical Professions (e.g., Registered Nurse, Physical Therapist)
-    \item \textbf{SOCIAL} --- Education, Social Services \& Public Sector (e.g., High School Mathematics Teacher, Social Services Case Manager)
-    \item \textbf{TRADES} --- Skilled Trades \& Physical Engineering (e.g., Industrial Electrician, HVAC Systems Technician)
-    \item \textbf{CREATIVE} --- Creative, Marketing \& Content Roles (e.g., Brand Strategist, Visual Communication Designer)
+    \item \textbf{TECH} -- Software Engineering \& Systems Development (e.g., Backend Software Engineer, Full Stack Software Engineer)
+    \item \textbf{DATA} -- Data, Analytics \& Quantitative Research (e.g., Data Scientist, Machine Learning Engineer)
+    \item \textbf{HEALTH} -- Healthcare \& Clinical Professions (e.g., Registered Nurse, Physical Therapist)
+    \item \textbf{SOCIAL} -- Education, Social Services \& Public Sector (e.g., High School Mathematics Teacher, Social Services Case Manager)
+    \item \textbf{TRADES} -- Skilled Trades \& Physical Engineering (e.g., Industrial Electrician, HVAC Systems Technician)
+    \item \textbf{CREATIVE} -- Creative, Marketing \& Content Roles (e.g., Brand Strategist, Visual Communication Designer)
 \end{enumerate}
 
-Each cluster contains a mix of male and female agents. The persona specification was deliberately minimal: agents received only a first name and professional title. This ``minimal prompt'' design choice was intentional---richer persona descriptions (including personality traits, hobbies, and backstory) were tested in pilot experiments but did not produce systematic or generalizable effects on game behavior, likely because the additional attributes introduced noise rather than signal.
+Each cluster contains a mix of male and female agents. The persona specification was deliberately minimal: agents received only a first name and professional title. This ``minimal prompt'' design choice was intentional -- richer persona descriptions (including personality traits, hobbies, and backstory) were tested in pilot experiments but did not produce systematic or generalizable effects on game behavior, likely because the additional attributes introduced noise rather than signal.
 
 \subsection{LLM Configuration}
 
@@ -147,7 +147,7 @@ To disentangle proposer and responder gender effects, we estimate a regression w
 
 The results confirm H1. The coefficient on $\textit{ToMen}$ is $-1.03$ ($p < 0.001$, 95\% CI: $[-1.59, -0.47]$), indicating that offers directed to male responders are approximately \$1.03 lower than those to female responders, holding all else constant. The coefficient on $\textit{FromMen}$ is 0.10 ($p = 0.737$), showing no meaningful effect of the proposer's gender. The interaction term is also insignificant ($-0.17$, $p = 0.669$), ruling out gender-pairing effects.
 
-This asymmetry is noteworthy: the model does not simply exhibit a ``male proposers are stingy'' or ``female proposers are generous'' pattern. Instead, \emph{all} proposers---regardless of their own gender---offer less to male responders. This is consistent with a strategic expectations interpretation: the LLM has learned from its training corpus that male responders are perceived as more likely to accept lower offers, and adjusts its proposals accordingly.
+This asymmetry is noteworthy: the model does not simply exhibit a ``male proposers are stingy'' or ``female proposers are generous'' pattern. Instead, \emph{all} proposers -- regardless of their own gender -- offer less to male responders. This is consistent with a strategic expectations interpretation: the LLM has learned from its training corpus that male responders are perceived as more likely to accept lower offers, and adjusts its proposals accordingly.
 
 \subsection{Professional Similarity Analysis}
 
@@ -193,11 +193,11 @@ $N$ & 870 & 870 & 870 & 870 & 870 & 870 & 870 \\
 \end{tabular}}
 \end{table}
 
-The within-cluster coefficient is remarkably stable across specifications. In the basic model (1), agents offer \$1.32 more to same-cluster responders ($p < 0.001$, 95\% CI: [\$0.77, \$1.87]). This effect persists after controlling for continuous job similarity in Model 2 ($\beta = 1.31$, $p = 0.001$), where the continuous similarity measure itself is not significant ($\beta = 0.06$, $p = 0.950$). This suggests that it is the \emph{categorical} fact of belonging to the same professional cluster---not the continuous degree of professional overlap---that drives the effect. Adding the within-cluster $\times$ similarity interaction in Model 3 does not improve fit ($R^2 = 0.025$); the interaction term is not significant ($\beta = -0.86$, $p = 0.640$), further confirming that the categorical cluster boundary drives the effect independently of continuous similarity.
+The within-cluster coefficient is remarkably stable across specifications. In the basic model (1), agents offer \$1.32 more to same-cluster responders ($p < 0.001$, 95\% CI: [\$0.77, \$1.87]). This effect persists after controlling for continuous job similarity in Model 2 ($\beta = 1.31$, $p = 0.001$), where the continuous similarity measure itself is not significant ($\beta = 0.06$, $p = 0.950$). This suggests that it is the \emph{categorical} fact of belonging to the same professional cluster -- not the continuous degree of professional overlap -- that drives the effect. Adding the within-cluster $\times$ similarity interaction in Model 3 does not improve fit ($R^2 = 0.025$); the interaction term is not significant ($\beta = -0.86$, $p = 0.640$), further confirming that the categorical cluster boundary drives the effect independently of continuous similarity.
 
 Adding cluster fixed effects in Model 4 does not attenuate the within-cluster coefficient ($\beta = 1.32$, $p < 0.001$), while dramatically improving model fit ($R^2$ increases from 0.024 to 0.238). The cluster fixed effects reveal substantial heterogeneity across professions: SOCIAL cluster responders receive the highest offers (coefficient $+1.78$, $p < 0.001$), while CREATIVE cluster responders receive the lowest ($-1.21$, $p < 0.001$). Among proposers, DATA agents make the lowest offers ($-2.01$, $p < 0.001$) and SOCIAL agents the highest ($+1.00$, $p < 0.001$).
 
-In the full model (7), which includes all controls, the within-cluster effect is attenuated ($\beta = 1.19$, $p = 0.107$) due to collinearity with the cluster fixed effects and interaction terms, but the direction and magnitude remain consistent. The overall $R^2$ of 0.240 indicates that professional identity---through cluster membership and cluster-pair dynamics---explains approximately 24\% of the variance in offer amounts.
+In the full model (7), which includes all controls, the within-cluster effect is attenuated ($\beta = 1.19$, $p = 0.107$) due to collinearity with the cluster fixed effects and interaction terms, but the direction and magnitude remain consistent. The overall $R^2$ of 0.240 indicates that professional identity -- through cluster membership and cluster-pair dynamics -- explains approximately 24\% of the variance in offer amounts.
 
 \subsection{Cluster-Pair Interactions}
 
@@ -245,7 +245,7 @@ Our results demonstrate that LLM agents exhibit systematic, identity-dependent b
 
 \subsection{Strategic Expectations vs. Intrinsic Preferences}
 
-The gender effect we observe has a distinctive structure. The \emph{proposer's} gender does not affect offer amounts ($\beta = 0.10$, $p = 0.737$), but the \emph{responder's} gender does ($\beta = -1.03$, $p < 0.001$). This asymmetry is more consistent with strategic expectations than with intrinsic gender-based preferences. If the LLM harbored a simple prejudice (e.g., ``men deserve less''), we might expect this to interact with the proposer's identity. Instead, all proposers---male and female alike---offer less to male responders, suggesting the model has learned an expectation that male responders have lower minimum acceptable offers.
+The gender effect we observe has a distinctive structure. The \emph{proposer's} gender does not affect offer amounts ($\beta = 0.10$, $p = 0.737$), but the \emph{responder's} gender does ($\beta = -1.03$, $p < 0.001$). This asymmetry is more consistent with strategic expectations than with intrinsic gender-based preferences. If the LLM harbored a simple prejudice (e.g., ``men deserve less''), we might expect this to interact with the proposer's identity. Instead, all proposers -- male and female alike -- offer less to male responders, suggesting the model has learned an expectation that male responders have lower minimum acceptable offers.
 
 This interpretation aligns with the broader behavioral economics literature, where proposers' offers are shaped not only by their own fairness preferences but by their beliefs about the responder's rejection threshold~\cite{camerer2003}. The LLM appears to have internalized a statistical regularity from its training corpus: that men may be perceived as more willing to accept lower offers in negotiation contexts.
 
@@ -255,7 +255,7 @@ An alternative interpretation is that the model has learned gender-stereotyped a
 
 The within-cluster premium of \$1.32 (95\% CI: [\$0.77, \$1.87]) suggests that LLMs exhibit a form of professional in-group favoritism. Critically, this effect is driven by categorical cluster membership rather than continuous professional similarity: when both variables are included in the regression, the binary within-cluster indicator remains significant while the continuous similarity measure does not.
 
-This pattern mirrors findings from social identity theory~\cite{tajfel1979}, which predicts that individuals favor in-group members even when group distinctions are minimal. The LLM appears to have learned that professionals from the same field may have shared norms or expectations, and adjusts its offers accordingly. The practical implication is that an LLM agent negotiating on behalf of a software engineer may offer more favorable terms to another software engineer than to, say, a nurse---not out of explicit bias, but because the model has internalized professional solidarity norms from its training data.
+This pattern mirrors findings from social identity theory~\cite{tajfel1979}, which predicts that individuals favor in-group members even when group distinctions are minimal. The LLM appears to have learned that professionals from the same field may have shared norms or expectations, and adjusts its offers accordingly. The practical implication is that an LLM agent negotiating on behalf of a software engineer may offer more favorable terms to another software engineer than to, say, a nurse -- not out of explicit bias, but because the model has internalized professional solidarity norms from its training data.
 
 \subsection{Implications for LLM Deployment}
 
@@ -271,11 +271,11 @@ These findings have direct relevance for the deployment of LLMs in real-world de
 
 This study has several important limitations that should be considered when interpreting the results.
 
-\textbf{Single model.} All experiments were conducted using a single language model (Claude Sonnet 4). Different models---including open-source alternatives, other commercial offerings, and models of varying sizes---may exhibit different behavioral patterns. Cross-model replication is an important direction for future work.
+\textbf{Single model.} All experiments were conducted using a single language model (Claude Sonnet 4). Different models -- including open-source alternatives, other commercial offerings, and models of varying sizes -- may exhibit different behavioral patterns. Cross-model replication is an important direction for future work.
 
 \textbf{Minimal persona design.} Our agents were specified with only a first name and professional title. While this minimal design was intentional (richer personas did not produce systematic effects in pilot testing), it means our results may not generalize to settings where agents have more detailed biographical information.
 
-\textbf{Professional similarity only.} We measured similarity exclusively along the professional dimension using JobBERT-v2 embeddings. Other axes of similarity---cultural background, educational history, personality traits, geographic proximity---were not examined and may produce different or additional effects.
+\textbf{Professional similarity only.} We measured similarity exclusively along the professional dimension using JobBERT-v2 embeddings. Other axes of similarity -- cultural background, educational history, personality traits, geographic proximity -- were not examined and may produce different or additional effects.
 
 \textbf{One-shot games.} All interactions were one-shot with no memory between games. In repeated interactions, reputation effects and learning could produce different behavioral dynamics.
 
@@ -287,7 +287,7 @@ This study has several important limitations that should be considered when inte
 
 \section{Conclusion}
 
-This study provides evidence that LLM-based agents do not behave as purely rational, identity-blind actors in strategic economic interactions. Using the Ultimatum Game with 30 richly specified agent personas across six professional clusters, we find two robust effects: (1) offers to male responders are systematically lower than to female responders, and (2) within-cluster offers are systematically higher than between-cluster offers. These effects are consistent with strategic expectations---the LLM appears to model how different types of responders would react---rather than with simple prejudice or random noise.
+This study provides evidence that LLM-based agents do not behave as purely rational, identity-blind actors in strategic economic interactions. Using the Ultimatum Game with 30 richly specified agent personas across six professional clusters, we find two robust effects: (1) offers to male responders are systematically lower than to female responders, and (2) within-cluster offers are systematically higher than between-cluster offers. These effects are consistent with strategic expectations -- the LLM appears to model how different types of responders would react -- rather than with simple prejudice or random noise.
 
 As LLMs are increasingly deployed as autonomous economic agents, these identity-dependent behavioral patterns deserve careful attention. Our results suggest that even without explicit instructions to discriminate, LLMs can produce systematic disparities in resource allocation based on the perceived identity of their counterparts. Fairness-aware deployment of LLM agents will require both awareness of these tendencies and active mitigation strategies.
 

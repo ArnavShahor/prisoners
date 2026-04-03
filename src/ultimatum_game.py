@@ -8,7 +8,7 @@ import argparse
 import json
 import time
 from typing import Any
-from llm_api import query_llm_with_usage
+from .anthropic_api import query_llm_with_usage
 
 
 # ============================================================================
@@ -22,7 +22,7 @@ DEFAULT_GAMES_PER_DIRECTION = 5  # Number of games each agent plays as proposer
 DEFAULT_PROPOSER_ONLY_MODE = True  # True = only proposer offers (fast), False = full game
 DEFAULT_SELF_DESCRIPTION = "minimal"  # "full", "limited", or "minimal"
 DEFAULT_OPPONENT_DESCRIPTION = "minimal"  # "full", "limited", or "minimal"
-DEFAULT_PERSONAS_FILE = "Personas_Jobs.json"
+DEFAULT_PERSONAS_FILE = "data/Personas_Jobs.json"
 DEFAULT_TRANSFER_RATE = 1.0  # Transfer efficiency (1.0 = no loss, 0.5 = 50% loss)
 
 # Runtime configuration (set by command-line args or defaults)
@@ -671,7 +671,7 @@ class UltimatumGame:
 # ============================================================================
 
 
-def load_personas(filepath: str = "Personas_Jobs.json") -> list[dict[str, Any]]:
+def load_personas(filepath: str = "data/Personas_Jobs.json") -> list[dict[str, Any]]:
     """Load persona data from JSON file."""
     with open(filepath, "r", encoding="utf-8") as f:
         personas = json.load(f)
@@ -1020,8 +1020,8 @@ Examples:
     parser.add_argument(
         "--personas-file",
         type=str,
-        default="Personas_Jobs.json",
-        help="Path to personas JSON file. Default: Personas_Jobs.json"
+        default="data/Personas_Jobs.json",
+        help="Path to personas JSON file. Default: data/Personas_Jobs.json"
     )
 
     # Output configuration
@@ -1072,7 +1072,7 @@ def main():
     TRANSFER_RATE = args.transfer_rate
 
     # Create test_results directory if it doesn't exist
-    results_dir = "test_results"
+    results_dir = "results"
     os.makedirs(results_dir, exist_ok=True)
 
     # Generate parameter-based filename

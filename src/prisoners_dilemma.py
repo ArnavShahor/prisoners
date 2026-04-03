@@ -8,7 +8,7 @@ import json
 import random
 import time
 from typing import Any
-from token_counter import query_llm_with_usage
+from .anthropic_api import query_llm_with_usage
 
 
 # ============================================================================

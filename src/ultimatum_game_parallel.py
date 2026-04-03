@@ -16,7 +16,8 @@ from threading import Lock, Semaphore
 import sys
 
 # Import components from the original ultimatum_game module
-from ultimatum_game import (
+from . import ultimatum_game
+from .ultimatum_game import (
     UltimatumAgent,
     UltimatumGame,
     load_personas,
@@ -113,7 +114,6 @@ def run_single_game(args: tuple) -> Optional[dict[str, Any]]:
         if api_semaphore:
             with api_semaphore:
                 # Override the global variables for this thread
-                import ultimatum_game
                 ultimatum_game.TOTAL_AMOUNT = TOTAL_AMOUNT
                 ultimatum_game.PROPOSER_ONLY_MODE = PROPOSER_ONLY_MODE
                 ultimatum_game.SELF_DESCRIPTION = SELF_DESCRIPTION
@@ -125,7 +125,6 @@ def run_single_game(args: tuple) -> Optional[dict[str, Any]]:
                 return result
         else:
             # No semaphore, run without rate limiting
-            import ultimatum_game
             ultimatum_game.TOTAL_AMOUNT = TOTAL_AMOUNT
             ultimatum_game.PROPOSER_ONLY_MODE = PROPOSER_ONLY_MODE
             ultimatum_game.SELF_DESCRIPTION = SELF_DESCRIPTION
@@ -461,8 +460,8 @@ Examples:
     parser.add_argument(
         "--personas-file",
         type=str,
-        default="Personas_Jobs.json",
-        help="Path to personas JSON file. Default: Personas_Jobs.json"
+        default="data/Personas_Jobs.json",
+        help="Path to personas JSON file. Default: data/Personas_Jobs.json"
     )
 
     # Output configuration
@@ -515,7 +514,6 @@ def main():
     TRANSFER_RATE = args.transfer_rate
 
     # Also update the original module's globals
-    import ultimatum_game
     ultimatum_game.TOTAL_AMOUNT = TOTAL_AMOUNT
     ultimatum_game.PROPOSER_ONLY_MODE = PROPOSER_ONLY_MODE
     ultimatum_game.SELF_DESCRIPTION = SELF_DESCRIPTION
@@ -523,7 +521,7 @@ def main():
     ultimatum_game.TRANSFER_RATE = TRANSFER_RATE
 
     # Create test_results directory if it doesn't exist
-    results_dir = "test_results"
+    results_dir = "results"
     os.makedirs(results_dir, exist_ok=True)
 
     # Generate parameter-based filename

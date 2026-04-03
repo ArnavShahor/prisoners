@@ -86,7 +86,7 @@ CLUSTERS = {
 }
 
 
-def load_clustered_jobs(filepath: str = "clustered_jobs.json") -> dict:
+def load_clustered_jobs(filepath: str = "data/clustered_jobs.json") -> dict:
     """Load clustered jobs and create job-to-cluster mapping."""
     with open(filepath, 'r', encoding='utf-8') as f:
         jobs_list = json.load(f)
@@ -622,8 +622,8 @@ def main():
     parser.add_argument(
         '--clustered-jobs',
         type=str,
-        default='clustered_jobs.json',
-        help='Path to clustered jobs JSON file (default: clustered_jobs.json)'
+        default='data/clustered_jobs.json',
+        help='Path to clustered jobs JSON file (default: data/clustered_jobs.json)'
     )
     parser.add_argument(
         '--output-dir',

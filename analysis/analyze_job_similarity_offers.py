@@ -21,7 +21,7 @@ plt.rcParams['figure.figsize'] = (14, 8)
 plt.rcParams['font.size'] = 11
 
 
-def load_job_similarities(filepath: str = "job_similarities.json") -> dict:
+def load_job_similarities(filepath: str = "data/job_similarities.json") -> dict:
     """Load job similarity matrix from JSON."""
     with open(filepath, 'r', encoding='utf-8') as f:
         return json.load(f)
@@ -352,8 +352,8 @@ def main():
     parser.add_argument(
         '--similarities',
         type=str,
-        default='job_similarities.json',
-        help='Path to job similarities JSON file (default: job_similarities.json)'
+        default='data/job_similarities.json',
+        help='Path to job similarities JSON file (default: data/job_similarities.json)'
     )
     parser.add_argument(
         '--output-dir',
@@ -549,8 +549,8 @@ def main():
     parser.add_argument(
         '--similarities',
         type=str,
-        default='job_similarities.json',
-        help='Path to job similarities JSON file (default: job_similarities.json)'
+        default='data/job_similarities.json',
+        help='Path to job similarities JSON file (default: data/job_similarities.json)'
     )
     parser.add_argument(
         '--output-dir',

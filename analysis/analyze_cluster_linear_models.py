@@ -82,7 +82,7 @@ CLUSTERS = {
 }
 
 
-def load_clustered_jobs(filepath: str = "clustered_jobs.json") -> dict:
+def load_clustered_jobs(filepath: str = "data/clustered_jobs.json") -> dict:
     """Load clustered jobs and create job-to-cluster mapping."""
     with open(filepath, 'r', encoding='utf-8') as f:
         jobs_list = json.load(f)
@@ -97,7 +97,7 @@ def load_clustered_jobs(filepath: str = "clustered_jobs.json") -> dict:
     return job_to_cluster
 
 
-def load_job_similarities(filepath: str = "job_similarities.json") -> dict:
+def load_job_similarities(filepath: str = "data/job_similarities.json") -> dict:
     """Load job similarity matrix."""
     with open(filepath, 'r', encoding='utf-8') as f:
         return json.load(f)
@@ -496,13 +496,13 @@ def main():
     parser.add_argument(
         '--clustered-jobs',
         type=str,
-        default='clustered_jobs.json',
+        default='data/clustered_jobs.json',
         help='Path to clustered jobs JSON file'
     )
     parser.add_argument(
         '--similarities',
         type=str,
-        default='cluster_similarities.json',
+        default='data/cluster_similarities.json',
         help='Path to job similarities JSON file (optional)'
     )
     

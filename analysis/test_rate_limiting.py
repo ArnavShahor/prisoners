@@ -66,19 +66,19 @@ def main():
     tests = [
         # Test 1: Conservative settings (should work well)
         ("Conservative: 5 workers, 5 API limit",
-         "python3 ultimatum_game_parallel.py -p 0,1,2 -g 2 -w 5 --api-rate-limit 5"),
+         "python3 -m src.ultimatum_game_parallel -p 0,1,2 -g 2 -w 5 --api-rate-limit 5"),
 
         # Test 2: Moderate settings
         ("Moderate: 10 workers, 10 API limit",
-         "python3 ultimatum_game_parallel.py -p 0,1,2,3 -g 2 -w 10 --api-rate-limit 10"),
+         "python3 -m src.ultimatum_game_parallel -p 0,1,2,3 -g 2 -w 10 --api-rate-limit 10"),
 
         # Test 3: Aggressive but with rate limiting
         ("Aggressive with limiting: 20 workers, 10 API limit",
-         "python3 ultimatum_game_parallel.py -p 0,1,2,3 -g 3 -w 20 --api-rate-limit 10"),
+         "python3 -m src.ultimatum_game_parallel -p 0,1,2,3 -g 3 -w 20 --api-rate-limit 10"),
 
         # Test 4: Very conservative (for comparison)
         ("Very Conservative: 3 workers, 3 API limit",
-         "python3 ultimatum_game_parallel.py -p 0,1 -g 2 -w 3 --api-rate-limit 3"),
+         "python3 -m src.ultimatum_game_parallel -p 0,1 -g 2 -w 3 --api-rate-limit 3"),
     ]
 
     results = []

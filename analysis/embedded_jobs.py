@@ -71,8 +71,8 @@ DEFAULT_JOB_TITLES = [
 def main():
     parser = argparse.ArgumentParser(description='Generate embeddings and similarity matrix for job titles')
     parser.add_argument('--input-jobs', type=str, default=None, help='Path to JSON file with job titles (optional)')
-    parser.add_argument('--output-embeddings', type=str, default='job_embeddings.json', help='Output file for embeddings')
-    parser.add_argument('--output-similarities', type=str, default='job_similarities.json', help='Output file for similarities')
+    parser.add_argument('--output-embeddings', type=str, default='data/job_embeddings.json', help='Output file for embeddings')
+    parser.add_argument('--output-similarities', type=str, default='data/job_similarities.json', help='Output file for similarities')
     
     args = parser.parse_args()
     

@@ -8,7 +8,7 @@ This project simulates one-shot Ultimatum Games between AI agents powered by lar
 
 **Key Features:**
 - 100 pre-defined agent personalities with detailed backgrounds
-- Support for multiple LLM providers (Anthropic, Apple internal)
+- Anthropic Claude API integration
 - Token usage tracking and cost estimation
 - Rich metadata capture (reasoning, token counts, failures)
 - CSV and JSON output with personality distance metrics
@@ -20,62 +20,71 @@ This project simulates one-shot Ultimatum Games between AI agents powered by lar
 1. Install Python 3.10+
 2. Install required packages:
 ```bash
-pip install anthropic  # For Anthropic API
+pip install anthropic
 ```
 
 ### Running the Simulation
 
-**Using Anthropic API:**
 ```bash
-export LLM_PROVIDER=anthropic
 export ANTHROPIC_API_KEY=sk-ant-...
-python ultimatum_game.py
+python -m src.ultimatum_game
 ```
 
-The simulation will run in test mode by default (6 agents, 90 games) and save results to `test_results/`.
+The simulation will run in test mode by default (6 agents, 90 games) and save results to `results/`.
+
+**Parallel execution:**
+```bash
+python -m src.ultimatum_game_parallel --players 0-5 --games 5 --workers 10
+```
 
 ## Project Structure
 
 ```
-├── ultimatum_game.py      # Main Ultimatum Game implementation
-├── prisoners_dilemma.py   # Prisoner's Dilemma game
-├── llm_api.py            # LLM provider router
-├── anthropic_api.py      # Anthropic API implementation
-├── Personas.json         # 100 agent personality profiles
-├── measure_cost.py       # Cost estimation utility
-└── ULTIMATUM_GAME_PLAN.md # Detailed design documentation
+├── src/                              # Core simulation code
+│   ├── anthropic_api.py              # Anthropic API wrapper
+│   ├── ultimatum_game.py             # Main Ultimatum Game implementation
+│   ├── ultimatum_game_parallel.py    # Parallel execution version
+│   └── prisoners_dilemma.py          # Prisoner's Dilemma game
+│
+├── analysis/                         # Analysis & utility scripts
+│   ├── analyze_cluster_generosity.py
+│   ├── analyze_cluster_linear_models.py
+│   ├── analyze_job_similarity_offers.py
+│   ├── combine_runs.py
+│   ├── measure_cost.py
+│   ├── embedded_jobs.py
+│   └── test_rate_limiting.py
+│
+├── data/                             # Input JSON data
+│   ├── Personas.json
+│   ├── Personas_Jobs.json
+│   └── *.json (embeddings, similarities, clusters)
+│
+├── results/                          # Simulation outputs (gitignored)
+├── visualizations/                   # Generated plots
+└── docs/                             # Paper and documentation
 ```
 
 ## Configuration
 
-Edit configuration constants in `ultimatum_game.py`:
+Configuration is controlled via command-line arguments:
 
-```python
-TEST_MODE = True              # Test mode (6 agents) or full mode (100 agents)
-TEST_AGENT_INDICES = [24, 65, 40, 59, 70, 98]  # Which agents to use
-TEST_GAMES_PER_DIRECTION = 3  # Games per agent pair
-PROPOSER_ONLY_MODE = True     # Skip responder decision (faster)
+```bash
+python -m src.ultimatum_game --players 0-5 --games 5 --proposer-only
+python -m src.ultimatum_game --personas-file data/Personas_Jobs.json --transfer-rate 0.8
 ```
 
 ### Environment Variables
 
-- `LLM_PROVIDER` - API provider: `anthropic` or `apple` (default: `apple`)
 - `ANTHROPIC_API_KEY` - Your Anthropic API key
 
 ## How It Works
 
-1. **Load Personas**: 100 agents with unique personalities from `Personas.json`
-2. **Agent Selection**: In test mode, uses a subset of 6 agents
+1. **Load Personas**: 100 agents with unique personalities from `data/Personas_Jobs.json`
+2. **Agent Selection**: Select a subset of agents by index
 3. **Game Loop**: Each agent plays as proposer against all others
 4. **LLM Decision**: Agent decides how to split $100 (e.g., "I offer you $40")
 5. **Results**: Saves detailed JSON and CSV files with offers, reasoning, and token usage
-
-### Example Output
-
-```
-ultimatum_results_20241128_143522.json  # Full game data
-ultimatum_results_20241128_143522.csv   # Simplified analysis
-```
 
 ## The Ultimatum Game
 
@@ -87,8 +96,3 @@ In the Ultimatum Game:
 ## License
 
 This project is for research and educational purposes.
-
-## Related Files
-
-- See `ULTIMATUM_GAME_PLAN.md` for detailed implementation notes
-- See `measure_cost.py` for API cost estimation tools

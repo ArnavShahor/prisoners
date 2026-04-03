@@ -43,22 +43,21 @@ python -m src.ultimatum_game_parallel --players 0-5 --games 5 --workers 10
 ├── src/                              # Core simulation code
 │   ├── anthropic_api.py              # Anthropic API wrapper
 │   ├── ultimatum_game.py             # Main Ultimatum Game implementation
-│   ├── ultimatum_game_parallel.py    # Parallel execution version
-│   └── prisoners_dilemma.py          # Prisoner's Dilemma game
+│   └── ultimatum_game_parallel.py    # Parallel execution version
 │
 ├── analysis/                         # Analysis & utility scripts
 │   ├── analyze_cluster_generosity.py
 │   ├── analyze_cluster_linear_models.py
 │   ├── analyze_job_similarity_offers.py
 │   ├── combine_runs.py
-│   ├── measure_cost.py
 │   ├── embedded_jobs.py
 │   └── test_rate_limiting.py
 │
 ├── data/                             # Input JSON data
-│   ├── Personas.json
 │   ├── Personas_Jobs.json
-│   └── *.json (embeddings, similarities, clusters)
+│   ├── clustered_jobs.json
+│   ├── cluster_similarities.json
+│   └── job_similarities.json
 │
 ├── results/                          # Simulation outputs (gitignored)
 ├── visualizations/                   # Generated plots

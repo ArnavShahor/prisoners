@@ -10,10 +10,10 @@ Usage:
     python combine_runs.py file1.csv file2.csv file3.csv -o combined.csv
     
     # Combine all CSV files matching a pattern
-    python combine_runs.py test_results/ultimatum_p0-9_g1_r1.5*.csv -o combined.csv
-    
+    python combine_runs.py results/ultimatum_p0-9_g1_r1.5*.csv -o combined.csv
+
     # Combine all CSV files in a directory
-    python combine_runs.py test_results/*.csv -o combined.csv
+    python combine_runs.py results/*.csv -o combined.csv
 """
 
 import argparse
@@ -236,10 +236,10 @@ Examples:
   python combine_runs.py file1.csv file2.csv file3.csv -o combined.csv
   
   # Combine all CSV files matching a pattern
-  python combine_runs.py test_results/ultimatum_p0-9_g1_r1.5*.csv -o combined.csv
-  
+  python combine_runs.py results/ultimatum_p0-9_g1_r1.5*.csv -o combined.csv
+
   # Combine all CSV files in a directory (sorted alphabetically)
-  python combine_runs.py test_results/*.csv -o combined.csv
+  python combine_runs.py results/*.csv -o combined.csv
         """
     )
     

@@ -1071,7 +1071,7 @@ def main():
     OPPONENT_DESCRIPTION = args.opponent_description
     TRANSFER_RATE = args.transfer_rate
 
-    # Create test_results directory if it doesn't exist
+    # Create results directory if it doesn't exist
     results_dir = "results"
     os.makedirs(results_dir, exist_ok=True)
 

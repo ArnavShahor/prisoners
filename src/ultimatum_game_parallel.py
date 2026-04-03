@@ -520,7 +520,7 @@ def main():
     ultimatum_game.OPPONENT_DESCRIPTION = OPPONENT_DESCRIPTION
     ultimatum_game.TRANSFER_RATE = TRANSFER_RATE
 
-    # Create test_results directory if it doesn't exist
+    # Create results directory if it doesn't exist
     results_dir = "results"
     os.makedirs(results_dir, exist_ok=True)
 
